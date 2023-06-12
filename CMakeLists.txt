@@ -15,7 +15,7 @@ qt_add_executable(appsonegx-player-android
 qt_add_qml_module(appsonegx-player-android
     URI sonegx-player-android
     VERSION 1.0
-    QML_FILES Main.qml
+    QML_FILES Main.qml App.qml
 )
 
 set_target_properties(appsonegx-player-android PROPERTIES
@@ -24,6 +24,7 @@ set_target_properties(appsonegx-player-android PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
+     #QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
 )
 
 target_link_libraries(appsonegx-player-android

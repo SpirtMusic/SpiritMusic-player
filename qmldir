@@ -1,0 +1,5 @@
+module sonegx-player-android
+typeinfo appsonegx-player-android.qmltypes
+prefer :/sonegx-player-android/
+Main 1.0 Main.qml
+
