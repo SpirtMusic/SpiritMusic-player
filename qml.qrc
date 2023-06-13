@@ -2,7 +2,9 @@
     <qresource prefix="/">
         <file>qml/Main.qml</file>
         <file>qml/qmldir</file>
-        <file>qml/Views/App.qml</file>
         <file>qml/controls/FooterBtn.qml</file>
+        <file>qml/Views/VideosView.qml</file>
+        <file>qml/Views/SettingsView.qml</file>
+        <file>qml/Views/LibraryView.qml</file>
     </qresource>
 </RCC>
