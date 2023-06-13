@@ -12,34 +12,53 @@ ApplicationWindow  {
     Material.accent: Material.Blue
     id:win
     visible: true
-    visibility: Window.FullScreen
+    visibility: Window.Windowed
     title: qsTr("hello world")
-
     menuBar: MenuBar {
         Material.background: win.color
     }
     header: ToolBar {
         Material.background: win.color
         RowLayout {
+            spacing: 20
             anchors.fill: parent
+
+            Image {
+                id: logo
+                source: "qrc:/qml/icons/SonegX_Media_Player_S_LOGO-64px.png"
+                horizontalAlignment: Image.AlignLeft
+                verticalAlignment: Image.AlignTop
+antialiasing: true
+                  Layout.leftMargin: 20
+            }
+
             Label {
-                id:menuTitle
+                id: menuTitle
                 font.bold: true
                 text: win.mentitle
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true
+                    font.family: "Segoe UI"
             }
+
             ToolButton {
-                visible:win.showAddbtn
+                id: showAddbtn
+                visible: win.showAddbtn
+                Layout.leftMargin: 0
+                Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
-                onClicked: menu.open()
+                onClicked:{
+                    console.log(win.visibility)
+                    menu.open()}
             }
         }
-    }
 
+
+    }
     footer: ToolBar {
+  Material.background: "#2e2f30"
         RowLayout {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 20
@@ -59,7 +78,6 @@ ApplicationWindow  {
                     }
                 }
             }
-
             FooterBtn {
                 id:btn2
                 icon.source: "qrc:/qml/icons/cil-album.svg"
@@ -92,10 +110,6 @@ ApplicationWindow  {
                 }
                 icon.source: "qrc:/qml/icons/cil-settings.svg"
             }
-
-
-
-
         }
     }
     SwipeView {
@@ -105,5 +119,9 @@ ApplicationWindow  {
         LibraryView {}
         VideosView {}
         SettingsView {}
+        Component.onCompleted: {
+            win.mentitle="Videos"
+            btn1.activated=true
+        }
     }
 }
