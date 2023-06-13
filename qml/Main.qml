@@ -22,7 +22,6 @@ ApplicationWindow  {
         RowLayout {
             spacing: 20
             anchors.fill: parent
-
             Image {
                 id: logo
                 source: "qrc:/qml/icons/SonegX_Media_Player_S_LOGO-64px.png"
@@ -31,7 +30,6 @@ ApplicationWindow  {
                 antialiasing: true
                 Layout.leftMargin: 20
             }
-
             Label {
                 id: menuTitle
                 font.bold: true
@@ -42,7 +40,6 @@ ApplicationWindow  {
                 Layout.fillWidth: true
                 font.family: "Segoe UI"
             }
-
             ToolButton {
                 id: showAddbtn
                 visible: win.showAddbtn
@@ -50,6 +47,8 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
+                    videoPlayerWindow.visible = true;
+                    swipeView.visible=false;
                     console.log(win.visibility)
                     menu.open()}
             }
@@ -114,6 +113,12 @@ ApplicationWindow  {
             }
         }
     }
+    VideoPlayer {
+        id: videoPlayerWindow
+        //      visible: false
+        anchors.fill: parent
+        // Other properties and settings for the video player window
+    }
     SwipeView {
         id: swipeView
         anchors.fill: parent
@@ -139,5 +144,11 @@ ApplicationWindow  {
                 break;
             }
         }
+    }
+    onClosing: function(close) {
+        close.accepted = false
+        videoPlayerWindow.player.stop(); // Stop the video playback if needed
+        console.log("Child window is closing …")
+        videoPlayerWindow.visible=false
     }
 }

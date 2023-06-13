@@ -6,5 +6,6 @@
         <file>qml/Views/VideosView.qml</file>
         <file>qml/Views/SettingsView.qml</file>
         <file>qml/Views/LibraryView.qml</file>
+        <file>qml/Views/VideoPlayer.qml</file>
     </qresource>
 </RCC>
