@@ -21,6 +21,7 @@ Rectangle {
             text: qsTr("Button 111")
             onClicked: {
                 console.log("Button 2 clicked")
+                internal.playMode()
                 player.play()
             }
         }
@@ -46,9 +47,6 @@ Rectangle {
         }
         onRejected: {
             console.log("Canceled")
-
-
-
             return
         }
     }

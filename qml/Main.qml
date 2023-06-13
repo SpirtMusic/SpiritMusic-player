@@ -14,6 +14,24 @@ ApplicationWindow  {
     visible: true
     visibility: Window.Windowed
     title: qsTr("hello world")
+
+    QtObject {
+        id: internal
+        function playMode(){
+            win.header.visible=false
+            win.footer.visible=false
+            win.menuBar.visible=false
+            swipeView.visible=false
+            win.visibility= Window.FullScreen
+        }
+        function basicMode(){
+            win.header.visible=true
+            win.footer.visible=true
+            win.menuBar.visible=true
+            swipeView.visible=true
+            win.visibility= Window.Windowed
+        }
+    }
     menuBar: MenuBar {
         Material.background: win.color
     }
@@ -47,8 +65,8 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
+                    swipeView.visible=false
                     videoPlayerWindow.visible = true;
-                    swipeView.visible=false;
                     console.log(win.visibility)
                     menu.open()}
             }
@@ -149,6 +167,16 @@ ApplicationWindow  {
         close.accepted = false
         videoPlayerWindow.player.stop(); // Stop the video playback if needed
         console.log("Child window is closing …")
-        videoPlayerWindow.visible=false
+        if(videoPlayerWindow.visible==false)
+        {
+            close.accepted = true
+            Qt.quit()
+        }
+        else{
+            videoPlayerWindow.visible=false
+            internal.basicMode()
+        }
+
     }
+
 }
