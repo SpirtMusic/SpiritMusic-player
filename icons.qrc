@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/icons/cil-movie.svg</file>
+        <file>qml/icons/cil-settings.svg</file>
+        <file>qml/icons/cil-plus.svg</file>
+        <file>qml/icons/cil-note-add.svg</file>
+        <file>qml/icons/cil-album.svg</file>
+    </qresource>
+</RCC>

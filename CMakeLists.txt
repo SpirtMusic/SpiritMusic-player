@@ -7,15 +7,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup()
-
+qt_add_resources(QMLRC qml.qrc)
+qt_add_resources(ICONSRC icons.qrc)
 qt_add_executable(appsonegx-player-android
     main.cpp
+    ${QMLRC}
+    ${ICONSRC}
 )
 
 qt_add_qml_module(appsonegx-player-android
     URI sonegx-player-android
     VERSION 1.0
-    QML_FILES Main.qml App.qml
 )
 
 set_target_properties(appsonegx-player-android PROPERTIES

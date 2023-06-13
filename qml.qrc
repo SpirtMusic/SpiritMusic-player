@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/Main.qml</file>
+        <file>qml/qmldir</file>
+        <file>qml/Views/App.qml</file>
+        <file>qml/controls/FooterBtn.qml</file>
+    </qresource>
+</RCC>
