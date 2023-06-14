@@ -14,9 +14,9 @@ Rectangle {
         // Other properties and settings for the video player
         onPlaybackStateChanged: {
             if (playbackState == MediaPlayer.PlayingState) {
-                playPauseBtn.btnIconSource = "qrc:/images/icons/cil-media-pause.svg"
+                playPauseBtn.icon.source = "qrc:/images/icons/cil-media-pause.svg"
             } else {
-                playPauseBtn.btnIconSource = "qrc:/images/icons/cil-media-play.svg"
+                playPauseBtn.icon.source = "qrc:/images/icons/cil-media-play.svg"
             }
         }
         function switchFillMode() {
