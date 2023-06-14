@@ -12,6 +12,22 @@ Rectangle {
         id:player
         anchors.fill: parent
         // Other properties and settings for the video player
+        function switchFillMode() {
+            // switch the fill mode to the next value in the sequence
+            switch (player.fillMode) {
+            case VideoOutput.Stretch:
+                player.fillMode = VideoOutput.PreserveAspectCrop
+                break
+            case VideoOutput.PreserveAspectCrop:
+                player.fillMode = VideoOutput.PreserveAspectFit
+                break
+            case VideoOutput.PreserveAspectFit:
+                player.fillMode = VideoOutput.Stretch
+                break
+            default:
+                player.fillMode = VideoOutput.Stretch
+            }
+        }
     }
     GridLayout {
         rows: 1
@@ -112,22 +128,20 @@ Rectangle {
 
                 Layout.fillWidth: true
                 Layout.minimumWidth: parent.width
-
-
-
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.minimumWidth: parent.width/2
                     ToolButton {
-                        id: btn1
+                        id: playPauseBtn
                         Layout.alignment: Qt.AlignRight
                         icon.source: "qrc:/qml/icons/cil-media-play.svg"
                     }
                 }
                 ToolButton {
                     Layout.alignment: Qt.AlignRight
-                    id:btn2
+                    id:switchFillModeBtn
                     icon.source: "qrc:/qml/icons/cil-flip-to-front.svg"
+                    onClicked: player.switchFillMode()
                 }
 
 
@@ -135,7 +149,8 @@ Rectangle {
                     id:btn3
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: 20
-                    icon.source:"qrc:/qml/icons/cil-media-play.svg"
+                    icon.source:"qrc:/qml/icons/cil-options.svg"
+
                 }
 
             }

@@ -14,5 +14,6 @@
         <file>qml/icons/cil-media-play.svg</file>
         <file>qml/icons/cil-media-pause.svg</file>
         <file>qml/icons/cil-flip-to-front.svg</file>
+        <file>qml/icons/cil-options.svg</file>
     </qresource>
 </RCC>
