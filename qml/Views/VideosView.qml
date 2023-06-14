@@ -1,23 +1,16 @@
 import QtQuick
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls 6.3
-import QtQuick.Layouts 1.0
+import QtQuick.Layouts 1.3
+
 Item {
-
-    anchors.fill: parent
-    property Component mainView: mainViewComponent
-    property Component videoView: videoViewComponent
-   Component {
-   id: mainViewComponent
     GridLayout {
-
         rows: 1
         columns: 3
         Button {
             id: button
             text: qsTr("Button")
         }
-
         Button {
             id: button1
             text: qsTr("Button 111")
@@ -51,34 +44,5 @@ Item {
             text: qsTr("Button")
         }
     }
-   }
-   Component {
-   id: videoViewComponent
-    GridLayout {
-
-        rows: 1
-        columns: 3
-
-        Button {
-            id: button
-            text: qsTr("Button")
-        }
-
-
-
-        Button {
-            id: button2
-            text: qsTr("Button")
-        }
-
-        Button {
-            id: button3
-            text: qsTr("Button")
-        }
-
-
-    }
-   }
-
 }
 
