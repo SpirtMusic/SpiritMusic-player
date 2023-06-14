@@ -87,8 +87,7 @@ Rectangle {
 
             RowLayout {
                 spacing: 10
-                anchors.horizontalCenter: parent.horizontalCenter
-
+                Layout.alignment: Qt.AlignHCenter
                 Rectangle {
                     width: 20
                     height: 1
@@ -110,20 +109,30 @@ Rectangle {
             }
 
             RowLayout {
+
                 Layout.fillWidth: true
                 Layout.minimumWidth: parent.width
 
 
-                ToolButton {
-                    Layout.alignment: Qt.AlignLeft
-                    Layout.leftMargin: 20
-                    text: "Button 1"
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.minimumWidth: parent.width/2
+                    ToolButton {
+                        id: btn1
+                        Layout.alignment: Qt.AlignRight
+                        icon.source: "qrc:/qml/icons/cil-media-play.svg"
+                    }
                 }
                 ToolButton {
-                    icon.source:"qrc:/qml/icons/cil-media-play.svg"
+                    Layout.alignment: Qt.AlignRight
+                    id:btn2
+                    icon.source: "qrc:/qml/icons/cil-flip-to-front.svg"
                 }
 
+
                 ToolButton {
+                    id:btn3
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: 20
                     icon.source:"qrc:/qml/icons/cil-media-play.svg"
