@@ -12,6 +12,13 @@ Rectangle {
         id:player
         anchors.fill: parent
         // Other properties and settings for the video player
+        onPlaybackStateChanged: {
+            if (playbackState == MediaPlayer.PlayingState) {
+                playPauseBtn.btnIconSource = "qrc:/images/icons/cil-media-pause.svg"
+            } else {
+                playPauseBtn.btnIconSource = "qrc:/images/icons/cil-media-play.svg"
+            }
+        }
         function switchFillMode() {
             // switch the fill mode to the next value in the sequence
             switch (player.fillMode) {
@@ -135,6 +142,15 @@ Rectangle {
                         id: playPauseBtn
                         Layout.alignment: Qt.AlignRight
                         icon.source: "qrc:/qml/icons/cil-media-play.svg"
+                        onClicked: {
+                            if (player.playbackState == MediaPlayer.PlayingState) {
+                                player.pause()
+
+                            } else {
+                                player.play()
+
+                            }
+                        }
                     }
                 }
                 ToolButton {
