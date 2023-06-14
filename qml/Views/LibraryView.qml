@@ -13,9 +13,6 @@ Item {
             id: button
             text: qsTr("Button")
         }
-
-
-
         Button {
             id: button2
             text: qsTr("Button")

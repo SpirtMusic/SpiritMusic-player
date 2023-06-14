@@ -52,7 +52,7 @@ ApplicationWindow  {
                 id: menuTitle
                 font.bold: true
                 text: win.mentitle
-                elide: Label.ElideRight
+             //   elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true

@@ -11,5 +11,8 @@
         <file>qml/icons/SonegX_Media_Player_LOGO-128px.png</file>
         <file>qml/icons/SonegX_Media_Player_S_LOGO-128px.png</file>
         <file>qml/icons/SonegX_Media_Player_S_LOGO-64px.png</file>
+        <file>qml/icons/cil-media-play.svg</file>
+        <file>qml/icons/cil-media-pause.svg</file>
+        <file>qml/icons/cil-flip-to-front.svg</file>
     </qresource>
 </RCC>

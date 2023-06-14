@@ -42,7 +42,6 @@ Rectangle {
         onAccepted: {
             console.log(dlg.currentFile)
             player.source = dlg.currentFile
-
             return
         }
         onRejected: {
@@ -53,7 +52,7 @@ Rectangle {
 
     Rectangle {
         id: videoControl
-      //  height: parent.width/7
+        //  height: parent.width/7
         color: "#ffffff"
         anchors.left: parent.left
         anchors.right: parent.right
@@ -62,27 +61,27 @@ Rectangle {
         anchors.leftMargin: 0
         anchors.bottomMargin: 0
         gradient: Gradient {
-              GradientStop { position: 0; color: "transparent" }
-              GradientStop { position: 1; color: "black" }
-          }
+            GradientStop { position: 0; color: "transparent" }
+            GradientStop { position: 1; color: "black" }
+        }
         ColumnLayout {
-               id: columnLayout
-            spacing: 5
+            id: columnLayout
+            spacing: 2
             anchors.fill: parent
             RowLayout {
                 spacing: 10
-                  Layout.minimumWidth: parent.width // Set the minimum width to parent width
+                Layout.minimumWidth: parent.width // Set the minimum width to parent width
                 Label {
                     text: "Label 1"
-                     Layout.alignment: Qt.AlignLeft
+                    Layout.alignment: Qt.AlignLeft
                     Layout.leftMargin: 20
                 }
 
                 Label {
                     text: "Label 2"
-                   Layout.alignment: Qt.AlignRight
+                    Layout.alignment: Qt.AlignRight
 
-                  Layout.rightMargin: 20
+                    Layout.rightMargin: 20
                 }
             }
 
@@ -99,7 +98,7 @@ Rectangle {
 
                 Slider {
                     // Slider properties
-                      Layout.fillWidth: true
+                    Layout.fillWidth: true
                 }
 
                 Rectangle {
@@ -111,21 +110,27 @@ Rectangle {
             }
 
             RowLayout {
-                spacing: 10
+                Layout.fillWidth: true
+                Layout.minimumWidth: parent.width
 
-                Button {
+
+                ToolButton {
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.leftMargin: 20
                     text: "Button 1"
                 }
-
-                Button {
-                    text: "Button 2"
+                ToolButton {
+                    icon.source:"qrc:/qml/icons/cil-media-play.svg"
                 }
 
-                Button {
-                    text: "Button 3"
+                ToolButton {
+                    Layout.alignment: Qt.AlignRight
+                    Layout.rightMargin: 20
+                    icon.source:"qrc:/qml/icons/cil-media-play.svg"
                 }
+
             }
         }
-    height: columnLayout.implicitHeight
+        height: columnLayout.implicitHeight
     }
 }
