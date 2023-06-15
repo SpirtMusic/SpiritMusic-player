@@ -83,7 +83,8 @@ ApplicationWindow  {
                 id:btn1
                 text: "   Videos  "
                 icon.source: "qrc:/qml/icons/cil-movie.svg"
-                onClicked: {
+                onClicked:{
+                    console.log(deviceInfo.getAndroidID())
                     swipeView.currentIndex = 0
                 }
                 function videosView_Activeted(){
