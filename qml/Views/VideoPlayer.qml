@@ -164,6 +164,12 @@ Rectangle {
                     onMoved: function () {
                         player.position = player.duration * progressSlider.position
                     }
+                    onPressedChanged: {
+                          if(pressed)
+                              console.log("pressed")
+                          else
+                              console.log("released")
+                      }
                 }
 
                 Rectangle {
