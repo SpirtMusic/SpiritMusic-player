@@ -5,7 +5,8 @@ import QtQuick.Layouts 1.3
 
 Item {
     GridLayout {
-
+        Layout.fillWidth: true
+        Layout.minimumWidth: parent.width
         rows: 1
         columns: 3
 
