@@ -16,5 +16,6 @@
         <file>qml/icons/cil-options.svg</file>
         <file>qml/icons/cil-reload.svg</file>
         <file>qml/icons/SonegX_Media_Player_LOGO-256px.png</file>
+        <file>qml/icons/cil-copy.svg</file>
     </qresource>
 </RCC>

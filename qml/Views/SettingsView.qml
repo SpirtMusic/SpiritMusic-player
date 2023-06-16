@@ -55,7 +55,7 @@ Item {
                 }
                 ToolButton{
                     id:copyBtn
-                    text:"Copy"
+                    icon.source: "qrc:/qml/icons/cil-copy.svg"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 }
             }
