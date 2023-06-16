@@ -7,7 +7,28 @@ Item {
     ColumnLayout {
         anchors.fill: parent
         spacing: 10
+        Label {
+            id: accountLabel
+            text: qsTr("Account")
+            font.bold: true
+            font.pointSize: 11
+            font.underline: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        }
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.fillWidth: true
+            spacing: 20
 
+        Label {
+            id: statusLabel
+            text: qsTr("Status:")
+        }
+        Label {
+            id: statusValue
+            text: qsTr("Activted")
+        }
+        }
         RowLayout {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
@@ -29,7 +50,6 @@ Item {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             }
         }
-
         TextField {
             id: keytext
             font.pixelSize: 18
@@ -49,46 +69,28 @@ Item {
             font.pixelSize: keytext.font.pixelSize
             text: "A"
         }
-
-
-
-
-
-
-
         RowLayout {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
             spacing: 10
-            Label {
-                id: statusLabel
-                text: qsTr("Status: Activted")
-            }
+
             ToolButton{
                 id:activeBtn
                 text:"Active"
             }
         }
-        Label {
-            id: about
-            text: qsTr("SONEGX Player")
+
+        Image {
+            id: logo
+            source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-256px.png"
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            antialiasing: true
         }
         Label {
             id: aboutVersion
             text: qsTr("Vesion 1.0")
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         }
-        Image {
-            id: logo
-            source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-128px.png"
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            antialiasing: true
-        }
-
-
-
 
     }
-
 }

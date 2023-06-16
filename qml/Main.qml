@@ -8,6 +8,7 @@ import "controls"
 ApplicationWindow  {
     property string mentitle: "title"
     property bool showAddbtn: false
+    property bool showRefreshBtn: true
     Material.theme: Material.Dark
     Material.accent: Material.Blue
     id:win
@@ -59,7 +60,7 @@ ApplicationWindow  {
                 font.family: "Segoe UI"
             }
             ToolButton {
-                id: showAddbtn
+                id: addbtn
                 visible: win.showAddbtn
                 Layout.leftMargin: 0
                 Layout.rightMargin: 20  // Add right padding of 20 units
@@ -69,6 +70,15 @@ ApplicationWindow  {
                     videoPlayerWindow.visible = true;
                     console.log(win.visibility)
                     menu.open()}
+            }
+            ToolButton {
+                id: refreshBtn
+                visible: win.showRefreshBtn
+                Layout.leftMargin: 0
+                Layout.rightMargin: 20  // Add right padding of 20 units
+                icon.source: "qrc:/qml/icons/cil-reload.svg"
+                onClicked:{
+              }
             }
         }
 
@@ -90,6 +100,7 @@ ApplicationWindow  {
                 function videosView_Activeted(){
                     if(!activated){
                         win.showAddbtn=false
+                        win.showRefreshBtn=true
                         win.mentitle="Videos"
                         btn1.activated=true
                         btn2.activated=false
@@ -107,6 +118,7 @@ ApplicationWindow  {
                 function libraryView_Activeted(){
                     if(!activated){
                         win.showAddbtn=true
+                         win.showRefreshBtn=false
                         win.mentitle="Files"
                         btn1.activated=false
                         btn2.activated=true
@@ -123,6 +135,8 @@ ApplicationWindow  {
                 }
                 function settingsView_Activeted(){
                     if(!activated){
+                         win.showAddbtn=false
+                         win.showRefreshBtn=true
                         btn1.activated=false
                         btn2.activated=false
                         btn3.activated=true
