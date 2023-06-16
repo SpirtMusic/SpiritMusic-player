@@ -6,7 +6,6 @@
         <file>qml/icons/cil-note-add.svg</file>
         <file>qml/icons/cil-album.svg</file>
         <file>qml/icons/SonegX_Media_Player_S_LOGO-256px.png</file>
-        <file>qml/icons/SonegX_Media_Player_LOGO-256px.png</file>
         <file>qml/icons/SonegX_Media_Player_LOGO-64px.png</file>
         <file>qml/icons/SonegX_Media_Player_LOGO-128px.png</file>
         <file>qml/icons/SonegX_Media_Player_S_LOGO-128px.png</file>
@@ -16,5 +15,6 @@
         <file>qml/icons/cil-flip-to-front.svg</file>
         <file>qml/icons/cil-options.svg</file>
         <file>qml/icons/cil-reload.svg</file>
+        <file>qml/icons/SonegX_Media_Player_LOGO-256px.png</file>
     </qresource>
 </RCC>

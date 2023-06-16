@@ -33,9 +33,7 @@ ApplicationWindow  {
             win.visibility= Window.Windowed
         }
     }
-    menuBar: MenuBar {
-        Material.background: win.color
-    }
+
     header: ToolBar {
         Material.background: win.color
         RowLayout {
