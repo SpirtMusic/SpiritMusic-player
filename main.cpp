@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #ifdef Q_OS_ANDROID
 #include "utils.h"
@@ -6,7 +6,7 @@
 #include <QQmlContext>
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
    // qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
    // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
     QQmlApplicationEngine engine;

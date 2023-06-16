@@ -66,10 +66,9 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
-                    swipeView.visible=false
-                    videoPlayerWindow.visible = true;
-                    console.log(win.visibility)
-                    menu.open()}
+                   libraryV.libraryfileDialog.open();
+
+                }
             }
             ToolButton {
                 id: refreshBtn
@@ -156,8 +155,11 @@ ApplicationWindow  {
         id: swipeView
         anchors.fill: parent
         currentIndex: 0
-        LibraryView {}
+
         VideosView {}
+         LibraryView {
+               id:libraryV
+         }
         SettingsView {}
         Component.onCompleted: {
             win.mentitle="Videos"
