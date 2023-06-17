@@ -4,7 +4,6 @@ import QtQuick.Controls 6.3
 import QtQuick.Layouts 1.3
 
 Item {
-
     ScrollView{
         id: scrollView
         anchors.fill: parent
@@ -13,7 +12,6 @@ Item {
         ColumnLayout {
             id:columnLayout
             anchors.fill: parent
-
             spacing: 40
             Label {
                 id: accountLabel
@@ -57,6 +55,7 @@ Item {
                     id:copyBtn
                     icon.source: "qrc:/qml/icons/cil-copy.svg"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    onClicked: copiedTollTip.show("Copied !")
                 }
             }
             TextField {
@@ -82,6 +81,7 @@ Item {
             ToolButton{
                 id:activeBtn
                 text:"Active"
+
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             }
             Image {
@@ -89,6 +89,10 @@ Item {
                 source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-256px.png"
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                 antialiasing: true
+            }
+            ToolTip {
+                id:copiedTollTip
+                timeout: 2000
             }
             Label {
                 id: aboutVersion
@@ -98,5 +102,7 @@ Item {
             }
 
         }
+
     }
+
 }

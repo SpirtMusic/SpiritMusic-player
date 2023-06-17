@@ -33,7 +33,6 @@ ApplicationWindow  {
             win.visibility= Window.Windowed
         }
     }
-
     header: ToolBar {
         Material.background: win.color
         RowLayout {
@@ -65,7 +64,6 @@ ApplicationWindow  {
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
                    libraryV.libraryfileDialog.open();
-
                 }
             }
             ToolButton {
@@ -78,8 +76,6 @@ ApplicationWindow  {
               }
             }
         }
-
-
     }
     footer: ToolBar {
         Material.background: "#2e2f30"
@@ -96,6 +92,7 @@ ApplicationWindow  {
                 }
                 function videosView_Activeted(){
                     if(!activated){
+                        win.mentitle="Videos"
                         win.showAddbtn=false
                         win.showRefreshBtn=true
                         win.mentitle="Videos"
@@ -114,6 +111,7 @@ ApplicationWindow  {
                 }
                 function libraryView_Activeted(){
                     if(!activated){
+                        win.mentitle="Library"
                         win.showAddbtn=true
                          win.showRefreshBtn=false
                         win.mentitle="Files"
@@ -132,6 +130,7 @@ ApplicationWindow  {
                 }
                 function settingsView_Activeted(){
                     if(!activated){
+                        win.mentitle="Settings"
                          win.showAddbtn=false
                          win.showRefreshBtn=true
                         btn1.activated=false
@@ -153,7 +152,6 @@ ApplicationWindow  {
         id: swipeView
         anchors.fill: parent
         currentIndex: 0
-
         VideosView {}
          LibraryView {
                id:libraryV
