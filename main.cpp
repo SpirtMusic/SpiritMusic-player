@@ -1,10 +1,11 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #ifdef Q_OS_ANDROID
-#include "utils.h"
+#include <utils.h>
 #endif
 #include <QQmlContext>
-#include "clipboardextension.h"
+#include <clipboardextension.h>
+#include <jsonfile.h>
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -15,6 +16,8 @@ int main(int argc, char *argv[])
     utils android;
     engine.rootContext()->setContextProperty("androidUtils", &android);
     #endif
+    JsonFile jsonFile;
+    engine.rootContext()->setContextProperty("JsonFile", &jsonFile);
     ClipboardExtension ClipboardExt;
     engine.rootContext()->setContextProperty("clipboardExtension", &ClipboardExt);
       //  qmlRegisterType<ClipboardExtension>("ClipboardExtension", 1, 0, "ClipboardExtension");

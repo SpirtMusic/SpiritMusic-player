@@ -63,7 +63,7 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
-                   libraryV.libraryfileDialog.open();
+                   libraryV.libraryfileDialog.visible = true
                 }
             }
             ToolButton {
