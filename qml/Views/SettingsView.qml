@@ -49,7 +49,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     text:"chaimakram abdeslem"
                     Component.onCompleted: {
-                      //  text= deviceInfo.getAndroidID()
+                      //  text= androidUtils.getAndroidID()
                     }
                 }
 

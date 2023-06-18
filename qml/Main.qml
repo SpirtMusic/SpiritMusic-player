@@ -21,14 +21,14 @@ ApplicationWindow  {
         function playMode(){
             win.header.visible=false
             win.footer.visible=false
-            win.menuBar.visible=false
+           // win.menuBar.visible=false
             swipeView.visible=false
             win.visibility= Window.FullScreen
         }
         function basicMode(){
             win.header.visible=true
             win.footer.visible=true
-            win.menuBar.visible=true
+           // win.menuBar.visible=true
             swipeView.visible=true
             win.visibility= Window.Windowed
         }

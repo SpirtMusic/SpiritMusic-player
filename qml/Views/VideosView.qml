@@ -15,14 +15,15 @@ Item {
             id: button1
             text: qsTr("Button 111")
             onClicked: {
-                deviceInfo.rotateToLandscape()
+                videoPlayerWindow.visible=true
+                swipeView.visible=false
             }
         }
         Button {
             id: button2
             text: qsTr("Button2222")
             onClicked: {
-                deviceInfo.rotateToPortrait()
+             //   androidUtils.rotateToPortrait()
             }
         }
 

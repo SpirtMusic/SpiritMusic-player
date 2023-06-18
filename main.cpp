@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     #ifdef Q_OS_ANDROID
     utils android;
-    engine.rootContext()->setContextProperty("deviceInfo", &android);
+    engine.rootContext()->setContextProperty("androidUtils", &android);
     #endif
     ClipboardExtension ClipboardExt;
     engine.rootContext()->setContextProperty("clipboardExtension", &ClipboardExt);

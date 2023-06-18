@@ -9,6 +9,12 @@ Rectangle {
     color: "#00ffffff"
     property Video player: player
     property real recWidth: columnLayout.implicitHeight
+
+    readonly property int android_SCREEN_ORIENTATION_LANDSCAPE: 0
+    readonly property int android_SCREEN_ORIENTATION_PORTRAIT: 1
+
+    property int currentOrientation: android_SCREEN_ORIENTATION_PORTRAIT
+
     QtObject {
         id: videoInternal
         function msToTimeString(duration) {
@@ -27,12 +33,12 @@ Rectangle {
         onClicked:{
 
             if (player.playbackState == MediaPlayer.PlayingState
-                && videoControl.height == 0) {
+                    && videoControl.height == 0) {
                 animationOpenMenu.start()
                 timeranimationMenu.restart()
             } else if (player.playbackState
                        == MediaPlayer.PlayingState)
-            animationCloseMenu.start()
+                animationCloseMenu.start()
         }
     }
     Timer {
@@ -164,11 +170,11 @@ Rectangle {
                         player.position = player.duration * progressSlider.position
                     }
                     onPressedChanged: {
-                          if(pressed)
-                              console.log("pressed")
-                          else
-                              console.log("released")
-                      }
+                        if(pressed)
+                            console.log("pressed")
+                        else
+                            console.log("released")
+                    }
                 }
 
                 Rectangle {
@@ -187,11 +193,34 @@ Rectangle {
                     Layout.fillWidth: true
                     Layout.minimumWidth: parent.width/2
                     ToolButton {
+                        id: rotateBtn
+                        Layout.alignment: Qt.AlignHCenter
+                        onClicked: toggleOrientation()
+                        function toggleOrientation() {
+                            if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
+                                androidUtils.rotateToLandscape();
+                                icon.source="qrc:/qml/icons/cil-mobile.svg"
+                                currentOrientation = android_SCREEN_ORIENTATION_LANDSCAPE;
+                            } else {
+                                androidUtils.rotateToPortrait();
+                                icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
+                                currentOrientation = android_SCREEN_ORIENTATION_PORTRAIT;
+                            }
+                        }
+                        Component.onCompleted: {
+                            if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
+                                icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
+                            } else {
+                                icon.source="qrc:/qml/icons/cil-mobile.svg"
+                            }
+                        }
+                    }
+                    ToolButton {
                         id: playPauseBtn
                         Layout.alignment: Qt.AlignRight
                         icon.source: "qrc:/qml/icons/cil-media-play.svg"
                         onClicked: {
-                               internal.playMode()
+                            internal.playMode()
                             if (player.playbackState == MediaPlayer.PlayingState) {
                                 player.pause()
 
@@ -201,6 +230,7 @@ Rectangle {
                             }
                         }
                     }
+
                 }
                 ToolButton {
                     Layout.alignment: Qt.AlignRight
