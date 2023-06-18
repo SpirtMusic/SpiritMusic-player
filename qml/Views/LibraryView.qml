@@ -12,7 +12,7 @@ Item {
     property string selectedFilePath: ""
     property var loadedLibrary: []
     property color materialLightBlue: Material.color(Material.BlueGrey)
-       property color overlayColor: Material.color(Material.Blue)
+    property color overlayColor: Material.color(Material.Blue)
     QtObject {
         property string packName
         property int videoNumbers
@@ -82,36 +82,36 @@ Item {
                     }
                 }
                 onPressAndHold: {
-                            // Set the ListView's currentIndex to the index of this item
-                            listView.currentIndex = index
-                            // Perform the selection action for long-press
-                            console.log("Long-pressed on:", name.replace(/^"(.*)"$/, "$1"))
-                        }
+                    // Set the ListView's currentIndex to the index of this item
+                    listView.currentIndex = index
+                    // Perform the selection action for long-press
+                    console.log("Long-pressed on:", name.replace(/^"(.*)"$/, "$1"))
+                }
 
             }
             RowLayout {
                 id:drow
-                spacing: 5
+                spacing: 20
                 anchors.fill: parent
-
-
-                Image {
-                    id:iconBtn
-                    source: "qrc:/qml/icons/music-library.png"
-                    sourceSize.width: 48
-                       sourceSize.height: 48
+                Item {
+                    Layout.alignment: Qt.AlignLeft
                     width: 48
                     height: 48
-                    fillMode: Image.PreserveAspectFit
-                    Layout.alignment: Qt.AlignLeft
-    Layout.leftMargin: 20
+                    Layout.leftMargin: 20
+                    Image {
+                        id: iconBtn
+                        source: "qrc:/qml/icons/music-library.png"
+                        sourceSize.width: 48
+                        sourceSize.height: 48
+                        fillMode: Image.PreserveAspectFit
+                    }
 
-                }
-                ColorOverlay {
-                    anchors.fill: iconBtn
-                    source: iconBtn
-                    color:  overlayColor
-                    antialiasing: true
+                    ColorOverlay {
+                        anchors.fill: iconBtn
+                        source: iconBtn
+                        color: overlayColor
+                        antialiasing: true
+                    }
                 }
                 ColumnLayout {
                     spacing: 5
