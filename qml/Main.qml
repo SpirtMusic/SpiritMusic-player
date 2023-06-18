@@ -5,6 +5,7 @@ import QtQuick.Controls 6.3
 import QtQuick.Layouts 1.3
 import "Views"
 import "controls"
+
 ApplicationWindow  {
     property string mentitle: "title"
     property bool showAddbtn: false

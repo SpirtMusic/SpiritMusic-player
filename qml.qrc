@@ -7,5 +7,6 @@
         <file>qml/Views/SettingsView.qml</file>
         <file>qml/Views/LibraryView.qml</file>
         <file>qml/Views/VideoPlayer.qml</file>
+        <file>qml/Database.js</file>
     </qresource>
 </RCC>
