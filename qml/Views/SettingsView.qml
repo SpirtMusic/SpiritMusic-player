@@ -47,15 +47,21 @@ Item {
                 Label {
                     id: serialValue
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    text:"chaimakram abdeslem"
                     Component.onCompleted: {
-                        text= deviceInfo.getAndroidID()
+                      //  text= deviceInfo.getAndroidID()
                     }
                 }
+
                 ToolButton{
                     id:copyBtn
                     icon.source: "qrc:/qml/icons/cil-copy.svg"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    onClicked: copiedTollTip.show("Copied !")
+                    onClicked: {
+                     clipboardExtension.setText(serialValue.text)
+
+
+                        copiedTollTip.show("Copied !")}
                 }
             }
             TextField {

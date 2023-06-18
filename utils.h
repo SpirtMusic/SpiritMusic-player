@@ -78,6 +78,9 @@ public:
         }
         return true;
     }
+
+    Q_INVOKABLE bool rotateToLandscape();
+    Q_INVOKABLE bool rotateToPortrait();
 signals:
 
 };

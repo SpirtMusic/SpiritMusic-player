@@ -15,13 +15,15 @@ Item {
             id: button1
             text: qsTr("Button 111")
             onClicked: {
-                console.log("Button 2 clicked")
+                deviceInfo.rotateToLandscape()
             }
         }
-
         Button {
             id: button2
-            text: qsTr("Button")
+            text: qsTr("Button2222")
+            onClicked: {
+                deviceInfo.rotateToPortrait()
+            }
         }
 
         Button {
