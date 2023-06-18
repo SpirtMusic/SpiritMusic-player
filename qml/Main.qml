@@ -8,28 +8,32 @@ import "controls"
 
 ApplicationWindow  {
     property string mentitle: "title"
-    property bool showAddbtn: false
-    property bool showRefreshBtn: true
+    property bool showAddbtn: true
+    property bool showRefreshBtn: false
+    property var videoList: []
     Material.theme: Material.Dark
     Material.accent: Material.Blue
     id:win
     visible: true
     visibility: Window.Windowed
     title: qsTr("hello world")
+function switchTo(index){
+swipeView.currentIndex=index
 
+}
     QtObject {
         id: internal
         function playMode(){
             win.header.visible=false
             win.footer.visible=false
-           // win.menuBar.visible=false
+            // win.menuBar.visible=false
             swipeView.visible=false
             win.visibility= Window.FullScreen
         }
         function basicMode(){
             win.header.visible=true
             win.footer.visible=true
-           // win.menuBar.visible=true
+            // win.menuBar.visible=true
             swipeView.visible=true
             win.visibility= Window.Windowed
         }
@@ -51,7 +55,7 @@ ApplicationWindow  {
                 id: menuTitle
                 font.bold: true
                 text: win.mentitle
-             //   elide: Label.ElideRight
+                //   elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true
@@ -64,7 +68,7 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
-                   libraryV.libraryfileDialog.visible = true
+                    libraryV.libraryfileDialog.visible = true
                 }
             }
             ToolButton {
@@ -74,7 +78,7 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-reload.svg"
                 onClicked:{
-              }
+                }
             }
         }
     }
@@ -83,47 +87,48 @@ ApplicationWindow  {
         RowLayout {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 20
+
             FooterBtn {
-                id:btn1
-                text: "   Videos  "
-                icon.source: "qrc:/qml/icons/cil-movie.svg"
-                onClicked:{
-                    //console.log(deviceInfo.getAndroidID())
-                    swipeView.currentIndex = 0
-                }
-                function videosView_Activeted(){
-                    if(!activated){
-                        win.mentitle="Videos"
-                        win.showAddbtn=false
-                        win.showRefreshBtn=true
-                        win.mentitle="Videos"
-                        btn1.activated=true
-                        btn2.activated=false
-                        btn3.activated=false
-                    }
-                }
-            }
-            FooterBtn {
-                id:btn2
+                id:libraryBtn
                 icon.source: "qrc:/qml/icons/cil-album.svg"
                 text: " Library "
                 onClicked: {
-                    swipeView.currentIndex = 1
+                    swipeView.currentIndex = 0
                 }
                 function libraryView_Activeted(){
                     if(!activated){
                         win.mentitle="Library"
                         win.showAddbtn=true
-                         win.showRefreshBtn=false
+                        win.showRefreshBtn=false
                         win.mentitle="Files"
-                        btn1.activated=false
-                        btn2.activated=true
-                        btn3.activated=false
+                        libraryBtn.activated=true
+                        videosBtn.activated=false
+                        settingsBtn.activated=false
                     }
                 }
             }
             FooterBtn {
-                id:btn3
+                id:videosBtn
+                text: "   Videos  "
+                icon.source: "qrc:/qml/icons/cil-movie.svg"
+                onClicked:{
+                    swipeView.currentIndex = 1
+                }
+                function videosView_Activeted(){
+                    if(!activated){
+                        videosV.videoListModel.updateModel()
+                        win.mentitle="Videos"
+                        win.showAddbtn=false
+                        win.showRefreshBtn=true
+                        win.mentitle="Videos"
+                        libraryBtn.activated=false
+                        videosBtn.activated=true
+                        settingsBtn.activated=false
+                    }
+                }
+            }
+            FooterBtn {
+                id:settingsBtn
                 text: "Settings"
                 icon.source: "qrc:/qml/icons/cil-settings.svg"
                 onClicked:{
@@ -132,11 +137,11 @@ ApplicationWindow  {
                 function settingsView_Activeted(){
                     if(!activated){
                         win.mentitle="Settings"
-                         win.showAddbtn=false
-                         win.showRefreshBtn=true
-                        btn1.activated=false
-                        btn2.activated=false
-                        btn3.activated=true
+                        win.showAddbtn=false
+                        win.showRefreshBtn=true
+                        libraryBtn.activated=false
+                        videosBtn.activated=false
+                        settingsBtn.activated=true
                     }
                 }
 
@@ -151,28 +156,32 @@ ApplicationWindow  {
     }
     SwipeView {
         id: swipeView
+
         anchors.fill: parent
         currentIndex: 0
-        VideosView {}
-         LibraryView {
-               id:libraryV
-         }
+        LibraryView {
+            id:libraryV
+        }
+        VideosView {
+            id:videosV
+        }
+
         SettingsView {}
         Component.onCompleted: {
             win.mentitle="Videos"
-            btn1.activated=true
+            libraryBtn.activated=true
         }
         onCurrentIndexChanged: {
             // Call a function based on the new index
             switch (swipeView.currentIndex) {
             case 0:
-                btn1.videosView_Activeted();
+                libraryBtn.libraryView_Activeted();
                 break;
             case 1:
-                btn2.libraryView_Activeted();
+                videosBtn.videosView_Activeted();
                 break;
             case 2:
-                btn3.settingsView_Activeted();
+                settingsBtn.settingsView_Activeted();
                 break;
             }
         }

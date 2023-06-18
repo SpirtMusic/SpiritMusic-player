@@ -14,16 +14,19 @@ Item {
     property color materialLightBlue: Material.color(Material.BlueGrey)
     property color overlayColor: Material.color(Material.Blue)
     QtObject {
+        id: jsonOperator
         property string packName
         property int videoNumbers
-        id: jsonOperator
+
         function getInfopack(file){
+            packName=""
             var data =  file.read()
             packName=data.Pack_name
             return JSON.stringify(data.Pack_name)
         }
         function getvideoNumbers(file)
         {
+            videoNumbers=0
             var data =  file.read()
             var videonumbers = [];
             for(var i=0;i<data.videos.length;i++)
@@ -32,13 +35,32 @@ Item {
             }
             return videoNumbers
         }
+        function getvidoesInfo(file)
+        {
+            var data =  file.read()
+            var vidoesInfo = [];
+            for (var i = 0; i < data.videos.length; i++) {
+                 var video = data.videos[i]
+                 var videoInfo = {
+                     vbaseName: video.vbaseName,
+                     vName: video.vName,
+                     desc: video.desc
+                 }
+                 vidoesInfo.push(videoInfo)
+             }
+            return vidoesInfo
+        }
     }
     property FileDialog libraryfileDialog: libraryfileDialog
     ListView {
         id: listView
         anchors.fill: parent
+        spacing: 5
+        anchors.rightMargin: 5
+        anchors.leftMargin: 5
+        anchors.bottomMargin: 5
+        anchors.topMargin: 5
         model: ListModel {
-
             Component.onCompleted: {
                 for (var i = 0; i < loadedLibrary.length; i++) {
                     append({
@@ -50,17 +72,25 @@ Item {
             }
         }
         Layout.fillWidth: true
-        delegate: Rectangle {
+        delegate: Pane {
 
             id:delegateLibrary
             width: parent.width
 
-            color: listView.currentIndex === index && mouseArea.pressed ? materialLightBlue : "#2e2f30"
-            border.color: Material.LightBlue
-            anchors.left: parent.left
+            contentHeight:drow.implicitHeight
+            Material.elevation: 2
+            Material.background:  listView.currentIndex === index && mouseArea.pressed ? Material.Indigo: "#2a292f"
+            //   color: listView.currentIndex === index && mouseArea.pressed ? materialLightBlue : "#2e2f30"
+            //border.color: Material.LightBlue
+
+            //anchors.left: parent.left
+
+
 
 
             height: drow.implicitHeight+20
+            bottomPadding: 10
+            topPadding: 10
 
             property int index: index
             MouseArea {
@@ -79,6 +109,9 @@ Item {
                     // If the ListView's currentIndex matches the index of this item, consider it a click
                     if (listView.currentIndex === index) {
                         console.log("Clicked on:", name.replace(/^"(.*)"$/, "$1"))
+                        JsonFile.name=path
+                          win.videoList=jsonOperator.getvidoesInfo(JsonFile)
+     win.switchTo(1)
                     }
                 }
                 onPressAndHold: {
@@ -86,6 +119,7 @@ Item {
                     listView.currentIndex = index
                     // Perform the selection action for long-press
                     console.log("Long-pressed on:", name.replace(/^"(.*)"$/, "$1"))
+
                 }
 
             }
@@ -105,7 +139,6 @@ Item {
                         sourceSize.height: 48
                         fillMode: Image.PreserveAspectFit
                     }
-
                     ColorOverlay {
                         anchors.fill: iconBtn
                         source: iconBtn
@@ -147,7 +180,9 @@ Item {
             var name =jsonOperator.getInfopack(JsonFile)
             var videon=jsonOperator.getvideoNumbers(JsonFile)
             selectedFilePath = libraryfileDialog.currentFile
-            DB.dbInsert(name, selectedFilePath,videon)
+    //        DB.dbInsert(name, selectedFilePath,videon)
+
+            console.log("vidoesInfo"+jsonOperator.getvidoesInfo(JsonFile))
             return
         }
         onRejected: {
