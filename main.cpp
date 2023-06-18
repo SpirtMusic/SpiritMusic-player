@@ -4,6 +4,7 @@
 #include "utils.h"
 #endif
 #include <QQmlContext>
+#include "clipboardextension.h"
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -14,6 +15,9 @@ int main(int argc, char *argv[])
     utils android;
     engine.rootContext()->setContextProperty("deviceInfo", &android);
     #endif
+    ClipboardExtension ClipboardExt;
+    engine.rootContext()->setContextProperty("clipboardExtension", &ClipboardExt);
+      //  qmlRegisterType<ClipboardExtension>("ClipboardExtension", 1, 0, "ClipboardExtension");
     const QUrl url(u"qrc:/qml/Main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },

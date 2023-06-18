@@ -16,6 +16,7 @@ endif()
 
 qt_add_executable(appsonegx-player-android
     main.cpp
+    clipboardextension.h clipboardextension.cpp
     ${ADDITIONAL_SOURCE_FILES}
     ${QMLRC}
     ${ICONSRC}
