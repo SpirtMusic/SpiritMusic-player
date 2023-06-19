@@ -21,5 +21,6 @@
         <file>qml/icons/cil-mobile-landscape.svg</file>
         <file>qml/icons/library-music.512x512.png</file>
         <file>qml/icons/music-library.png</file>
+        <file>qml/icons/video-icon.png</file>
     </qresource>
 </RCC>

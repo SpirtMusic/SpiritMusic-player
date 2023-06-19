@@ -17,9 +17,9 @@ ApplicationWindow  {
     visible: true
     visibility: Window.Windowed
     title: qsTr("hello world")
-function switchTo(index){
-swipeView.currentIndex=index
-
+function switchToVideosView(){
+    console.log("switchToVideosView()")
+ swipeView.currentIndex = 1
 }
     QtObject {
         id: internal
@@ -100,7 +100,6 @@ swipeView.currentIndex=index
                         win.mentitle="Library"
                         win.showAddbtn=true
                         win.showRefreshBtn=false
-                        win.mentitle="Files"
                         libraryBtn.activated=true
                         videosBtn.activated=false
                         settingsBtn.activated=false
@@ -116,11 +115,11 @@ swipeView.currentIndex=index
                 }
                 function videosView_Activeted(){
                     if(!activated){
+                            console.log("videosView_Activeted()")
                         videosV.videoListModel.updateModel()
                         win.mentitle="Videos"
                         win.showAddbtn=false
                         win.showRefreshBtn=true
-                        win.mentitle="Videos"
                         libraryBtn.activated=false
                         videosBtn.activated=true
                         settingsBtn.activated=false
@@ -156,7 +155,7 @@ swipeView.currentIndex=index
     }
     SwipeView {
         id: swipeView
-
+ interactive:false
         anchors.fill: parent
         currentIndex: 0
         LibraryView {
@@ -168,10 +167,11 @@ swipeView.currentIndex=index
 
         SettingsView {}
         Component.onCompleted: {
-            win.mentitle="Videos"
+            win.mentitle="Library"
             libraryBtn.activated=true
         }
         onCurrentIndexChanged: {
+                console.log("swipeView.currentIndex"+swipeView.currentIndex)
             // Call a function based on the new index
             switch (swipeView.currentIndex) {
             case 0:

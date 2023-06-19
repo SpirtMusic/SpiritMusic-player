@@ -5,8 +5,8 @@ import QtQuick.Layouts 1.3
 import Qt5Compat.GraphicalEffects
 
 Item {
-       property ListModel videoListModel: videoListModel
-      property color overlayColor: Material.color(Material.Blue)
+    property ListModel videoListModel: videoListModel
+    property color overlayColor2: Material.color(Material.Blue)
     ListView {
         id: videoListView
         anchors.fill: parent
@@ -16,23 +16,23 @@ Item {
         anchors.bottomMargin: 5
         anchors.topMargin: 5
         // Create a ListModel to store the video information
-            model: ListModel {
+        model: ListModel {
             id: videoListModel
 
-              function updateModel(){
+            function updateModel(){
+  console.log("updateModel()")
+                videoListModel.clear()
+                var videosInfo = win.videoList
+                // Add each video info to the ListModel
 
-              videoListModel.clear()
-                  var videosInfo = win.videoList
-                 // Add each video info to the ListModel
-
-                 for (var i = 0; i < videosInfo.length; i++) {
-                     videoListModel.append({
-                         vbaseName: videosInfo[i].vbaseName,
-                         vName: videosInfo[i].vName,
-                         desc: videosInfo[i].desc
-                     })
-                 }
-              }
+                for (var i = 0; i < videosInfo.length; i++) {
+                    videoListModel.append({
+                                              vbaseName: videosInfo[i].vbaseName,
+                                              vName: videosInfo[i].vName,
+                                              desc: videosInfo[i].desc
+                                          })
+                }
+            }
         }
 
         // Populate the ListModel with video data
@@ -40,26 +40,18 @@ Item {
         delegate: Pane {
 
             id:delegateLibrary
-          //  width: parent.width
-           width: videoListView.width
+            //  width: parent.width
+            width: videoListView.width
             contentHeight:drow.implicitHeight
             Material.elevation: 2
-            Material.background:  videoListView.currentIndex === index && mouseArea.pressed ? Material.Indigo: "#2a292f"
-            //   color: listView.currentIndex === index && mouseArea.pressed ? materialLightBlue : "#2e2f30"
-            //border.color: Material.LightBlue
-
-            //anchors.left: parent.left
-
-
-
-
+            Material.background:  videoListView.currentIndex === index && mouseArea2.pressed ? Material.Indigo: "#2a292f"
             height: drow.implicitHeight+20
             bottomPadding: 10
             topPadding: 10
 
             property int index: index
             MouseArea {
-                id: mouseArea
+                id: mouseArea2
                 anchors.fill: parent
                 hoverEnabled: true
 
@@ -90,7 +82,7 @@ Item {
                 id:drow
                 spacing: 20
                 anchors.fill: parent
-                  Layout.minimumWidth: parent.width
+                Layout.minimumWidth: parent.width
                 Layout.fillWidth: true
                 Item {
                     Layout.alignment: Qt.AlignLeft
@@ -99,7 +91,7 @@ Item {
                     Layout.leftMargin: 20
                     Image {
                         id: iconBtn2
-                        source: "qrc:/qml/icons/music-library.png"
+                        source: "qrc:/qml/icons/video-icon.png"
                         sourceSize.width: 48
                         sourceSize.height: 48
                         fillMode: Image.PreserveAspectFit
@@ -107,7 +99,7 @@ Item {
                     ColorOverlay {
                         anchors.fill: iconBtn2
                         source: iconBtn2
-                        color: overlayColor
+                        color: overlayColor2
                         antialiasing: true
                     }
                 }
