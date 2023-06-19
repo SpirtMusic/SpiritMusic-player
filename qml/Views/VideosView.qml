@@ -66,6 +66,7 @@ Item {
                     // If the ListView's currentIndex matches the index of this item, consider it a click
                     if (videoListView.currentIndex === index) {
                         console.log("Clicked on:")
+                        win.playVideo(win.currentPathPack+"/"+vbaseName)
 
                     }
                 }

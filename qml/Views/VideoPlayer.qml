@@ -200,7 +200,7 @@ Rectangle {
                         Layout.alignment: Qt.AlignRight
                         icon.source: "qrc:/qml/icons/cil-media-play.svg"
                         onClicked: {
-                            internal.playMode()
+
                             if (player.playbackState == MediaPlayer.PlayingState) {
                                 player.pause()
 

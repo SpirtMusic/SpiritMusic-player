@@ -37,7 +37,7 @@ Item {
         }
         function getvidoesInfo(file)
         {
-                       console.log("getvidoesInfo()")
+            console.log("getvidoesInfo()")
             var data =  file.read()
             var vidoesInfo = [];
             for (var i = 0; i < data.videos.length; i++) {
@@ -57,7 +57,7 @@ Item {
         target: jsonOperator
         function onGetVideosInfoFinished(){
             // Handle the emitted signal
-              console.log("onGetVideosInfoFinished()")
+            console.log("onGetVideosInfoFinished()")
             win.switchToVideosView()
         }
     }
@@ -71,7 +71,9 @@ Item {
         anchors.bottomMargin: 5
         anchors.topMargin: 5
         model: ListModel {
-            Component.onCompleted: {
+            id:libraryListModel
+           function libraryListModelUpdate() {
+                libraryListModel.clear()
                 for (var i = 0; i < loadedLibrary.length; i++) {
                     append({
                                name: loadedLibrary[i].name,
@@ -120,10 +122,9 @@ Item {
                     if (listView.currentIndex === index) {
                         console.log("Clicked on:", name.replace(/^"(.*)"$/, "$1"))
                         JsonFile.name=path
+                    win.currentPathPack = path.substring(0, path.lastIndexOf("/"));
                         win.videoList=jsonOperator.getvidoesInfo(JsonFile)
-                          jsonOperator.getVideosInfoFinished()
-                                console.log("onReleased()")
-
+                        jsonOperator.getVideosInfoFinished()
                     }
                 }
                 onPressAndHold: {
@@ -131,7 +132,6 @@ Item {
                     listView.currentIndex = index
                     // Perform the selection action for long-press
                     console.log("Long-pressed on:", name.replace(/^"(.*)"$/, "$1"))
-
                 }
 
             }
@@ -192,8 +192,10 @@ Item {
             var name =jsonOperator.getInfopack(JsonFile)
             var videon=jsonOperator.getvideoNumbers(JsonFile)
             selectedFilePath = libraryfileDialog.currentFile
-            //        DB.dbInsert(name, selectedFilePath,videon)
-
+            console.log("selectedFilePath"+selectedFilePath)
+             DB.dbInsert(name, selectedFilePath,videon)
+            DB.dbReadAll()
+            libraryListModel.libraryListModelUpdate()
             console.log("vidoesInfo"+jsonOperator.getvidoesInfo(JsonFile))
             return
         }
@@ -205,6 +207,7 @@ Item {
     Component.onCompleted: {
         DB.dbInit()
         DB.dbReadAll()
+        libraryListModel.libraryListModelUpdate()
     }
 
 

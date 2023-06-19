@@ -11,6 +11,7 @@ ApplicationWindow  {
     property bool showAddbtn: true
     property bool showRefreshBtn: false
     property var videoList: []
+    property var currentPathPack
     Material.theme: Material.Dark
     Material.accent: Material.Blue
     id:win
@@ -20,6 +21,14 @@ ApplicationWindow  {
 function switchToVideosView(){
     console.log("switchToVideosView()")
  swipeView.currentIndex = 1
+}
+function playVideo(videoPath){
+videoPlayerWindow.player.source=videoPath
+    console.log(videoPlayerWindow.player.source)
+    internal.playMode()
+videoPlayerWindow.visible=true
+
+videoPlayerWindow.player.play()
 }
     QtObject {
         id: internal

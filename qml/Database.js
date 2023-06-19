@@ -33,6 +33,7 @@ function dbReadAll() {
     let db = dbGetHandle()
     db.transaction(function (tx) {
         let results = tx.executeSql('SELECT name, path, videosN FROM library')
+        loadedLibrary=[]
         for (let i = 0; i < results.rows.length; i++) {
             loadedLibrary.push({
                 name: results.rows.item(i).name,
@@ -55,4 +56,10 @@ function dbDeleteRow(name) {
     db.transaction(function (tx) {
         tx.executeSql('DELETE FROM library WHERE name = ?', [name])
     })
+}
+function dbRemove() {
+    let db = dbGetHandle();
+    db.transaction(function (tx) {
+        tx.executeSql('DROP TABLE IF EXISTS library');
+    });
 }

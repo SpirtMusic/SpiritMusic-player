@@ -47,9 +47,9 @@ Item {
                 Label {
                     id: serialValue
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    text:"chaimakram abdeslem"
+                    //text:"chaimakram abdeslem"
                     Component.onCompleted: {
-                      //  text= androidUtils.getAndroidID()
+                      text= androidUtils.getAndroidID()
                     }
                 }
 
