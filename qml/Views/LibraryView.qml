@@ -6,13 +6,14 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import QtQuick.LocalStorage 2.0
 import Qt5Compat.GraphicalEffects
-
+import Qt.labs.platform 1.1
 import "qrc:/qml/Database.js" as DB
 Item {
     property string selectedFilePath: ""
     property var loadedLibrary: []
     property color materialLightBlue: Material.color(Material.BlueGrey)
     property color overlayColor: Material.color(Material.Blue)
+    property FileDialog libraryfileDialog: libraryfileDialog
     QtObject {
         id: jsonOperator
         property string packName
@@ -52,6 +53,14 @@ Item {
 
             return vidoesInfo
         }
+        function removeProjectName(url) {
+            var index = url.indexOf("%2F");
+            if (index !== -1) {
+                var newPath = url.substring(0, index + 3); // Keep %2F
+                return newPath;
+            }
+            return url;
+        }
     }
     Connections {
         target: jsonOperator
@@ -61,7 +70,7 @@ Item {
             win.switchToVideosView()
         }
     }
-    property FileDialog libraryfileDialog: libraryfileDialog
+
     ListView {
         id: listView
         anchors.fill: parent
@@ -72,7 +81,7 @@ Item {
         anchors.topMargin: 5
         model: ListModel {
             id:libraryListModel
-           function libraryListModelUpdate() {
+            function libraryListModelUpdate() {
                 libraryListModel.clear()
                 for (var i = 0; i < loadedLibrary.length; i++) {
                     append({
@@ -96,14 +105,11 @@ Item {
             //border.color: Material.LightBlue
 
             //anchors.left: parent.left
-
-
-
-
             height: drow.implicitHeight+20
             bottomPadding: 10
             topPadding: 10
-
+            property bool holdPressed: false
+            property bool showDelete: false
             property int index: index
             MouseArea {
                 id: mouseArea
@@ -114,31 +120,37 @@ Item {
                 onPressed: {
                     // Set the ListView's currentIndex to the index of this item
                     listView.currentIndex = index
+                    console.log("onPressed on:", name.replace(/^"(.*)"$/, "$1"))
+                    deleteRec.hideButton();
                 }
 
                 // Handle released event
                 onReleased: {
                     // If the ListView's currentIndex matches the index of this item, consider it a click
-                    if (listView.currentIndex === index) {
-                        console.log("Clicked on:", name.replace(/^"(.*)"$/, "$1"))
+                    if (listView.currentIndex === index&& !holdPressed) {
+                        console.log("onReleased on:", name.replace(/^"(.*)"$/, "$1"))
                         JsonFile.name=path
-                    win.currentPathPack = path.substring(0, path.lastIndexOf("/"));
+                        var newUrl = jsonOperator.removeProjectName(path);
+                        win.currentPathPack = newUrl
                         win.videoList=jsonOperator.getvidoesInfo(JsonFile)
                         jsonOperator.getVideosInfoFinished()
                     }
+
                 }
                 onPressAndHold: {
-                    // Set the ListView's currentIndex to the index of this item
-                    listView.currentIndex = index
-                    // Perform the selection action for long-press
+
+                    // listView.currentIndex = index
+                    holdPressed=true
+                    deleteRec.showButton()
                     console.log("Long-pressed on:", name.replace(/^"(.*)"$/, "$1"))
                 }
 
             }
-            RowLayout {
+            RowLayout  {
                 id:drow
                 spacing: 20
                 anchors.fill: parent
+                clip: true
                 Item {
                     Layout.alignment: Qt.AlignLeft
                     width: 48
@@ -175,11 +187,63 @@ Item {
                         font.pixelSize: 16
                         wrapMode: Text.WordWrap
                         Layout.alignment: Qt.AlignLeft
+                    }
 
+                }
+
+
+
+            }
+            Rectangle{
+                id:deleteRec
+                height: parent.height
+                color: "#00ffffff"
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                width: 0
+                clip:true
+                ToolButton {
+                    Material.accent: "red"
+                    Material.background: "#2e2f30"
+                    id:deleteBtn
+                    icon.source: "qrc:/qml/icons/delete.png"
+                    icon.color: "red"
+                    Layout.alignment: Qt.AlignRight
+                    text:"Delete"
+                    onClicked: {
+                        DB.dbDeleteRow(name)
+                        DB.dbReadAll()
+                        libraryListModel.libraryListModelUpdate()
+                    }
+
+                }
+                Behavior on width {
+                    NumberAnimation {
+                        duration: 300  // Animation duration in milliseconds
+                        easing.type: Easing.InOutQuad  // Easing type (optional)
                     }
                 }
+
+                function showButton() {
+                    deleteRec.width = deleteBtn.implicitWidth
+                    deleteRec.forceActiveFocus()
+                }
+                function hideButton() {
+                    deleteRec.width = 0
+
+                }
+                onActiveFocusChanged: {
+                    if (!activeFocus) {
+                        hideButton()
+                    }
+                }
+
             }
+
+
+
         }
+
     }
     FileDialog {
         id: libraryfileDialog
@@ -191,11 +255,16 @@ Item {
             JsonFile.name = libraryfileDialog.currentFile
             var name =jsonOperator.getInfopack(JsonFile)
             var videon=jsonOperator.getvideoNumbers(JsonFile)
+
             selectedFilePath = libraryfileDialog.currentFile
+
+            //  win.testplayVideo("content://com.android.externalstorage.documents/document/primary%3ADCIM%2Ftest3.mp4")
             console.log("selectedFilePath"+selectedFilePath)
-             DB.dbInsert(name, selectedFilePath,videon)
+            DB.dbInsert(name, selectedFilePath,videon)
             DB.dbReadAll()
+            //   win.testplayVideo(selectedFilePath)
             libraryListModel.libraryListModelUpdate()
+
             console.log("vidoesInfo"+jsonOperator.getvidoesInfo(JsonFile))
             return
         }
@@ -205,11 +274,11 @@ Item {
         }
     }
     Component.onCompleted: {
+        //DB.dbRemove()
         DB.dbInit()
         DB.dbReadAll()
         libraryListModel.libraryListModelUpdate()
     }
-
 
 }
 

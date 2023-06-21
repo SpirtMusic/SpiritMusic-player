@@ -22,5 +22,6 @@
         <file>qml/icons/library-music.512x512.png</file>
         <file>qml/icons/music-library.png</file>
         <file>qml/icons/video-icon.png</file>
+        <file>qml/icons/delete.png</file>
     </qresource>
 </RCC>

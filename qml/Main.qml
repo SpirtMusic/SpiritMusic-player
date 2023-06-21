@@ -24,7 +24,17 @@ function switchToVideosView(){
 }
 function playVideo(videoPath){
 videoPlayerWindow.player.source=videoPath
-    console.log(videoPlayerWindow.player.source)
+
+       console.log("    win.currentPathPack"+win.currentPathPack)
+    console.log("videopppppppppp"+videoPlayerWindow.player.source)
+    internal.playMode()
+videoPlayerWindow.visible=true
+
+videoPlayerWindow.player.play()
+}
+function testplayVideo(videoPath){
+videoPlayerWindow.player.source=videoPath
+    console.log("videoPlayerWindow.player.source "+videoPlayerWindow.player.source)
     internal.playMode()
 videoPlayerWindow.visible=true
 
@@ -47,6 +57,7 @@ videoPlayerWindow.player.play()
             win.visibility= Window.Windowed
         }
     }
+
     header: ToolBar {
         Material.background: win.color
         RowLayout {
