@@ -134,13 +134,15 @@ Rectangle {
         }
         ColumnLayout {
             id: columnLayout
-            spacing: 2
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.rightMargin: 0
+            anchors.top: parent.top
             anchors.leftMargin: 0
-            anchors.bottomMargin: rotateBtn.implicitHeight
+            anchors.topMargin: 0
+            anchors.rightMargin: 0
+            // anchors.fill: parent
+            spacing: 2
+
             RowLayout {
                 spacing: 10
                 Layout.minimumWidth: parent.width // Set the minimum width to parent width
@@ -195,36 +197,39 @@ Rectangle {
 
                 Layout.fillWidth: true
                 Layout.minimumWidth: parent.width
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                ToolButton {
+                    id: rotateBtn
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.leftMargin: 30
+                    onClicked: toggleOrientation()
+                    function toggleOrientation() {
+                        if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
+                            androidUtils.rotateToLandscape();
+                            icon.source="qrc:/qml/icons/cil-mobile.svg"
+                            currentOrientation = android_SCREEN_ORIENTATION_LANDSCAPE;
+                        } else {
+                            androidUtils.rotateToPortrait();
+                            icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
+                            currentOrientation = android_SCREEN_ORIENTATION_PORTRAIT;
+                        }
+                    }
+                    Component.onCompleted: {
+                        if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
+                            icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
+                        } else {
+                            icon.source="qrc:/qml/icons/cil-mobile.svg"
+                        }
+                    }
+                }
                 RowLayout {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     Layout.fillWidth: true
                     Layout.minimumWidth: parent.width/2
-                    ToolButton {
-                        id: rotateBtn
-                        Layout.alignment: Qt.AlignRight
-                        onClicked: toggleOrientation()
-                        function toggleOrientation() {
-                            if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
-                                androidUtils.rotateToLandscape();
-                                icon.source="qrc:/qml/icons/cil-mobile.svg"
-                                currentOrientation = android_SCREEN_ORIENTATION_LANDSCAPE;
-                            } else {
-                                androidUtils.rotateToPortrait();
-                                icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
-                                currentOrientation = android_SCREEN_ORIENTATION_PORTRAIT;
-                            }
-                        }
-                        Component.onCompleted: {
-                            if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
-                                icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
-                            } else {
-                                icon.source="qrc:/qml/icons/cil-mobile.svg"
-                            }
-                        }
-                    }
+
                     ToolButton {
                         id: decreaseSpeed
-                        Layout.alignment:  Qt.AlignHCenter
+                        Layout.alignment:  Qt.AlignLeft
                         icon.source: "qrc:/qml/icons/cil-chevron-double-left.svg"
                         onClicked: player.updatePlaybackRate(
                                        -0.1) // decrease the playback rate by 0.1
@@ -246,7 +251,7 @@ Rectangle {
                     }
                     ToolButton {
                         id: increaseSpeed
-                        Layout.alignment: Qt.AlignHCenter
+                        Layout.alignment: Qt.AlignRight
                         onClicked: player.updatePlaybackRate(
                                        0.1) // increase the playback rate by 0.1
                         icon.source: "qrc:/qml/icons/cil-chevron-double-right.svg"
@@ -273,14 +278,14 @@ Rectangle {
 
             }
         }
-        height: recWidth
+        height: recWidth + rotateBtn.implicitHeight
 
         PropertyAnimation {
             id: animationOpenMenu
             target: videoControl
             property: "height"
             running: false
-            to: recWidth
+            to: recWidth + rotateBtn.implicitHeight
             duration: 200
             easing.type: Easing.Linear
         }
