@@ -51,9 +51,19 @@ Rectangle {
                 animationCloseMenu.start()
         }
     }
+    Item {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        ToolTip {
+            id:infoTollTip
+            timeout: 1000
+        }
+    }
     Video {
         id:player
+
         anchors.fill: parent
+
         // Other properties and settings for the video player
         onPlaybackStateChanged: {
             if (playbackState == MediaPlayer.PlayingState) {
@@ -78,6 +88,17 @@ Rectangle {
                 player.fillMode = VideoOutput.Stretch
             }
         }
+        function updatePlaybackRate(delta) {
+            // modify the playback rate by adding the delta value
+            playbackRate += delta
+            if (playbackRate > 1.5) {
+                playbackRate = 1.5
+            } else if (playbackRate < 0.5) {
+                playbackRate = 0.5
+            }
+            infoTollTip.show("Speed: "+ playbackRate.toFixed(1)+"x")
+        }
+
     }
 
     FileDialog {
@@ -114,7 +135,12 @@ Rectangle {
         ColumnLayout {
             id: columnLayout
             spacing: 2
-            anchors.fill: parent
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.rightMargin: 0
+            anchors.leftMargin: 0
+            anchors.bottomMargin: rotateBtn.implicitHeight
             RowLayout {
                 spacing: 10
                 Layout.minimumWidth: parent.width // Set the minimum width to parent width
@@ -170,11 +196,12 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.minimumWidth: parent.width
                 RowLayout {
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     Layout.fillWidth: true
                     Layout.minimumWidth: parent.width/2
                     ToolButton {
                         id: rotateBtn
-                        Layout.alignment: Qt.AlignHCenter
+                        Layout.alignment: Qt.AlignRight
                         onClicked: toggleOrientation()
                         function toggleOrientation() {
                             if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
@@ -196,8 +223,15 @@ Rectangle {
                         }
                     }
                     ToolButton {
+                        id: decreaseSpeed
+                        Layout.alignment:  Qt.AlignHCenter
+                        icon.source: "qrc:/qml/icons/cil-chevron-double-left.svg"
+                        onClicked: player.updatePlaybackRate(
+                                       -0.1) // decrease the playback rate by 0.1
+                    }
+                    ToolButton {
                         id: playPauseBtn
-                        Layout.alignment: Qt.AlignRight
+                        Layout.alignment: Qt.AlignHCenter
                         icon.source: "qrc:/qml/icons/cil-media-play.svg"
                         onClicked: {
 
@@ -210,8 +244,17 @@ Rectangle {
                             }
                         }
                     }
+                    ToolButton {
+                        id: increaseSpeed
+                        Layout.alignment: Qt.AlignHCenter
+                        onClicked: player.updatePlaybackRate(
+                                       0.1) // increase the playback rate by 0.1
+                        icon.source: "qrc:/qml/icons/cil-chevron-double-right.svg"
+
+                    }
 
                 }
+
                 ToolButton {
                     Layout.alignment: Qt.AlignRight
                     id:switchFillModeBtn

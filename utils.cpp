@@ -16,15 +16,8 @@ bool utils::rotateToLandscape(){
     }
 
     return false;
-//    QJniObject::callStaticMethod<void>("setRequestedOrientation",
-//                                              "(I)V",
-//                                              0); // 0: ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 }
 bool utils::rotateToPortrait(){
-//    QJniObject::callStaticMethod<void>("setRequestedOrientation",
-//                                              "(I)V",
-//                                              1); // 1: ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
     QJniObject activity = QNativeInterface::QAndroidApplication::context();
 
     if(activity.isValid())
@@ -34,4 +27,19 @@ bool utils::rotateToPortrait(){
     }
 
     return false;
+}
+void utils::setSecureFlag(){
+     QNativeInterface::QAndroidApplication::runOnAndroidMainThread([=]()
+                                  {
+                                      QJniObject activity = QNativeInterface::QAndroidApplication::context();
+                                      if (activity.isValid())
+                                      {
+                                          QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+                                          if (window.isValid())
+                                          {
+                                              jint flagSecure = QJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams", "FLAG_SECURE");
+                                              window.callMethod<void>("setFlags", "(II)V", flagSecure, flagSecure);
+                                          }
+                                      }
+                                  });
 }

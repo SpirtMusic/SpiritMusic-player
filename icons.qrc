@@ -23,5 +23,7 @@
         <file>qml/icons/music-library.png</file>
         <file>qml/icons/video-icon.png</file>
         <file>qml/icons/delete.png</file>
+        <file>qml/icons/cil-chevron-double-left.svg</file>
+        <file>qml/icons/cil-chevron-double-right.svg</file>
     </qresource>
 </RCC>

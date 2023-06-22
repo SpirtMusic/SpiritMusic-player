@@ -221,5 +221,8 @@ videoPlayerWindow.player.play()
         }
 
     }
+    Component.onCompleted: {
+            androidUtils.setSecureFlag()
+    }
 
 }
