@@ -78,7 +78,7 @@ public:
         }
         return true;
     }
-
+    Q_INVOKABLE void setSecureFlag();
     Q_INVOKABLE bool rotateToLandscape();
     Q_INVOKABLE bool rotateToPortrait();
 signals:
