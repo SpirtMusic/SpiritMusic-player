@@ -66,7 +66,9 @@ Rectangle {
 
         // Other properties and settings for the video player
         onPlaybackStateChanged: {
+
             if (playbackState == MediaPlayer.PlayingState) {
+
                 playPauseBtn.icon.source = "qrc:/qml/icons/cil-media-pause.svg"
             } else {
                 playPauseBtn.icon.source = "qrc:/qml/icons/cil-media-play.svg"
@@ -238,16 +240,43 @@ Rectangle {
                         id: playPauseBtn
                         Layout.alignment: Qt.AlignHCenter
                         icon.source: "qrc:/qml/icons/cil-media-play.svg"
+
+                        property bool isRotated: false // Flag to toggle rotation
+
                         onClicked: {
-
-                            if (player.playbackState == MediaPlayer.PlayingState) {
+                            if (player.playbackState === MediaPlayer.PlayingState) {
                                 player.pause()
-
                             } else {
                                 player.play()
+                            }
 
+                            // Toggle rotation
+                            isRotated = !isRotated
+
+                            // Start the rotation animation
+                            rotationAnimation.running = true
+                        }
+
+                        transform: Rotation {
+                            origin.x: playPauseBtn.width / 2
+                            origin.y: playPauseBtn.height / 2
+                            angle: playPauseBtn.isRotated ? 180 : 0
+                        }
+
+                        SequentialAnimation {
+                            id: rotationAnimation
+                            running: false
+                            loops: 1 // Set to -1 for infinite looping
+
+                            PropertyAnimation {
+                                target: playPauseBtn
+                                property: "rotation"
+                                to: playPauseBtn.isRotated ? 180 : 0
+                                duration: 200 // Adjust the duration as per your preference
+                                easing.type: Easing.InOutQuad
                             }
                         }
+
                     }
                     ToolButton {
                         id: increaseSpeed

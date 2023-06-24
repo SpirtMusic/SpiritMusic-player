@@ -24,7 +24,7 @@ function switchToVideosView(){
 }
 function playVideo(videoPath){
 videoPlayerWindow.player.source=videoPath
-
+videoPlayerWindow.player.source="file:///home/akram/build-sonegx-player-android-Desktop_Qt_6_5_1_GCC_64bit-Debug/test3.mp4"
        console.log("    win.currentPathPack"+win.currentPathPack)
     console.log("videopppppppppp"+videoPlayerWindow.player.source)
     internal.playMode()
