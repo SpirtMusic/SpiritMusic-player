@@ -79,16 +79,21 @@ Rectangle {
             switch (player.fillMode) {
             case VideoOutput.Stretch:
                 player.fillMode = VideoOutput.PreserveAspectCrop
+                 infoTollTip.show("PreserveAspectCrop")
                 break
             case VideoOutput.PreserveAspectCrop:
                 player.fillMode = VideoOutput.PreserveAspectFit
+                 infoTollTip.show("PreserveAspectFit")
                 break
             case VideoOutput.PreserveAspectFit:
                 player.fillMode = VideoOutput.Stretch
+                infoTollTip.show("Stretch")
                 break
             default:
                 player.fillMode = VideoOutput.Stretch
+                infoTollTip.show("Stretch")
             }
+            console.log(player.fillMode)
         }
         function updatePlaybackRate(delta) {
             // modify the playback rate by adding the delta value
