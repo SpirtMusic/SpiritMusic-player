@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls 6.3
 import QtQuick.Layouts 1.3
-
+import "qrc:/qml/Database.js" as DB
 Item {
     ScrollView{
         id: scrollView
@@ -95,6 +95,12 @@ Item {
                 source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-256px.png"
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                 antialiasing: true
+            }
+            ToolButton{
+                id:clearDbBtn
+                text:"Clean Database"
+                onClicked:    DB.dbRemove()
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             }
             ToolTip {
                 id:copiedTollTip
