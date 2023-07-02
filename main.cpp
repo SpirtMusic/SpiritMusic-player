@@ -9,6 +9,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+  //  qputenv("QT_MEDIA_BACKEND", "android");
    // qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
    // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
     QQmlApplicationEngine engine;

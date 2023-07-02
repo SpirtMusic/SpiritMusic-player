@@ -18,13 +18,11 @@ Item {
         // Create a ListModel to store the video information
         model: ListModel {
             id: videoListModel
-
             function updateModel(){
-  console.log("updateModel()")
+                console.log("updateModel()")
                 videoListModel.clear()
                 var videosInfo = win.videoList
                 // Add each video info to the ListModel
-
                 for (var i = 0; i < videosInfo.length; i++) {
                     videoListModel.append({
                                               vbaseName: videosInfo[i].vbaseName,

@@ -54,7 +54,7 @@ Item {
             return vidoesInfo
         }
         function removeProjectName(url) {
-            var index = url.indexOf("%2F");
+            var index = url.lastIndexOf("%2F"); // Find the last occurrence of "%2F"
             if (index !== -1) {
                 var newPath = url.substring(0, index + 3); // Keep %2F
                 return newPath;
@@ -130,6 +130,7 @@ Item {
                     if (listView.currentIndex === index&& !holdPressed) {
                         console.log("onReleased on:", name.replace(/^"(.*)"$/, "$1"))
                         JsonFile.name=path
+                        console.log(path)
                         var newUrl = jsonOperator.removeProjectName(path);
                         win.currentPathPack = newUrl
                         win.videoList=jsonOperator.getvidoesInfo(JsonFile)
@@ -257,7 +258,7 @@ Item {
             var videon=jsonOperator.getvideoNumbers(JsonFile)
 
             selectedFilePath = libraryfileDialog.currentFile
-
+            console.log("selectedFilePath"+selectedFilePath)
             //  win.testplayVideo("content://com.android.externalstorage.documents/document/primary%3ADCIM%2Ftest3.mp4")
             console.log("selectedFilePath"+selectedFilePath)
             DB.dbInsert(name, selectedFilePath,videon)
