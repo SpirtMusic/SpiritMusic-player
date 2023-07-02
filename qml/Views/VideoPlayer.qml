@@ -7,6 +7,7 @@ Rectangle {
     id: videoPlayerWindow
     visible: false
     color: "#00ffffff"
+      anchors.fill: parent
     property Video player: player
     property real recWidth: columnLayout.implicitHeight
 
@@ -25,6 +26,17 @@ Rectangle {
             minutes = (minutes < 10) ? "0" + minutes : minutes
             seconds = (seconds < 10) ? "0" + seconds : seconds
             return hours + ":" + minutes + ":" + seconds //+ "." + milliseconds;
+        }
+        function toggleOrientation() {
+            if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
+                androidUtils.rotateToLandscape();
+                rotateBtn.icon.source="qrc:/qml/icons/cil-mobile.svg"
+                currentOrientation = android_SCREEN_ORIENTATION_LANDSCAPE;
+            } else {
+                androidUtils.rotateToPortrait();
+                rotateBtn.icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
+                currentOrientation = android_SCREEN_ORIENTATION_PORTRAIT;
+            }
         }
     }
     MouseArea {
@@ -105,6 +117,10 @@ Rectangle {
             }
             infoTollTip.show("Speed: "+ playbackRate.toFixed(1)+"x")
         }
+        onErrorChanged: {
+            console.log("Video Error:", player.errorString)
+        }
+
 
     }
 
@@ -209,25 +225,8 @@ Rectangle {
                     id: rotateBtn
                     Layout.alignment: Qt.AlignLeft
                     Layout.leftMargin: 30
-                    onClicked: toggleOrientation()
-                    function toggleOrientation() {
-                        if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
-                            androidUtils.rotateToLandscape();
-                            icon.source="qrc:/qml/icons/cil-mobile.svg"
-                            currentOrientation = android_SCREEN_ORIENTATION_LANDSCAPE;
-                        } else {
-                            androidUtils.rotateToPortrait();
-                            icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
-                            currentOrientation = android_SCREEN_ORIENTATION_PORTRAIT;
-                        }
-                    }
-                    Component.onCompleted: {
-                        if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
-                            icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
-                        } else {
-                            icon.source="qrc:/qml/icons/cil-mobile.svg"
-                        }
-                    }
+                    onClicked: videoInternal.toggleOrientation()
+
                 }
                 RowLayout {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -331,6 +330,14 @@ Rectangle {
             to: 0
             duration: 200
             easing.type: Easing.Linear
+        }
+    }
+
+    Component.onCompleted: {
+        if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
+            rotateBtn.icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
+        } else {
+            rotateBtn.icon.source="qrc:/qml/icons/cil-mobile.svg"
         }
     }
 }
