@@ -12,34 +12,37 @@ ApplicationWindow  {
     property bool showRefreshBtn: false
     property var videoList: []
     property var currentPathPack
+    property VideoPlayer videoPlayerWindow
     Material.theme: Material.Dark
     Material.accent: Material.Blue
     id:win
     visible: true
     visibility: Window.Windowed
     title: qsTr("hello world")
-function switchToVideosView(){
-    console.log("switchToVideosView()")
- swipeView.currentIndex = 1
-}
-function playVideo(videoPath){
-videoPlayerWindow.player.source=videoPath
-videoPlayerWindow.player.source="file:///home/akram/build-sonegx-player-android-Desktop_Qt_6_5_1_GCC_64bit-Debug/test3.mp4"
-       console.log("    win.currentPathPack"+win.currentPathPack)
-    console.log("videopppppppppp"+videoPlayerWindow.player.source)
-    internal.playMode()
-videoPlayerWindow.visible=true
+    function switchToVideosView(){
+        console.log("switchToVideosView()")
+        swipeView.currentIndex = 1
+    }
+    // TODO: fix owned by unique_fd
+    function playVideo(videoPath){
+        console.log("   videoPath"+videoPath)
+        internal.createVideoPlayerWindow()
+        win.videoPlayerWindow.player.source=videoPath
+        //win.videoPlayerWindow.player.source="content://com.android.externalstorage.documents/document/primary%3ADCIM%2Fpack%2Ftest2.mp4"
+        console.log("    win.currentPathPack"+win.currentPathPack)
+        console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
+        internal.playMode()
+        win.videoPlayerWindow.visible=true
+        win.videoPlayerWindow.player.play()
+    }
+    function testplayVideo(videoPath){
+        videoPlayerWindow.player.source=videoPath
+        console.log("videoPlayerWindow.player.source "+videoPlayerWindow.player.source)
+        internal.playMode()
+        videoPlayerWindow.visible=true
 
-videoPlayerWindow.player.play()
-}
-function testplayVideo(videoPath){
-videoPlayerWindow.player.source=videoPath
-    console.log("videoPlayerWindow.player.source "+videoPlayerWindow.player.source)
-    internal.playMode()
-videoPlayerWindow.visible=true
-
-videoPlayerWindow.player.play()
-}
+        videoPlayerWindow.player.play()
+    }
     QtObject {
         id: internal
         function playMode(){
@@ -47,14 +50,29 @@ videoPlayerWindow.player.play()
             win.footer.visible=false
             // win.menuBar.visible=false
             swipeView.visible=false
-            win.visibility= Window.FullScreen
+          //  win.visibility= Window.FullScreen
         }
         function basicMode(){
             win.header.visible=true
             win.footer.visible=true
             // win.menuBar.visible=true
             swipeView.visible=true
-            win.visibility= Window.Windowed
+           // win.visibility= Window.Windowed
+        }
+        function createVideoPlayerWindow() {
+            var component = Qt.createComponent("qrc:/qml/Views/VideoPlayer.qml");
+            if (component.status ===  Component.Ready) {
+                var videoPlayerWindow = component.createObject(win);
+                if (videoPlayerWindow === null) {
+                    console.error("Error creating VideoPlayerWindow");
+                } else {
+                    // Initialize properties and settings for the new VideoPlayer
+                    // ...
+                    win.videoPlayerWindow=videoPlayerWindow
+                }
+            } else {
+                console.error("Error loading VideoPlayer.qml:", component.errorString());
+            }
         }
     }
 
@@ -135,7 +153,7 @@ videoPlayerWindow.player.play()
                 }
                 function videosView_Activeted(){
                     if(!activated){
-                            console.log("videosView_Activeted()")
+                        console.log("videosView_Activeted()")
                         videosV.videoListModel.updateModel()
                         win.mentitle="Videos"
                         win.showAddbtn=false
@@ -167,15 +185,15 @@ videoPlayerWindow.player.play()
             }
         }
     }
-    VideoPlayer {
-        id: videoPlayerWindow
-        //      visible: false
-        anchors.fill: parent
-        // Other properties and settings for the video player window
-    }
+    //    VideoPlayer {
+    //        id: videoPlayerWindow
+    //        //      visible: false
+
+    //        // Other properties and settings for the video player window
+    //    }
     SwipeView {
         id: swipeView
- interactive:false
+        interactive:false
         anchors.fill: parent
         currentIndex: 0
         LibraryView {
@@ -191,7 +209,7 @@ videoPlayerWindow.player.play()
             libraryBtn.activated=true
         }
         onCurrentIndexChanged: {
-                console.log("swipeView.currentIndex"+swipeView.currentIndex)
+            console.log("swipeView.currentIndex"+swipeView.currentIndex)
             // Call a function based on the new index
             switch (swipeView.currentIndex) {
             case 0:
@@ -208,21 +226,31 @@ videoPlayerWindow.player.play()
     }
     onClosing: function(close) {
         close.accepted = false
-        videoPlayerWindow.player.stop(); // Stop the video playback if needed
-        console.log("Child window is closing …")
-        if(videoPlayerWindow.visible==false)
+
+        if(win.videoPlayerWindow.visible==true)
         {
+            //win.videoPlayerWindow.player.stop(); // Stop the video playback if needed
+            win.videoPlayerWindow.visible=false
+            win.videoPlayerWindow.destroy()
+            win.videoPlayerWindow = null
+            console.log("Child window is closing …")
+            internal.basicMode()
+
+        }
+        else if (swipeView.currentIndex!=0){
+
+            swipeView.currentIndex = 0
+        }
+
+        else{
             close.accepted = true
             Qt.quit()
-        }
-        else{
-            videoPlayerWindow.visible=false
-            internal.basicMode()
         }
 
     }
     Component.onCompleted: {
-            androidUtils.setSecureFlag()
+        androidUtils.setSecureFlag()
+        internal.createVideoPlayerWindow()
     }
 
 }
