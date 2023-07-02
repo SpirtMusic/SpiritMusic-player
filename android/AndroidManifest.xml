@@ -6,10 +6,11 @@
     android:versionName="1.0">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.READ_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SECURE_SETTINGS" />
 
     <supports-screens
         android:anyDensity="true"
@@ -23,6 +24,7 @@
         android:requestLegacyExternalStorage="true"
         android:allowNativeHeapPointerTagging="false"
         android:allowBackup="true"
+         android:usesCleartextTraffic="true"
         android:fullBackupOnly="false">
         <activity
             android:name="org.qtproject.qt.android.bindings.QtActivity"
