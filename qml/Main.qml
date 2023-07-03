@@ -227,7 +227,7 @@ ApplicationWindow  {
     onClosing: function(close) {
         close.accepted = false
 
-        if(win.videoPlayerWindow.visible==true)
+        if(win.videoPlayerWindow.visible!=null)
         {
             //win.videoPlayerWindow.player.stop(); // Stop the video playback if needed
             win.videoPlayerWindow.visible=false

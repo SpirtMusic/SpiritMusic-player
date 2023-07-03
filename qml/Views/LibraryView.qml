@@ -251,28 +251,47 @@ Item {
         //  nameFilters: [ "Video files (*.mp4 *.flv *.ts *.mpg *.3gp *.ogv *.m4v *.mov)", "All files (*)" ]
         title: "Please choose a video file"
         modality: Qt.WindowModal
+        fileMode: FileDialog.OpenFiles
         onAccepted: {
-            console.log("You chose: " + libraryfileDialog.currentFile)
-            JsonFile.name = libraryfileDialog.currentFile
-            var name =jsonOperator.getInfopack(JsonFile)
-            var videon=jsonOperator.getvideoNumbers(JsonFile)
 
-            selectedFilePath = libraryfileDialog.currentFile
+            var projectFile= filterSngvFiles(libraryfileDialog.files)
+             console.log(projectFile)
+//            console.log("You chose: " + libraryfileDialog.currentFile)
+            JsonFile.name = projectFile
+            var name =jsonOperator.getInfopack(JsonFile)
+           var videon=jsonOperator.getvideoNumbers(JsonFile)
+
+            selectedFilePath =projectFile
             console.log("selectedFilePath"+selectedFilePath)
-            //  win.testplayVideo("content://com.android.externalstorage.documents/document/primary%3ADCIM%2Ftest3.mp4")
-            console.log("selectedFilePath"+selectedFilePath)
+//            //  win.testplayVideo("content://com.android.externalstorage.documents/document/primary%3ADCIM%2Ftest3.mp4")
+//            console.log("selectedFilePath"+selectedFilePath)
             DB.dbInsert(name, selectedFilePath,videon)
             DB.dbReadAll()
-            //   win.testplayVideo(selectedFilePath)
+//            //   win.testplayVideo(selectedFilePath)
             libraryListModel.libraryListModelUpdate()
 
-            console.log("vidoesInfo"+jsonOperator.getvidoesInfo(JsonFile))
+//            console.log("vidoesInfo"+jsonOperator.getvidoesInfo(JsonFile))
             return
         }
         onRejected: {
             console.log("Canceled")
             return
         }
+        function filterSngvFiles(fileUrls) {
+            for (var i = 0; i < fileUrls.length; i++) {
+                var fileUrl = fileUrls[i].toString(); // Convert the object to a string
+                var extension = ".sngv";
+                var endIndex = fileUrl.lastIndexOf(extension);
+
+                if (endIndex !== -1 && endIndex === fileUrl.length - extension.length) {
+                    return fileUrl;
+                }
+            }
+
+            return ""; // Return an empty string if no matching element is found
+        }
+
+
     }
     Component.onCompleted: {
         //DB.dbRemove()
