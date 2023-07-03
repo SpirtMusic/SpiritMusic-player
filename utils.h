@@ -72,7 +72,19 @@ public:
         auto r = QtAndroidPrivate::checkPermission(QString("android.permission.STORAGE")).result();
         if (r == QtAndroidPrivate::Denied)
         {
-            r = QtAndroidPrivate::requestPermission(QString("android.permission.STORAGE")).result();
+            r = QtAndroidPrivate::requestPermission(QString("android.permission.MANAGE_EXTERNAL_STORAGE")).result();
+            if (r == QtAndroidPrivate::Denied)
+                return false;
+        }
+        return true;
+    }
+   Q_INVOKABLE bool checkStoragePermission()
+    {
+        qDebug()<<"checkStoragePermission()";
+        auto r = QtAndroidPrivate::checkPermission(QString("android.permission.WRITE_EXTERNAL_STORAGE")).result();
+        if (r == QtAndroidPrivate::Denied)
+        {
+            r = QtAndroidPrivate::requestPermission(QString("android.permission.WRITE_EXTERNAL_STORAGE")).result();
             if (r == QtAndroidPrivate::Denied)
                 return false;
         }

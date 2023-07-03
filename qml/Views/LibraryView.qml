@@ -139,7 +139,6 @@ Item {
 
                 }
                 onPressAndHold: {
-
                     // listView.currentIndex = index
                     holdPressed=true
                     deleteRec.showButton()

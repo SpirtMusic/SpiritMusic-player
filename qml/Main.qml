@@ -40,7 +40,6 @@ ApplicationWindow  {
         console.log("videoPlayerWindow.player.source "+videoPlayerWindow.player.source)
         internal.playMode()
         videoPlayerWindow.visible=true
-
         videoPlayerWindow.player.play()
     }
     QtObject {
@@ -50,14 +49,14 @@ ApplicationWindow  {
             win.footer.visible=false
             // win.menuBar.visible=false
             swipeView.visible=false
-          //  win.visibility= Window.FullScreen
+            win.visibility= Window.FullScreen
         }
         function basicMode(){
             win.header.visible=true
             win.footer.visible=true
             // win.menuBar.visible=true
             swipeView.visible=true
-           // win.visibility= Window.Windowed
+            win.visibility= Window.Windowed
         }
         function createVideoPlayerWindow() {
             var component = Qt.createComponent("qrc:/qml/Views/VideoPlayer.qml");
@@ -106,7 +105,10 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
+                    if (androidUtils.checkStoragePermission())
                     libraryV.libraryfileDialog.visible = true
+                    else
+                        return
                 }
             }
             ToolButton {
@@ -125,7 +127,6 @@ ApplicationWindow  {
         RowLayout {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: 20
-
             FooterBtn {
                 id:libraryBtn
                 icon.source: "qrc:/qml/icons/cil-album.svg"
@@ -227,7 +228,7 @@ ApplicationWindow  {
     onClosing: function(close) {
         close.accepted = false
 
-        if(win.videoPlayerWindow.visible!=null)
+        if(win.videoPlayerWindow!=null)
         {
             //win.videoPlayerWindow.player.stop(); // Stop the video playback if needed
             win.videoPlayerWindow.visible=false
@@ -241,12 +242,10 @@ ApplicationWindow  {
 
             swipeView.currentIndex = 0
         }
-
         else{
             close.accepted = true
             Qt.quit()
         }
-
     }
     Component.onCompleted: {
         androidUtils.setSecureFlag()
