@@ -18,7 +18,7 @@ ApplicationWindow  {
     id:win
     visible: true
     visibility: Window.Windowed
-    title: qsTr("hello world")
+    title: qsTr("hello world3")
     function switchToVideosView(){
         console.log("switchToVideosView()")
         swipeView.currentIndex = 1
