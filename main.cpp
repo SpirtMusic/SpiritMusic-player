@@ -35,6 +35,17 @@ int main(int argc, char *argv[])
 #endif
     JsonFile jsonFile;
     SerialGenerator serialn;
+    QString serial = serialn.encrypt("1a97-44ba-4c8a-573d-1b27");
+    qDebug()<<"serial:"<<serial; //2bf6-7d8d-7de8-650a-2a46
+    if(serialn.checkDecryption("2bf6-7d8d-7de8-650a-2a46","1a97-44ba-4c8a-573d-1b27"))
+        qDebug()<<"Yessssssss";
+        else
+            qDebug()<<"Nooooo:";
+
+        if(serialn.activate("2bf6-7d8d-7de8-650a-2a46","1a97-44ba-4c8a-573d-1b27"))
+            qDebug()<<"Actttttttttttttt";
+        else
+            qDebug()<<"NoooooAAAAAAAAAA:";
     engine.rootContext()->setContextProperty("ActivateSys", &serialn);
     engine.rootContext()->setContextProperty("JsonFile", &jsonFile);
     ClipboardExtension ClipboardExt;
