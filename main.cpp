@@ -15,38 +15,31 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-  //  qputenv("QT_MEDIA_BACKEND", "android");
-   // qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
-   // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
+    //  qputenv("QT_MEDIA_BACKEND", "android");
+    // qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
+    // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
     QQmlApplicationEngine engine;
-    #ifdef Q_OS_ANDROID
-//    //Request requiered permissions at runtime
+#ifdef Q_OS_ANDROID
+    //    //Request requiered permissions at runtime
 
-//    for(const QString &permission : permissions){
-//        auto result = QtAndroidPrivate::checkPermission(permission).result();
-//        if(result == QtAndroidPrivate::Denied){
-//            auto resultHash = QtAndroidPrivate::requestPermission(QStringList({permission})).result();
-//            if(resultHash[permission] == QtAndroidPrivate::Denied)
-//                return 0;
-//        }
-//    }
+    //    for(const QString &permission : permissions){
+    //        auto result = QtAndroidPrivate::checkPermission(permission).result();
+    //        if(result == QtAndroidPrivate::Denied){
+    //            auto resultHash = QtAndroidPrivate::requestPermission(QStringList({permission})).result();
+    //            if(resultHash[permission] == QtAndroidPrivate::Denied)
+    //                return 0;
+    //        }
+    //    }
     utils android;
     engine.rootContext()->setContextProperty("androidUtils", &android);
-    #endif
+#endif
     JsonFile jsonFile;
     SerialGenerator serialn;
-    QString neserial = serialn.encrypt("1a97-44ba-4c8a-573d-1b27");
-    qDebug() << "neserial:" << neserial;
-    QString neserial2 = serialn.decrypt("2bf6-7d8d-7de8-650a-2a46","1a97-44ba-4c8a-573d-1b27");
-    qDebug() << "neserial:" << neserial2;
-    if(serialn.checkDecryption("2bf6-7d8d-7de8-650a-2a46","1a97-44ba-4c8a-573d-1b27"))
-        qDebug() << "yessssssssss";
-    else
-       qDebug() << "nooooooooo";
+    engine.rootContext()->setContextProperty("ActivateSys", &serialn);
     engine.rootContext()->setContextProperty("JsonFile", &jsonFile);
     ClipboardExtension ClipboardExt;
     engine.rootContext()->setContextProperty("clipboardExtension", &ClipboardExt);
-      //  qmlRegisterType<ClipboardExtension>("ClipboardExtension", 1, 0, "ClipboardExtension");
+        //  qmlRegisterType<ClipboardExtension>("ClipboardExtension", 1, 0, "ClipboardExtension");
     const QUrl url(u"qrc:/qml/Main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },
