@@ -69,6 +69,8 @@ Item {
                 maximumLength: 24
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 text:ActivateSys.getEncryptedId()
+                selectByMouse: true
+
             }
             Component.onCompleted: {
                 var charWidth = fontMe.width
@@ -89,15 +91,12 @@ Item {
                 onClicked: {
                     var deviceID=androidUtils.getAndroidID()
                     var serianN=keytext.text
-                    if(ActivateSys.activate(serianN,serianN))
+                    if(ActivateSys.activate(serianN,deviceID))
                         copiedTollTip.show("Activated !")
                     else
                         copiedTollTip.show("Serial not correct!")
                 }
             }
-
-
-
             Image {
                 id: logo
                 source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-256px.png"
