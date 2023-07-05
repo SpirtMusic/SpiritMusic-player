@@ -31,7 +31,7 @@ Item {
                 }
                 Label {
                     id: statusValue
-                    text: qsTr("Activted")
+                    // text: qsTr("Activted")
                 }
             }
             RowLayout {
@@ -49,7 +49,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     //text:"chaimakram abdeslem"
                     Component.onCompleted: {
-                      text= androidUtils.getAndroidID()
+                        text= androidUtils.getAndroidID()
                     }
                 }
 
@@ -58,9 +58,7 @@ Item {
                     icon.source: "qrc:/qml/icons/cil-copy.svg"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onClicked: {
-                     clipboardExtension.setText(serialValue.text)
-
-
+                        clipboardExtension.setText(serialValue.text)
                         copiedTollTip.show("Copied !")}
                 }
             }
@@ -70,7 +68,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 maximumLength: 24
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
+                text:ActivateSys.getEncryptedId()
             }
             Component.onCompleted: {
                 var charWidth = fontMe.width
@@ -87,9 +85,19 @@ Item {
             ToolButton{
                 id:activeBtn
                 text:"Active"
-
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                onClicked: {
+                    var deviceID=androidUtils.getAndroidID()
+                    var serianN=keytext.text
+                    if(ActivateSys.activate(serianN,serianN))
+                        copiedTollTip.show("Activated !")
+                    else
+                        copiedTollTip.show("Serial not correct!")
+                }
             }
+
+
+
             Image {
                 id: logo
                 source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-256px.png"
@@ -114,7 +122,7 @@ Item {
             }
 
         }
-
     }
-
 }
+
+
