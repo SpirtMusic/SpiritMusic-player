@@ -8,7 +8,7 @@ class SerialGenerator : public QObject
 public:
     explicit SerialGenerator(QObject *parent = nullptr);
     Q_INVOKABLE bool checkDecryption(const QString& encryptedId, const QString& originalId);
-    Q_INVOKABLE void  activate(const QString& encryptedId);
+    Q_INVOKABLE bool  activate(const QString& encryptedId, const QString& originalId);
     Q_INVOKABLE QString  getEncryptedId();
     QString encrypt(const QString& id);
 

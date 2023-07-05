@@ -77,11 +77,15 @@ bool SerialGenerator::checkDecryption(const QString& encryptedId, const QString&
     QString decryptedId = decrypt(encryptedId, originalId);
     return decryptedId == originalId;
 }
-void  SerialGenerator::activate(const QString &encryptedId){
-    // Store the encrypted ID using Qt Settings
-    QSettings settings;
-    settings.setValue("encryptedId", encryptedId);
-
+bool  SerialGenerator::activate(const QString &encryptedId, const QString& originalId){
+    if(checkDecryption(encryptedId,originalId)){
+        // Store the encrypted ID using Qt Settings
+        QSettings settings;
+        settings.setValue("encryptedId", encryptedId);
+        return true;
+    }
+    else
+        return false;
 }
 QString SerialGenerator::getEncryptedId()
 {
