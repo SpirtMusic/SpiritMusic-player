@@ -18,6 +18,7 @@ qt_add_executable(appsonegx-player-android
     main.cpp
     clipboardextension.h clipboardextension.cpp
     jsonfile.h jsonfile.cpp
+    serialgenerator.h serialgenerator.cpp
     ${ADDITIONAL_SOURCE_FILES}
     ${QMLRC}
     ${ICONSRC}

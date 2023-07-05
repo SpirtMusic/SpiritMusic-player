@@ -6,7 +6,7 @@
 #include <QQmlContext>
 #include <clipboardextension.h>
 #include <jsonfile.h>
-
+#include <serialgenerator.h>
 //#ifdef Q_OS_ANDROID
 //const QVector<QString> permissions({"MANAGE_EXTERNAL_STORAGE",
 //                                    "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -34,6 +34,15 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("androidUtils", &android);
     #endif
     JsonFile jsonFile;
+    SerialGenerator serialn;
+    QString neserial = serialn.encrypt("1a97-44ba-4c8a-573d-1b27");
+    qDebug() << "neserial:" << neserial;
+    QString neserial2 = serialn.decrypt("2bf6-7d8d-7de8-650a-2a46","1a97-44ba-4c8a-573d-1b27");
+    qDebug() << "neserial:" << neserial2;
+    if(serialn.checkDecryption("2bf6-7d8d-7de8-650a-2a46","1a97-44ba-4c8a-573d-1b27"))
+        qDebug() << "yessssssssss";
+    else
+       qDebug() << "nooooooooo";
     engine.rootContext()->setContextProperty("JsonFile", &jsonFile);
     ClipboardExtension ClipboardExt;
     engine.rootContext()->setContextProperty("clipboardExtension", &ClipboardExt);
