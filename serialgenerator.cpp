@@ -92,17 +92,15 @@ bool  SerialGenerator::activate(const QString &encryptedId, const QString& origi
 QString SerialGenerator::getEncryptedId()
 {
     // Retrieve the encrypted ID from Qt Settings
-   QSettings settings("Sonegx", "sonegxPlayer");
-     settings.sync();
+    QSettings settings("Sonegx", "sonegxPlayer");
+    settings.sync();
     return settings.value("encryptedId").toString();
 }
 void SerialGenerator::cleanSerial()
 {
     // Remove the "encryptedId" value from Qt Settings
     QSettings settings("Sonegx", "sonegxPlayer");
-     qDebug() << settings.value("encryptedId").toString();
+    qDebug() << settings.value("encryptedId").toString();
     settings.remove("encryptedId");
     settings.sync();
-
-
 }

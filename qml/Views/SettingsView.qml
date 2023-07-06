@@ -133,7 +133,7 @@ Item {
                     statusValue.checkStatus()
                     console.log("cleaaan")
                 }
-                    // DB.dbRemove()
+                // DB.dbRemove()
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             }
             ToolTip {
