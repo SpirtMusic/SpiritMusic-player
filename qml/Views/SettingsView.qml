@@ -31,7 +31,25 @@ Item {
                 }
                 Label {
                     id: statusValue
-                    text: qsTr("Activted")
+                    // text: qsTr("Activted")
+                    function checkStatus(){
+                        var deviceID=androidUtils.getAndroidID()
+                        var serianN=keytext.text
+                        if(ActivateSys.checkDecryption(serianN,deviceID))
+                        {
+                            statusValue.text="Activated"
+                            statusValue.color="green"
+                        }
+                        else{
+                            statusValue.text="Unactivated"
+                            statusValue.color="red"
+                        }
+
+                    }
+                    Component.onCompleted: {
+                        checkStatus()
+
+                    }
                 }
             }
             RowLayout {
@@ -49,7 +67,7 @@ Item {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     //text:"chaimakram abdeslem"
                     Component.onCompleted: {
-                      text= androidUtils.getAndroidID()
+                        text= androidUtils.getAndroidID()
                     }
                 }
 
@@ -58,9 +76,7 @@ Item {
                     icon.source: "qrc:/qml/icons/cil-copy.svg"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onClicked: {
-                     clipboardExtension.setText(serialValue.text)
-
-
+                        clipboardExtension.setText(serialValue.text)
                         copiedTollTip.show("Copied !")}
                 }
             }
@@ -70,7 +86,10 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 maximumLength: 24
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
+                selectByMouse: true
+                Component.onCompleted: {
+                    text= ActivateSys.getEncryptedId()
+                }
             }
             Component.onCompleted: {
                 var charWidth = fontMe.width
@@ -87,8 +106,18 @@ Item {
             ToolButton{
                 id:activeBtn
                 text:"Active"
-
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                onClicked: {
+                    var deviceID=androidUtils.getAndroidID()
+                    var serianN=keytext.text
+                    if(ActivateSys.activate(serianN,deviceID)){
+                        copiedTollTip.show("Activated !")
+                        statusValue.checkStatus()
+                    }
+                    else
+                        copiedTollTip.show("Serial not correct!")
+                }
+
             }
             Image {
                 id: logo
@@ -99,7 +128,12 @@ Item {
             ToolButton{
                 id:clearDbBtn
                 text:"Clean Database"
-                onClicked:    DB.dbRemove()
+                onClicked:  {
+                    ActivateSys.cleanSerial()
+                    statusValue.checkStatus()
+                    console.log("cleaaan")
+                }
+                // DB.dbRemove()
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             }
             ToolTip {
@@ -114,7 +148,8 @@ Item {
             }
 
         }
-
     }
 
 }
+
+
