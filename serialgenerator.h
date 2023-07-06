@@ -10,6 +10,7 @@ public:
     Q_INVOKABLE bool checkDecryption(const QString& encryptedId, const QString& originalId);
     Q_INVOKABLE bool  activate(const QString& encryptedId, const QString& originalId);
     Q_INVOKABLE QString  getEncryptedId();
+    Q_INVOKABLE void  cleanSerial();
     QString encrypt(const QString& id);
 
 private:

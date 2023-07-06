@@ -1,6 +1,7 @@
 #include "serialgenerator.h"
 #include <QCryptographicHash>
 #include <QSettings>
+#include <QFile>
 SerialGenerator::SerialGenerator(QObject *parent)
     : QObject{parent}
 {
@@ -80,8 +81,9 @@ bool SerialGenerator::checkDecryption(const QString& encryptedId, const QString&
 bool  SerialGenerator::activate(const QString &encryptedId, const QString& originalId){
     if(checkDecryption(encryptedId,originalId)){
         // Store the encrypted ID using Qt Settings
-        QSettings settings;
+        QSettings settings("Sonegx", "sonegxPlayer");
         settings.setValue("encryptedId", encryptedId);
+        settings.sync();
         return true;
     }
     else
@@ -90,6 +92,17 @@ bool  SerialGenerator::activate(const QString &encryptedId, const QString& origi
 QString SerialGenerator::getEncryptedId()
 {
     // Retrieve the encrypted ID from Qt Settings
-    QSettings settings;
+   QSettings settings("Sonegx", "sonegxPlayer");
+     settings.sync();
     return settings.value("encryptedId").toString();
+}
+void SerialGenerator::cleanSerial()
+{
+    // Remove the "encryptedId" value from Qt Settings
+    QSettings settings("Sonegx", "sonegxPlayer");
+     qDebug() << settings.value("encryptedId").toString();
+    settings.remove("encryptedId");
+    settings.sync();
+
+
 }
