@@ -30,7 +30,6 @@ ApplicationWindow  {
         onOkClicked: {
             swipeView.currentIndex = 2
         }
-
     }
     function checkActivation(){
         var deviceID=androidUtils.getAndroidID()
@@ -274,13 +273,13 @@ ApplicationWindow  {
             Qt.quit()
         }
     }
-
-
-
     Component.onCompleted: {
-        //   activiationMsg.open()
         androidUtils.setSecureFlag()
         internal.createVideoPlayerWindow()
+        if(!checkActivation())
+        {
+            activiationMsg.open()
+        }
     }
 
 }
