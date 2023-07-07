@@ -7,6 +7,7 @@
 #include <clipboardextension.h>
 #include <jsonfile.h>
 #include <serialgenerator.h>
+#include <aes.h>
 //#ifdef Q_OS_ANDROID
 //const QVector<QString> permissions({"MANAGE_EXTERNAL_STORAGE",
 //                                    "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -35,7 +36,8 @@ int main(int argc, char *argv[])
 #endif
     JsonFile jsonFile;
     SerialGenerator serialn;
-
+    AES fileCrypto;
+    engine.rootContext()->setContextProperty("fileCrypto", &fileCrypto);
     engine.rootContext()->setContextProperty("ActivateSys", &serialn);
     engine.rootContext()->setContextProperty("JsonFile", &jsonFile);
     ClipboardExtension ClipboardExt;
