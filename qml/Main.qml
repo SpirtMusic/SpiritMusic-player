@@ -3,6 +3,8 @@ import QtQuick.Window
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls 6.3
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs
+import Qt.labs.platform
 import "Views"
 import "controls"
 
@@ -20,6 +22,16 @@ ApplicationWindow  {
     visibility: Window.Windowed
 
     title: qsTr("hello world1")
+    MessageDialog {
+        id:activiationMsg
+        buttons: MessageDialog.Ok
+        title: "Info"
+        informativeText: "You need to activate SoneGX player in settings."
+        onOkClicked: {
+            swipeView.currentIndex = 2
+        }
+
+    }
     function checkActivation(){
         var deviceID=androidUtils.getAndroidID()
         var serianN=ActivateSys.getEncryptedId()
@@ -34,15 +46,21 @@ ApplicationWindow  {
     }
     // TODO: fix owned by unique_fd
     function playVideo(videoPath){
-        console.log("   videoPath"+videoPath)
-        internal.createVideoPlayerWindow()
-        win.videoPlayerWindow.player.source=videoPath
-        //win.videoPlayerWindow.player.source="content://com.android.externalstorage.documents/document/primary%3ADCIM%2Fpack%2Ftest2.mp4"
-        console.log("    win.currentPathPack"+win.currentPathPack)
-        console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
-        internal.playMode()
-        win.videoPlayerWindow.visible=true
-        win.videoPlayerWindow.player.play()
+        if(checkActivation())
+        {
+            console.log("   videoPath"+videoPath)
+            internal.createVideoPlayerWindow()
+            win.videoPlayerWindow.player.source=videoPath
+            //win.videoPlayerWindow.player.source="content://com.android.externalstorage.documents/document/primary%3ADCIM%2Fpack%2Ftest2.mp4"
+            console.log("    win.currentPathPack"+win.currentPathPack)
+            console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
+            internal.playMode()
+            win.videoPlayerWindow.visible=true
+            win.videoPlayerWindow.player.play()
+        }
+        else
+            activiationMsg.open()
+
     }
     function testplayVideo(videoPath){
         videoPlayerWindow.player.source=videoPath
@@ -256,7 +274,11 @@ ApplicationWindow  {
             Qt.quit()
         }
     }
+
+
+
     Component.onCompleted: {
+        //   activiationMsg.open()
         androidUtils.setSecureFlag()
         internal.createVideoPlayerWindow()
     }
