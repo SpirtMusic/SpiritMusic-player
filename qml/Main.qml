@@ -20,7 +20,14 @@ ApplicationWindow  {
     visibility: Window.Windowed
 
     title: qsTr("hello world1")
-
+    function checkActivation(){
+        var deviceID=androidUtils.getAndroidID()
+        var serianN=ActivateSys.getEncryptedId()
+        if(ActivateSys.checkDecryption(serianN,deviceID))
+            return true;
+        else
+            return false;
+    }
     function switchToVideosView(){
         console.log("switchToVideosView()")
         swipeView.currentIndex = 1
@@ -108,7 +115,7 @@ ApplicationWindow  {
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
                     if (androidUtils.checkStoragePermission())
-                    libraryV.libraryfileDialog.visible = true
+                        libraryV.libraryfileDialog.visible = true
                     else
                         return
                 }
