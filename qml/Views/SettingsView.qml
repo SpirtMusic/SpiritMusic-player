@@ -7,6 +7,7 @@ Item {
     ScrollView{
         id: scrollView
         anchors.fill: parent
+
         contentWidth: availableWidth
         contentHeight: columnLayout.implicitHeight
         ColumnLayout {

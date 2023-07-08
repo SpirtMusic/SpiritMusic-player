@@ -101,6 +101,19 @@ ApplicationWindow  {
         }
     }
 
+    Popup {
+        id: popupInfo
+
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+
+        contentItem: Text {
+            text: "Content"
+        }
+        modal: true
+        focus: true
+        closePolicy: Popup.NoAutoClose
+    }
     header: ToolBar {
         Material.background: win.color
         RowLayout {
@@ -253,8 +266,9 @@ ApplicationWindow  {
     }
     onClosing: function(close) {
         close.accepted = false
-
-        if(win.videoPlayerWindow!=null)
+        if(popupInfo.visible==true)
+            popupInfo.close()
+        else if(win.videoPlayerWindow!=null)
         {
             //win.videoPlayerWindow.player.stop(); // Stop the video playback if needed
             win.videoPlayerWindow.visible=false
@@ -274,6 +288,7 @@ ApplicationWindow  {
         }
     }
     Component.onCompleted: {
+        popupInfo.open()
         androidUtils.setSecureFlag()
         internal.createVideoPlayerWindow()
         if(!checkActivation())
