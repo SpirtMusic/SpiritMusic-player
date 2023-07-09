@@ -5,7 +5,7 @@
 #include <QCryptographicHash>
 #include <QDebug>
 AES::AES(QObject *parent)
-    : QObject{parent}
+    : QObject{parent}, dir(createCustomPath())
 {
     setoutputFullFilename(dir.path());
 }
@@ -84,7 +84,10 @@ QFuture<bool> AES::encryptVideo(const QString &inputFilePath, const QString &out
 {
 
     return QtConcurrent::run([this,inputFilePath, outputFilePath, encryptionKey]() {
-        QFile inputFile(inputFilePath);
+        QUrl url(inputFilePath);
+        QString local_inputFilePath = url.isLocalFile() ? url.toLocalFile() : inputFilePath;
+        qDebug()<<"FILES : "<<local_inputFilePath;
+        QFile inputFile(local_inputFilePath);
         QFile outputFile(outputFilePath);
 
         if (!inputFile.open(QIODevice::ReadOnly)) {
@@ -139,13 +142,15 @@ QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &out
         if (!dir.isValid()) {
             return false;
         }
-
+        QUrl url(inputFilePath);
+        QString local_inputFilePath = url.isLocalFile() ? url.toLocalFile() : inputFilePath;
+        qDebug() << "FILES: " << local_inputFilePath;
 
         QString _fullname = getoutputFullFilename();
         QString fullname = _fullname + "/" + outputFilePath;
-        QFile inputFile(inputFilePath);
+        QFile inputFile(local_inputFilePath);
         QFile outputFile(fullname);
-        qDebug()<<"PATH : " <<fullname;
+        qDebug() << "PATH: " << fullname;
         if (!inputFile.open(QIODevice::ReadOnly)) {
             // Failed to open input file
             return false;
@@ -161,13 +166,14 @@ QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &out
         qint64 bytesProcessed = 0;
 
         const int bufferSize = 1024 * 1024; // 1MB
-        char buffer[bufferSize];
+        QByteArray buffer(bufferSize, 0);
 
         int keyLength = encryptionKey.length();
         int keyIndex = 0;
 
+        qDebug() << "Partttttttt: " << fullname;
         while (!inputFile.atEnd()) {
-            qint64 bytesRead = inputFile.read(buffer, bufferSize);
+            qint64 bytesRead = inputFile.read(buffer.data(), bufferSize);
 
             for (qint64 i = 0; i < bytesRead; ++i) {
                 buffer[i] = buffer[i] ^ encryptionKey[keyIndex];
@@ -178,7 +184,7 @@ QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &out
                 }
             }
 
-            outputFile.write(buffer, bytesRead);
+            outputFile.write(buffer.constData(), bytesRead);
 
             bytesProcessed += bytesRead;
             int progress = static_cast<int>((bytesProcessed * 100) / totalBytes);
@@ -193,12 +199,23 @@ QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &out
         return true;
     });
 }
+
 QString AES::getoutputFullFilename() const {
     return outputFullFilename;
 }
 void AES::setoutputFullFilename(const QString& newFilename)
 {
     outputFullFilename = newFilename;
+}
+QString AES::createCustomPath() {
+    QString cacheLocation = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString folder = "Video";
+    QString customPath = cacheLocation + "/" + folder+ "/";
+    // Delete all files and folders within the customPath
+    QDir dir(customPath);
+    dir.removeRecursively();
+    QDir().mkpath(customPath);
+    return customPath;
 }
 AES::~AES()
 {
