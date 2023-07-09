@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
     utils android;
     engine.rootContext()->setContextProperty("androidUtils", &android);
 #endif
+
     JsonFile jsonFile;
     SerialGenerator serialn;
     AES fileCrypto;

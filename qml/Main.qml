@@ -14,6 +14,7 @@ ApplicationWindow  {
     property bool showRefreshBtn: false
     property var videoList: []
     property var currentPathPack
+    property var currentVideoname
     property VideoPlayer videoPlayerWindow
     Material.theme: Material.Dark
     Material.accent: Material.Blue
@@ -43,22 +44,51 @@ ApplicationWindow  {
         console.log("switchToVideosView()")
         swipeView.currentIndex = 1
     }
+    Connections {
+        target: fileCrypto
+        onEncryptionVideoProgressChanged:(progress) =>  {
+                                             // Handle the signal here
+                                             console.log("Encryption video progress changed:", progress)
+                                             if(popupInfo.visible!=true)
+                                             popupInfo.open()
+                                             popupInfoText.text="Loading video : "+progress+" %"
+                                         }
+        onDecryptionVideoFinished:(fullname) => {
+                                      popupInfo.close()
+                                      internal.createVideoPlayerWindow()
+                                      win.videoPlayerWindow.player.source="file://"+fullname
+                                      console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
+                                      internal.playMode()
+                                      win.videoPlayerWindow.visible=true
+                                      win.videoPlayerWindow.player.play()
+                                  }
+    }
     // TODO: fix owned by unique_fd
     function playVideo(videoPath){
-        if(checkActivation())
-        {
-            console.log("   videoPath"+videoPath)
-            internal.createVideoPlayerWindow()
-            win.videoPlayerWindow.player.source=videoPath
-            //win.videoPlayerWindow.player.source="content://com.android.externalstorage.documents/document/primary%3ADCIM%2Fpack%2Ftest2.mp4"
-            console.log("    win.currentPathPack"+win.currentPathPack)
-            console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
-            internal.playMode()
-            win.videoPlayerWindow.visible=true
-            win.videoPlayerWindow.player.play()
+        if(checkActivation()){
+            console.log("videoPath"+videoPath)
+            //  fileCrypto.encryptVideo("pack1/project2.sngvtest3.mp4","video3.dat0","1234")
+            fileCrypto.decryptVideo(videoPath,win.currentVideoname,"1234")
         }
         else
             activiationMsg.open()
+
+        //        if(checkActivation())
+        //        {
+        //            console.log("videoPath"+videoPath)
+        //            fileCrypto.decryptVideo(videoPath,win.currentVideoname,"1234")
+
+        //            internal.createVideoPlayerWindow()
+        //            win.videoPlayerWindow.player.source=videoPath
+        //            //win.videoPlayerWindow.player.source="content://com.android.externalstorage.documents/document/primary%3ADCIM%2Fpack%2Ftest2.mp4"
+        //            console.log("    win.currentPathPack"+win.currentPathPack)
+        //            console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
+        //            internal.playMode()
+        //            win.videoPlayerWindow.visible=true
+        //            win.videoPlayerWindow.player.play()
+        //        }
+        //        else
+        //            activiationMsg.open()
 
     }
     function testplayVideo(videoPath){
@@ -103,11 +133,11 @@ ApplicationWindow  {
 
     Popup {
         id: popupInfo
-
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
         contentItem: Text {
+            id:popupInfoText
             text: "Content"
         }
         modal: true
@@ -144,10 +174,11 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
-                    if (androidUtils.checkStoragePermission())
-                        libraryV.libraryfileDialog.visible = true
-                    else
-                        return
+
+                                        if (androidUtils.checkStoragePermission())
+                                            libraryV.libraryfileDialog.visible = true
+                                        else
+                                            return
                 }
             }
             ToolButton {
@@ -288,13 +319,13 @@ ApplicationWindow  {
         }
     }
     Component.onCompleted: {
-        popupInfo.open()
+
         androidUtils.setSecureFlag()
         internal.createVideoPlayerWindow()
-        if(!checkActivation())
-        {
-            activiationMsg.open()
-        }
+                if(!checkActivation())
+                {
+                    activiationMsg.open()
+                }
     }
 
 }
