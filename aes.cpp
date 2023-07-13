@@ -137,7 +137,7 @@ QFuture<bool> AES::encryptVideo(const QString &inputFilePath, const QString &out
 
 QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &outputFilePath, const QByteArray &encryptionKey)
 {
-    return QtConcurrent::run([this,inputFilePath, outputFilePath, encryptionKey]() {
+    return QtConcurrent::run([this, inputFilePath, outputFilePath, encryptionKey]() {
         // TODO: check file is exist before
         if (!dir.isValid()) {
             return false;
@@ -151,6 +151,7 @@ QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &out
         QFile inputFile(local_inputFilePath);
         QFile outputFile(fullname);
         qDebug() << "PATH: " << fullname;
+
         if (!inputFile.open(QIODevice::ReadOnly)) {
             // Failed to open input file
             return false;
@@ -163,43 +164,58 @@ QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &out
         }
 
         qint64 totalBytes = inputFile.size();
-        qint64 bytesProcessed = 0;
+        qint64 chunkSize = 1024 * 1024; // 1MB
+        qint64 totalChunks = totalBytes / chunkSize;
+        if (totalBytes % chunkSize != 0) {
+            totalChunks++;
+        }
 
-        const int bufferSize = 1024 * 1024; // 1MB
-        QByteArray buffer(bufferSize, 0);
+        QList<QByteArray> chunks;
+        QByteArray buffer(chunkSize, 0);
 
-        int keyLength = encryptionKey.length();
-        int keyIndex = 0;
-
-        qDebug() << "Partttttttt: " << fullname;
         while (!inputFile.atEnd()) {
-            qint64 bytesRead = inputFile.read(buffer.data(), bufferSize);
+            qint64 bytesRead = inputFile.read(buffer.data(), chunkSize);
+            QByteArray chunk(buffer.constData(), bytesRead);
+            chunks.append(chunk);
+        }
 
-            for (qint64 i = 0; i < bytesRead; ++i) {
-                buffer[i] = buffer[i] ^ encryptionKey[keyIndex];
+        inputFile.close();
 
-                keyIndex++;
-                if (keyIndex == keyLength) {
-                    keyIndex = 0;
-                }
+        QMutex mutex;
+        qint64 chunksProcessed = 0;
+
+        QList<QByteArray> decryptedChunks = QtConcurrent::blockingMapped(chunks, [this,encryptionKey, &mutex, &chunksProcessed, totalChunks](const QByteArray& chunk) {
+            int keyLength = encryptionKey.length();
+            int keyIndex = 0;
+
+            QByteArray decryptedChunk(chunk.size(), 0);
+
+            for (int i = 0; i < decryptedChunk.size(); ++i) {
+                decryptedChunk[i] = chunk[i] ^ encryptionKey[keyIndex];
+                keyIndex = (keyIndex + 1) % keyLength;
             }
 
-            outputFile.write(buffer.constData(), bytesRead);
+            {
+                QMutexLocker locker(&mutex);
+                chunksProcessed++;
+                int progress = static_cast<int>((chunksProcessed * 100) / totalChunks);
+                qDebug() << "Decryption progress:" << progress << "%";
+                emit encryptionVideoProgressChanged(progress);
+            }
 
-            bytesProcessed += bytesRead;
-            int progress = static_cast<int>((bytesProcessed * 100) / totalBytes);
-            qDebug() << "Decryption progress:" << progress << "%";
-            emit encryptionVideoProgressChanged(progress);
+            return decryptedChunk;
+        });
+
+        for (const QByteArray& decryptedChunk : decryptedChunks) {
+            outputFile.write(decryptedChunk.constData(), decryptedChunk.size());
         }
 
         outputFile.close();
-        inputFile.close();
 
         emit decryptionVideoFinished(fullname);
         return true;
     });
 }
-
 QString AES::getoutputFullFilename() const {
     return outputFullFilename;
 }
