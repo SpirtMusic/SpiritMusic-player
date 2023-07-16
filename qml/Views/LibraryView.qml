@@ -32,9 +32,9 @@ Item {
             var videonumbers = [];
             for(var i=0;i<data.videos.length;i++)
             {
-                videoNumbers=videoNumbers+i
+                videoNumbers=videoNumbers
             }
-            return videoNumbers
+            return videoNumbers+1
         }
         function getvidoesInfo(file)
         {
@@ -252,16 +252,16 @@ Item {
         modality: Qt.WindowModal
         fileMode: FileDialog.OpenFiles
         onAccepted: {
-
+  console.log(libraryfileDialog.files)
             var projectFile= filterSngvFiles(libraryfileDialog.files)
-            //console.log(projectFile)
+            console.log(projectFile)
             //            console.log("You chose: " + libraryfileDialog.currentFile)
             //  console.log("You chose: " + libraryfileDialog.currentFile)
             JsonFile.name = projectFile
             var name =jsonOperator.getInfopack(JsonFile)
             var videon=jsonOperator.getvideoNumbers(JsonFile)
 
-            selectedFilePath =libraryfileDialog.currentFile
+            selectedFilePath =projectFile
             console.log("selectedFilePath"+selectedFilePath)
             //            //  win.testplayVideo("content://com.android.externalstorage.documents/document/primary%3ADCIM%2Ftest3.mp4")
             //            console.log("selectedFilePath"+selectedFilePath)

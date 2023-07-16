@@ -175,10 +175,10 @@ ApplicationWindow  {
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
 
-                                        if (androidUtils.checkStoragePermission())
-                                            libraryV.libraryfileDialog.visible = true
-                                        else
-                                            return
+                    if (androidUtils.checkStoragePermission())
+                        libraryV.libraryfileDialog.visible = true
+                    else
+                        return
                 }
             }
             ToolButton {
@@ -301,6 +301,8 @@ ApplicationWindow  {
             popupInfo.close()
         else if(win.videoPlayerWindow!=null)
         {
+            if(win.videoPlayerWindow.currentOrientation==0)
+                androidUtils.rotateToPortrait()
             //win.videoPlayerWindow.player.stop(); // Stop the video playback if needed
             win.videoPlayerWindow.visible=false
             win.videoPlayerWindow.destroy()
@@ -322,10 +324,10 @@ ApplicationWindow  {
 
         androidUtils.setSecureFlag()
         internal.createVideoPlayerWindow()
-                if(!checkActivation())
-                {
-                    activiationMsg.open()
-                }
+        if(!checkActivation())
+        {
+            activiationMsg.open()
+        }
     }
 
 }
