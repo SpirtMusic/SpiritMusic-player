@@ -32,7 +32,7 @@ Item {
             var videonumbers = [];
             for(var i=0;i<data.videos.length;i++)
             {
-                videoNumbers=videoNumbers
+                videoNumbers=videoNumbers+i
             }
             return videoNumbers+1
         }
