@@ -12,6 +12,7 @@ ApplicationWindow  {
     property string mentitle: "title"
     property bool showAddbtn: true
     property bool showRefreshBtn: false
+    property bool showInfohBtn: false
     property var videoList: []
     property var currentPathPack
     property var currentVideoname
@@ -175,7 +176,6 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
-
                     if (androidUtils.checkStoragePermission())
                         libraryV.libraryfileDialog.visible = true
                     else
@@ -188,6 +188,15 @@ ApplicationWindow  {
                 Layout.leftMargin: 0
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-reload.svg"
+                onClicked:{
+                }
+            }
+            ToolButton {
+                id: infoBtn
+                visible: win.showInfohBtn
+                Layout.leftMargin: 0
+                Layout.rightMargin: 20  // Add right padding of 20 units
+                icon.source: "qrc:/qml/icons/cil-info.svg"
                 onClicked:{
                 }
             }
@@ -210,6 +219,7 @@ ApplicationWindow  {
                         win.mentitle="Library"
                         win.showAddbtn=true
                         win.showRefreshBtn=false
+                        win.showInfohBtn=false
                         libraryBtn.activated=true
                         videosBtn.activated=false
                         settingsBtn.activated=false
@@ -230,6 +240,7 @@ ApplicationWindow  {
                         win.mentitle="Videos"
                         win.showAddbtn=false
                         win.showRefreshBtn=true
+                        win.showInfohBtn=false
                         libraryBtn.activated=false
                         videosBtn.activated=true
                         settingsBtn.activated=false
@@ -247,7 +258,8 @@ ApplicationWindow  {
                     if(!activated){
                         win.mentitle="Settings"
                         win.showAddbtn=false
-                        win.showRefreshBtn=true
+                        win.showRefreshBtn=false
+                        win.showInfohBtn=true
                         libraryBtn.activated=false
                         videosBtn.activated=false
                         settingsBtn.activated=true

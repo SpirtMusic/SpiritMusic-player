@@ -25,5 +25,6 @@
         <file>qml/icons/delete.png</file>
         <file>qml/icons/cil-chevron-double-left.svg</file>
         <file>qml/icons/cil-chevron-double-right.svg</file>
+        <file>qml/icons/cil-info.svg</file>
     </qresource>
 </RCC>
