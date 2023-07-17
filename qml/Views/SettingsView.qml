@@ -119,12 +119,7 @@ Item {
                 }
 
             }
-            Image {
-                id: logo
-                source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-256px.png"
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                antialiasing: true
-            }
+
             Button{
                 Material.foreground: Material.Red
                 id:clearDbBtn
@@ -138,12 +133,7 @@ Item {
                 id:copiedTollTip
                 timeout: 2000
             }
-            Label {
-                id: aboutVersion
-                text: qsTr("Vesion 1.0")
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                Layout.bottomMargin: 5
-            }
+
 
         }
     }

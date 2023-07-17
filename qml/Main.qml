@@ -78,7 +78,8 @@ ApplicationWindow  {
                 Label {
                     id: website
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    text:"Website: www.onlinemusikschule.info"
+                    text: "Website: <a href='https://www.onlinemusikschule.info'>www.onlinemusikschule.info</a>"
+                    onLinkActivated:Qt.openUrlExternally("https://www.onlinemusikschule.info")
                 }
                 Label {
                     id: serialValue2
@@ -110,8 +111,15 @@ ApplicationWindow  {
                 }
                 Label {
                     id: email4
-                    text: qsTr("Phone: +43 680 2090144")
+
+                    text: "Phone: <a href='+43 680 2090144'>+43 680 2090144</a>"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    onLinkActivated: {
+
+                        var url = "tel:+43 680 2090144";
+                        Qt.openUrlExternally(url)
+
+                    }
                 }
 
             }
