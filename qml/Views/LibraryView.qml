@@ -29,12 +29,8 @@ Item {
         {
             videoNumbers=0
             var data =  file.read()
-            var videonumbers = [];
-            for(var i=0;i<data.videos.length;i++)
-            {
-                videoNumbers=videoNumbers+i
-            }
-            return videoNumbers+1
+            videoNumbers=data.videos.length
+            return videoNumbers
         }
         function getvidoesInfo(file)
         {
@@ -253,7 +249,7 @@ Item {
         modality: Qt.WindowModal
         fileMode: FileDialog.OpenFiles
         onAccepted: {
-  console.log(libraryfileDialog.files)
+            console.log(libraryfileDialog.files)
             var projectFile= filterSngvFiles(libraryfileDialog.files)
             console.log(projectFile)
             //            console.log("You chose: " + libraryfileDialog.currentFile)
