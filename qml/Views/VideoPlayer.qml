@@ -7,7 +7,7 @@ Rectangle {
     id: videoPlayerWindow
     visible: false
     color: "#00ffffff"
-      anchors.fill: parent
+    anchors.fill: parent
     property Video player: player
     property real recWidth: columnLayout.implicitHeight
 
@@ -91,11 +91,11 @@ Rectangle {
             switch (player.fillMode) {
             case VideoOutput.Stretch:
                 player.fillMode = VideoOutput.PreserveAspectCrop
-                 infoTollTip.show("PreserveAspectCrop")
+                infoTollTip.show("PreserveAspectCrop")
                 break
             case VideoOutput.PreserveAspectCrop:
                 player.fillMode = VideoOutput.PreserveAspectFit
-                 infoTollTip.show("PreserveAspectFit")
+                infoTollTip.show("PreserveAspectFit")
                 break
             case VideoOutput.PreserveAspectFit:
                 player.fillMode = VideoOutput.Stretch
@@ -201,10 +201,14 @@ Rectangle {
                         player.position = player.duration * progressSlider.position
                     }
                     onPressedChanged: {
-                        if(pressed)
+                        if(pressed){
                             console.log("pressed")
-                        else
+                            timeranimationMenu.stop()
+                        }
+                        else{
                             console.log("released")
+                            timeranimationMenu.restart()
+                        }
                     }
                 }
 
@@ -225,7 +229,10 @@ Rectangle {
                     id: rotateBtn
                     Layout.alignment: Qt.AlignLeft
                     Layout.leftMargin: 30
-                    onClicked: videoInternal.toggleOrientation()
+                    onClicked: {
+                        videoInternal.toggleOrientation()
+                        timeranimationMenu.restart()
+                    }
 
                 }
                 RowLayout {
@@ -237,8 +244,11 @@ Rectangle {
                         id: decreaseSpeed
                         Layout.alignment:  Qt.AlignLeft
                         icon.source: "qrc:/qml/icons/cil-chevron-double-left.svg"
-                        onClicked: player.updatePlaybackRate(
-                                       -0.1) // decrease the playback rate by 0.1
+                        onClicked:{
+                            player.updatePlaybackRate(
+                                        -0.1) // decrease the playback rate by 0.1
+                            timeranimationMenu.restart()
+                        }
                     }
                     ToolButton {
                         id: playPauseBtn
@@ -250,8 +260,10 @@ Rectangle {
                         onClicked: {
                             if (player.playbackState === MediaPlayer.PlayingState) {
                                 player.pause()
+                                timeranimationMenu.restart()
                             } else {
                                 player.play()
+                                timeranimationMenu.restart()
                             }
 
                             // Toggle rotation
@@ -285,8 +297,11 @@ Rectangle {
                     ToolButton {
                         id: increaseSpeed
                         Layout.alignment: Qt.AlignRight
-                        onClicked: player.updatePlaybackRate(
-                                       0.1) // increase the playback rate by 0.1
+                        onClicked: {
+                            player.updatePlaybackRate(
+                                        0.1) // increase the playback rate by 0.1
+                            timeranimationMenu.restart()
+                        }
                         icon.source: "qrc:/qml/icons/cil-chevron-double-right.svg"
 
                     }
@@ -297,7 +312,10 @@ Rectangle {
                     Layout.alignment: Qt.AlignRight
                     id:switchFillModeBtn
                     icon.source: "qrc:/qml/icons/cil-flip-to-front.svg"
-                    onClicked: player.switchFillMode()
+                    onClicked:{
+                        player.switchFillMode()
+                        timeranimationMenu.restart()
+                    }
                 }
 
 
