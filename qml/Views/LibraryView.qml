@@ -187,6 +187,7 @@ Item {
                         font.pixelSize: 16
                         wrapMode: Text.WordWrap
                         Layout.alignment: Qt.AlignLeft
+
                     }
 
                 }

@@ -33,6 +33,92 @@ ApplicationWindow  {
             swipeView.currentIndex = 2
         }
     }
+    Popup {
+        id:popUpAbout
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        rightMargin:20
+        leftMargin: 20
+        topMargin: 20
+        bottomMargin: 20
+        modal: true
+
+        contentWidth: view.implicitWidth
+        contentHeight: view.implicitHeight
+        ScrollView{
+
+            id: view
+            anchors.fill: parent
+
+            contentWidth: columnLayout.implicitWidth
+            contentHeight: columnLayout.implicitHeight
+            ColumnLayout {
+                id:columnLayout
+                anchors.fill: parent
+                spacing: 40
+                Label {
+                    id: aboutVersion233
+                    text: qsTr("About")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.bottomMargin: 5
+                    font.bold: true
+                }
+                Image {
+                    id: logo23
+                    source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-256px.png"
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    antialiasing: true
+                }
+                Label {
+                    id: aboutVersion23
+                    text: qsTr("Vesion 1.0")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.bottomMargin: 15
+                }
+                Label {
+                    id: website
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    text:"Website: www.onlinemusikschule.info"
+                }
+                Label {
+                    id: serialValue2
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    text:"Top Shop Group Ltd."
+
+                }
+                Label {
+                    id: serialValue3
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    text:"Covent Garden"
+
+                }
+                Label {
+                    id: serialValue4
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    text:"London, WC2H 9JQ"
+
+                }
+                Label {
+                    id: email
+                    text: qsTr("Email: support@onlinemusikschule.info")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                }
+                Label {
+                    id: email2
+                    text: qsTr("Helmut Eder")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                }
+                Label {
+                    id: email4
+                    text: qsTr("Phone: +43 680 2090144")
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                }
+
+            }
+
+        }
+
+    }
     function checkActivation(){
         var deviceID=androidUtils.getAndroidID()
         var serianN=ActivateSys.getEncryptedId()
@@ -198,6 +284,7 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-info.svg"
                 onClicked:{
+                    popUpAbout.open()
                 }
             }
         }
@@ -310,8 +397,10 @@ ApplicationWindow  {
     }
     onClosing: function(close) {
         close.accepted = false
-        if(popupInfo.visible==true)
+        if(popupInfo.visible==true|| popUpAbout.visible==true){
             popupInfo.close()
+            popUpAbout.close()
+        }
         else if(win.videoPlayerWindow!=null)
         {
             if(win.videoPlayerWindow.currentOrientation==0)
