@@ -139,6 +139,7 @@ ApplicationWindow  {
         contentItem: Text {
             id:popupInfoText
             text: "Content"
+            color:"white"
         }
         modal: true
         focus: true
