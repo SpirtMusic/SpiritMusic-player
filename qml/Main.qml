@@ -133,22 +133,22 @@ ApplicationWindow  {
     }
     Connections {
         target: fileCrypto
-        onEncryptionVideoProgressChanged:(progress) =>  {
-                                             // Handle the signal here
-                                             console.log("Encryption video progress changed:", progress)
-                                             if(popupInfo.visible!=true)
-                                             popupInfo.open()
-                                             popupInfoText.text="Loading video : "+progress+" %"
-                                         }
-        onDecryptionVideoFinished:(fullname) => {
-                                      popupInfo.close()
-                                      internal.createVideoPlayerWindow()
-                                      win.videoPlayerWindow.player.source="file://"+fullname
-                                      console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
-                                      internal.playMode()
-                                      win.videoPlayerWindow.visible=true
-                                      win.videoPlayerWindow.player.play()
-                                  }
+        function onEncryptionVideoProgressChanged(progress) {
+            // Handle the signal here
+            console.log("Encryption video progress changed:", progress)
+            if(popupInfo.visible!=true)
+                popupInfo.open()
+            popupInfoText.text="Loading video : "+progress+" %"
+        }
+        function onDecryptionVideoFinished(fullname) {
+            popupInfo.close()
+            internal.createVideoPlayerWindow()
+            win.videoPlayerWindow.player.source="file://"+fullname
+            console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
+            internal.playMode()
+            win.videoPlayerWindow.visible=true
+            win.videoPlayerWindow.player.play()
+        }
     }
     // TODO: fix owned by unique_fd
     function playVideo(videoPath){
