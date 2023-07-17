@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 6.3
 import QtQuick.Layouts 1.3
 import "qrc:/qml/Database.js" as DB
@@ -49,7 +49,6 @@ Item {
                     }
                     Component.onCompleted: {
                         checkStatus()
-
                     }
                 }
             }
@@ -104,7 +103,7 @@ Item {
                 text: "A"
             }
 
-            ToolButton{
+            Button{
                 id:activeBtn
                 text:"Active"
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -126,15 +125,13 @@ Item {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                 antialiasing: true
             }
-            ToolButton{
+            Button{
+                Material.foreground: Material.Red
                 id:clearDbBtn
-                text:"Clean Database"
+                text:"Clean Library"
                 onClicked:  {
-                    ActivateSys.cleanSerial()
-                    statusValue.checkStatus()
-                    console.log("cleaaan")
+                    DB.dbRemove()
                 }
-                // DB.dbRemove()
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             }
             ToolTip {
