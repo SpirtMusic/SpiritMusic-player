@@ -7,7 +7,6 @@ import QtQuick.Dialogs
 import Qt.labs.platform
 import "Views"
 import "controls"
-
 ApplicationWindow  {
     property string mentitle: "title"
     property bool showAddbtn: true
@@ -16,6 +15,7 @@ ApplicationWindow  {
     property var videoList: []
     property var currentPathPack
     property var currentVideoname
+     property string currentVideoDesc: ""
     property VideoPlayer videoPlayerWindow
     Material.theme: Material.Dark
     Material.accent: Material.Blue
@@ -46,10 +46,8 @@ ApplicationWindow  {
         contentWidth: view.implicitWidth
         contentHeight: view.implicitHeight
         ScrollView{
-
             id: view
             anchors.fill: parent
-
             contentWidth: columnLayout.implicitWidth
             contentHeight: columnLayout.implicitHeight
             ColumnLayout {
