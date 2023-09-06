@@ -39,6 +39,43 @@ Rectangle {
             }
         }
     }
+    Popup {
+        id:popUpAboutVideo
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        rightMargin:20
+        leftMargin: 20
+        topMargin: 20
+        bottomMargin: 20
+        modal: true
+
+        contentWidth: view.implicitWidth
+        contentHeight: view.implicitHeight
+        ScrollView{
+            id: view
+            anchors.fill: parent
+            //    contentWidth: aboutvideoLabel.implicitWidth
+            //     contentHeight: aboutvideoLabel.implicitHeight
+            TextArea{
+                id:aboutvideoLabel
+                text:win.currentVideoDesc
+                wrapMode: TextArea.WordWrap // Allow text to wrap to new lines
+                width: view.width // Set the width of the TextArea to the width of the ScrollView
+                height: view.height // Set the height of the TextArea to the height of the ScrollView
+
+                readOnly: true // Make the TextArea non-editable
+                selectByMouse: false // Disable text selection
+
+
+
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+
+            }
+        }
+    }
     MouseArea {
         id: clickPlace
         anchors.fill: parent
@@ -324,9 +361,8 @@ Rectangle {
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: 20
                     icon.source:"qrc:/qml/icons/cil-options.svg"
-
+                    onClicked: popUpAboutVideo.open()
                 }
-
             }
         }
         height: recWidth + rotateBtn.implicitHeight
