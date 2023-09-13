@@ -15,7 +15,7 @@ ApplicationWindow  {
     property var videoList: []
     property var currentPathPack
     property var currentVideoname
-     property string currentVideoDesc: ""
+    property string currentVideoDesc: ""
     property VideoPlayer videoPlayerWindow
     Material.theme: Material.Dark
     Material.accent: Material.Blue
@@ -139,11 +139,19 @@ ApplicationWindow  {
     }
     Connections {
         target: fileCrypto
+        function onPreparingVideoProgressChanged(){
+            if(popupInfo.visible!=true)
+                popupInfo.open()
+            popupInfoText.text="Preparing video "
+            popupInfoBusyIndicator.visible=true
+        }
+
         function onEncryptionVideoProgressChanged(progress) {
             // Handle the signal here
             console.log("Encryption video progress changed:", progress)
             if(popupInfo.visible!=true)
                 popupInfo.open()
+             popupInfoBusyIndicator.visible=false
             popupInfoText.text="Loading video : "+progress+" %"
         }
         function onDecryptionVideoFinished(fullname) {
@@ -229,10 +237,16 @@ ApplicationWindow  {
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
 
-        contentItem: Text {
-            id:popupInfoText
-            text: "Content"
-            color:"white"
+        contentItem: RowLayout{
+            Text {
+                id:popupInfoText
+                text: "Content"
+                color:"white"
+            }
+            BusyIndicator{
+                id:popupInfoBusyIndicator
+                visible: false
+            }
         }
         modal: true
         focus: true

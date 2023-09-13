@@ -174,6 +174,7 @@ QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &out
         QByteArray buffer(chunkSize, 0);
 
         while (!inputFile.atEnd()) {
+            emit preparingVideoProgressChanged();
             qint64 bytesRead = inputFile.read(buffer.data(), chunkSize);
             QByteArray chunk(buffer.constData(), bytesRead);
             chunks.append(chunk);
