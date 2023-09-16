@@ -14,6 +14,7 @@ Item {
     property color materialLightBlue: Material.color(Material.BlueGrey)
     property color overlayColor: Material.color(Material.Blue)
     property FileDialog libraryfileDialog: libraryfileDialog
+    property ListModel libraryListModel: libraryListModel
     QtObject {
         id: jsonOperator
         property string packName
