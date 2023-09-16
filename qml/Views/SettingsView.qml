@@ -126,6 +126,8 @@ Item {
                 text:"Clean Library"
                 onClicked:  {
                     DB.dbRemove()
+                    DB.dbReadAll()
+                    win.libraryV.libraryListModel.libraryListModelUpdate()
                 }
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             }

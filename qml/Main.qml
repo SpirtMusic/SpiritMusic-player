@@ -103,13 +103,7 @@ ApplicationWindow  {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 }
                 Label {
-                    id: email2
-                    text: qsTr("Helmut Eder")
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                }
-                Label {
                     id: email4
-
                     text: "Phone: <a href='+43 680 2090144'>+43 680 2090144</a>"
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     onLinkActivated: {
