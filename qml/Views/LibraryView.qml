@@ -263,6 +263,7 @@ Item {
             console.log("selectedFilePath"+selectedFilePath)
             //            //  win.testplayVideo("content://com.android.externalstorage.documents/document/primary%3ADCIM%2Ftest3.mp4")
             //            console.log("selectedFilePath"+selectedFilePath)
+            DB.dbInit()
             DB.dbInsert(name, selectedFilePath,videon)
             DB.dbReadAll()
             //            //   win.testplayVideo(selectedFilePath)
