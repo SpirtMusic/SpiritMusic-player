@@ -17,6 +17,7 @@ ApplicationWindow  {
     property var currentVideoname
     property string currentVideoDesc: ""
     property VideoPlayer videoPlayerWindow
+    property LibraryView libraryV:libraryV
     Material.theme: Material.Dark
     Material.accent: Material.Blue
     id:win
@@ -145,7 +146,7 @@ ApplicationWindow  {
             console.log("Encryption video progress changed:", progress)
             if(popupInfo.visible!=true)
                 popupInfo.open()
-             popupInfoBusyIndicator.visible=false
+            popupInfoBusyIndicator.visible=false
             popupInfoText.text="Loading video : "+progress+" %"
         }
         function onDecryptionVideoFinished(fullname) {
