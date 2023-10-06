@@ -17,6 +17,7 @@ public:
     QString createCustomPath();
     Q_INVOKABLE QString getoutputFullFilename() const;
     void setoutputFullFilename(const QString& newFilename);
+    void createTempDir(const QString &templatePath);
     ~AES();
 signals:
     void encryptionVideoProgressChanged(int progress);
@@ -24,8 +25,9 @@ signals:
     void decryptionVideoFinished(const QString &fullpathname);
     void decryptionProjectFinished(const QString &projecFile);
 private:
-    QTemporaryDir dir;
+    QTemporaryDir *tempDir;
     QString outputFullFilename;
+    QString m_customPath;
 };
 
 #endif // AES_H

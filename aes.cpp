@@ -5,9 +5,9 @@
 #include <QCryptographicHash>
 #include <QDebug>
 AES::AES(QObject *parent)
-    : QObject{parent}, dir(createCustomPath())
+    : QObject{parent},tempDir(nullptr)
 {
-    setoutputFullFilename(dir.path());
+    m_customPath=createCustomPath();
 }
 QVariant AES::encrypt(const QString& filePath, QByteArray key)
 {
@@ -138,13 +138,16 @@ QFuture<bool> AES::encryptVideo(const QString &inputFilePath, const QString &out
 QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &outputFilePath, const QByteArray &encryptionKey)
 {
     return QtConcurrent::run([this, inputFilePath, outputFilePath, encryptionKey]() {
+        createTempDir(m_customPath);
+        setoutputFullFilename(tempDir->path());
         // TODO: check file is exist before
-        if (!dir.isValid()) {
+        if (!tempDir->isValid()) {
             return false;
         }
         QUrl url(inputFilePath);
         QString local_inputFilePath = url.isLocalFile() ? url.toLocalFile() : inputFilePath;
         qDebug() << "FILES: " << local_inputFilePath;
+
 
         QString _fullname = getoutputFullFilename();
         QString fullname = _fullname + "/" + outputFilePath;
@@ -229,13 +232,27 @@ QString AES::createCustomPath() {
     QString folder = "Video";
     QString customPath = cacheLocation + "/" + folder+ "/";
     // Delete all files and folders within the customPath
-    QDir dir(customPath);
-    dir.removeRecursively();
+    QDir dirCustomPath(customPath);
+    dirCustomPath.removeRecursively();
     QDir().mkpath(customPath);
     return customPath;
 }
+void AES::createTempDir(const QString &templatePath){
+
+    if (tempDir != nullptr && tempDir->isValid()) {
+        delete tempDir;
+    }
+    tempDir = new QTemporaryDir(templatePath);
+    if (!tempDir->isValid()) {
+        qDebug() << "Not created ! ! ";
+        // Handle error, e.g., by throwing an exception or returning an error code
+    }
+}
 AES::~AES()
 {
+    if (tempDir != nullptr) {
+        delete tempDir;
+    }
     // Destructor implementation
     //   dir.removeRecursively();
 }
