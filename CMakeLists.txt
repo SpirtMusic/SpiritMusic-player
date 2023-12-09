@@ -21,6 +21,8 @@ qt_add_executable(appsonegx-player-android
     jsonfile.h jsonfile.cpp
     serialgenerator.h serialgenerator.cpp
     qaesencryption.cpp qaesencryption.h
+    QMpv/qmpv.cpp
+    QMpv/qmpv.h
     ${ADDITIONAL_SOURCE_FILES}
     ${QMLRC}
     ${ICONSRC}
