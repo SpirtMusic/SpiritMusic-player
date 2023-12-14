@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 11.0.3, 2023-12-09T18:31:54. -->
+<!-- Written by QtCreator 11.0.3, 2023-12-14T20:03:59. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -91,9 +91,9 @@
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="DeviceType">Android.Device.Type</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Android Qt 6.6.0 Clang arm64-v8a</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Android Qt 6.6.0 Clang arm64-v8a</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{9fceae5f-dce1-4958-8ba3-97183ea1e2d9}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Android Qt 6.6.0 Clang armeabi-v7a</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Android Qt 6.6.0 Clang armeabi-v7a</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{adaa1068-934c-4e34-8187-5d1625ad88be}</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="qlonglong" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>
@@ -113,7 +113,7 @@
 -DANDROID_NDK:PATH=/home/akram/Android/Sdk/ndk/25.1.8937393
 -DCMAKE_TOOLCHAIN_FILE:FILEPATH=/home/akram/Android/Sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake
 -DANDROID_USE_LEGACY_TOOLCHAIN_FILE:BOOL=OFF
--DANDROID_ABI:STRING=arm64-v8a
+-DANDROID_ABI:STRING=armeabi-v7a
 -DANDROID_STL:STRING=c++_shared
 -DCMAKE_FIND_ROOT_PATH:PATH=%{Qt:QT_INSTALL_PREFIX}
 -DQT_NO_GLOBAL_APK_TARGET_PART_OF_ALL:BOOL=ON
@@ -121,7 +121,7 @@
 -DANDROID_SDK_ROOT:PATH=/home/akram/Android/Sdk
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
     <value type="int" key="EnableQmlDebugging">0</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_arm64_v8a-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_armeabi_v7a-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -189,14 +189,14 @@
 -DANDROID_NDK:PATH=/home/akram/Android/Sdk/ndk/25.1.8937393
 -DCMAKE_TOOLCHAIN_FILE:FILEPATH=/home/akram/Android/Sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake
 -DANDROID_USE_LEGACY_TOOLCHAIN_FILE:BOOL=OFF
--DANDROID_ABI:STRING=arm64-v8a
+-DANDROID_ABI:STRING=armeabi-v7a
 -DANDROID_STL:STRING=c++_shared
 -DCMAKE_FIND_ROOT_PATH:PATH=%{Qt:QT_INSTALL_PREFIX}
 -DQT_NO_GLOBAL_APK_TARGET_PART_OF_ALL:BOOL=ON
 -DQT_HOST_PATH:PATH=%{Qt:QT_HOST_PREFIX}
 -DANDROID_SDK_ROOT:PATH=/home/akram/Android/Sdk
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_arm64_v8a-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_armeabi_v7a-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -262,14 +262,14 @@
 -DANDROID_NDK:PATH=/home/akram/Android/Sdk/ndk/25.1.8937393
 -DCMAKE_TOOLCHAIN_FILE:FILEPATH=/home/akram/Android/Sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake
 -DANDROID_USE_LEGACY_TOOLCHAIN_FILE:BOOL=OFF
--DANDROID_ABI:STRING=arm64-v8a
+-DANDROID_ABI:STRING=armeabi-v7a
 -DANDROID_STL:STRING=c++_shared
 -DCMAKE_FIND_ROOT_PATH:PATH=%{Qt:QT_INSTALL_PREFIX}
 -DQT_NO_GLOBAL_APK_TARGET_PART_OF_ALL:BOOL=ON
 -DQT_HOST_PATH:PATH=%{Qt:QT_HOST_PREFIX}
 -DANDROID_SDK_ROOT:PATH=/home/akram/Android/Sdk
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_arm64_v8a-RelWithDebInfo</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_armeabi_v7a-RelWithDebInfo</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -335,7 +335,7 @@
 -DANDROID_NDK:PATH=/home/akram/Android/Sdk/ndk/25.1.8937393
 -DCMAKE_TOOLCHAIN_FILE:FILEPATH=/home/akram/Android/Sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake
 -DANDROID_USE_LEGACY_TOOLCHAIN_FILE:BOOL=OFF
--DANDROID_ABI:STRING=arm64-v8a
+-DANDROID_ABI:STRING=armeabi-v7a
 -DANDROID_STL:STRING=c++_shared
 -DCMAKE_FIND_ROOT_PATH:PATH=%{Qt:QT_INSTALL_PREFIX}
 -DQT_NO_GLOBAL_APK_TARGET_PART_OF_ALL:BOOL=ON
@@ -343,7 +343,7 @@
 -DANDROID_SDK_ROOT:PATH=/home/akram/Android/Sdk
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
     <value type="int" key="EnableQmlDebugging">0</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_arm64_v8a-Profile</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_armeabi_v7a-Profile</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -409,14 +409,14 @@
 -DANDROID_NDK:PATH=/home/akram/Android/Sdk/ndk/25.1.8937393
 -DCMAKE_TOOLCHAIN_FILE:FILEPATH=/home/akram/Android/Sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake
 -DANDROID_USE_LEGACY_TOOLCHAIN_FILE:BOOL=OFF
--DANDROID_ABI:STRING=arm64-v8a
+-DANDROID_ABI:STRING=armeabi-v7a
 -DANDROID_STL:STRING=c++_shared
 -DCMAKE_FIND_ROOT_PATH:PATH=%{Qt:QT_INSTALL_PREFIX}
 -DQT_NO_GLOBAL_APK_TARGET_PART_OF_ALL:BOOL=ON
 -DQT_HOST_PATH:PATH=%{Qt:QT_HOST_PREFIX}
 -DANDROID_SDK_ROOT:PATH=/home/akram/Android/Sdk
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_arm64_v8a-MinSizeRel</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/akram/Projects/build-sonegx-player-android-Android_Qt_6_6_0_Clang_armeabi_v7a-MinSizeRel</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="QString" key="CMakeProjectManager.MakeStep.BuildPreset"></value>
@@ -490,7 +490,7 @@
      <value type="QString">armeabi-v7a</value>
      <value type="QString">armeabi</value>
     </valuelist>
-    <value type="QString" key="AndroidDeviceSerialNumber">192.168.1.39:5555</value>
+    <value type="QString" key="AndroidDeviceSerialNumber">4905168f</value>
     <value type="int" key="AndroidVersion.ApiLevel">31</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.0">
