@@ -3,12 +3,13 @@ import QtQuick.Controls 2.15
 import QtMultimedia
 import QtQuick.Dialogs
 import QtQuick.Layouts 1.3
+import QMpv 1.0
 Rectangle {
     id: videoPlayerWindow
     visible: false
     color: "#00ffffff"
     anchors.fill: parent
-    property Video player: player
+    property MPV player: player
     property real recWidth: columnLayout.implicitHeight
 
     readonly property int android_SCREEN_ORIENTATION_LANDSCAPE: 0
@@ -108,7 +109,7 @@ Rectangle {
             timeout: 1000
         }
     }
-    Video {
+    MPV {
         id:player
 
         anchors.fill: parent
@@ -154,9 +155,9 @@ Rectangle {
             }
             infoTollTip.show("Speed: "+ playbackRate.toFixed(1)+"x")
         }
-        onErrorChanged: {
-            console.log("Video Error:", player.errorString)
-        }
+//        onErrorChanged: {
+//            console.log("Video Error:", player.errorString)
+//        }
 
 
     }
@@ -232,7 +233,7 @@ Rectangle {
                 Slider {
                     id: progressSlider
                     Layout.fillWidth: true
-                    enabled: player.seekable
+                    //enabled: player.seekable
                     value: player.duration > 0 ? player.position / player.duration : 0
                     onMoved: function () {
                         player.position = player.duration * progressSlider.position
