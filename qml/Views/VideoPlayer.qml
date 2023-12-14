@@ -39,6 +39,17 @@ Rectangle {
                 currentOrientation = android_SCREEN_ORIENTATION_PORTRAIT;
             }
         }
+        function secondsToTimeString(durationInSeconds) {
+            var hours = Math.floor(durationInSeconds / 3600);
+            var minutes = Math.floor((durationInSeconds % 3600) / 60);
+            var seconds = Math.floor(durationInSeconds % 60);
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+            return hours + ":" + minutes + ":" + seconds;
+        }
     }
     Popup {
         id:popUpAboutVideo
@@ -208,13 +219,13 @@ Rectangle {
                 spacing: 10
                 Layout.minimumWidth: parent.width // Set the minimum width to parent width
                 Label {
-                    text: videoInternal.msToTimeString(player.position)
+                    text: videoInternal.secondsToTimeString(player.position)
                     Layout.alignment: Qt.AlignLeft
                     Layout.leftMargin: 20
                 }
 
                 Label {
-                    text: videoInternal.msToTimeString(player.duration)
+                    text: videoInternal.secondsToTimeString(player.duration)
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: 20
                 }
