@@ -34,17 +34,32 @@ qt_add_executable(appsonegx-player-android
     ${ICONSRC}
 
 )
+# Determine the architecture-specific suffix
+if(DEFINED ANDROID_ABI)
+    message("Detected Android ABI: ${ANDROID_ABI}")
+
+    # Set ARCH variable based on the detected ANDROID_ABI
+    if(${ANDROID_ABI} STREQUAL "armeabi-v7a")
+        set(ARCH "armeabi_v7a")
+    elseif(${ANDROID_ABI} STREQUAL "arm64-v8a")
+        set(ARCH "arm64_v8a")
+    else()
+        message(FATAL_ERROR "Unsupported Android ABI: ${ANDROID_ABI}")
+    endif()
+else()
+    message(FATAL_ERROR "ANDROID_ABI not defined. Make sure you are using the Qt CMake toolchain for Android.")
+endif()
 set(APPLICATION_LIBS_BIN
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libMpvQt.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libmpv.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libswscale.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libswresample.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavutil.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavformat.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavfilter.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavdevice.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavcodec.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libpostproc.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libMpvQt_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libmpv_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libswscale_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libswresample_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavutil_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavformat_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavfilter_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavdevice_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavcodec_${ARCH}.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libpostproc_${ARCH}.so
 )
 qt_add_qml_module(appsonegx-player-android
     URI sonegx-player-android
@@ -62,7 +77,7 @@ set_target_properties(appsonegx-player-android PROPERTIES
 )
 
 target_link_libraries(appsonegx-player-android
-    PRIVATE  Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets   ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libMpvQt.so
+    PRIVATE  Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets   ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libMpvQt_${ARCH}.so
 )
 
 install(TARGETS appsonegx-player-android
