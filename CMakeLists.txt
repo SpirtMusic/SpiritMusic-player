@@ -29,6 +29,7 @@ qt_add_executable(appsonegx-player-android
     qaesencryption.cpp qaesencryption.h
     QMpv/qmpv.cpp
     QMpv/qmpv.h
+    android/src/org/sonegx/sonegxplayer/MyUtils.java
     ${ADDITIONAL_SOURCE_FILES}
     ${QMLRC}
     ${ICONSRC}
@@ -61,6 +62,9 @@ set(APPLICATION_LIBS_BIN
     ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libavcodec_${ARCH}.so
     ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/libpostproc_${ARCH}.so
 )
+set(QT_ANDROID_PACKAGE_SOURCE
+${CMAKE_CURRENT_SOURCE_DIR}/android/
+)
 qt_add_qml_module(appsonegx-player-android
     URI sonegx-player-android
     VERSION 1.0
@@ -72,7 +76,7 @@ set_target_properties(appsonegx-player-android PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
-    QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
+    QT_ANDROID_PACKAGE_SOURCE_DIR "${QT_ANDROID_PACKAGE_SOURCE}"
     QT_ANDROID_EXTRA_LIBS "${APPLICATION_LIBS_BIN}"
 )
 

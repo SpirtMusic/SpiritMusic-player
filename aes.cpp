@@ -4,10 +4,80 @@
 #include <QFileInfo>
 #include <QCryptographicHash>
 #include <QDebug>
+#include <QJniObject>
+#include <QJniEnvironment>
+#include <QUrl>
+#include <QDir>
+#include <QtCore/private/qandroidextras_p.h>
 AES::AES(QObject *parent)
     : QObject{parent},tempDir(nullptr)
 {
     m_customPath=createCustomPath();
+}
+QString AES::convertUriToPath(const QString &uriString){
+    qDebug()<<"uriString : "<<uriString;
+    // Create a QJniObject from the URI string
+    QJniObject uriObject = QJniObject::fromString(uriString);
+    QJniObject uri = QJniObject::callStaticObjectMethod(
+        "android/net/Uri",
+        "parse",
+        "(Ljava/lang/String;)Landroid/net/Uri;",
+        uriObject.object<jstring>()
+        );
+
+    // Get the context from the main application instance
+    QJniObject activity = QNativeInterface::QAndroidApplication::context();
+    QJniObject context = activity.callObjectMethod("getApplicationContext", "()Landroid/content/Context;");
+    // Call the Java method to get the file path
+    QJniObject filePath= QJniObject::callStaticObjectMethod(
+        "org/sonegx/sonegxplayer/MyUtils",
+        "getPath",
+        "(Landroid/content/Context;Landroid/net/Uri;)Ljava/lang/String;",
+        context.object<jobject>(),
+        uri.object<jobject>()
+        );
+
+    // Check if filePath is null
+    if (!filePath.isValid()) {
+        qDebug() << "Error: Unable to get file path from URI";
+        return QString();  // Return an empty string on error
+    }
+
+    // Convert the Java string to a Qt string and return it
+    return QDir::fromNativeSeparators(filePath.toString());
+//    // Create a QJniObject from the URI string
+//    QJniObject uriObject = QJniObject::fromString(uriString);
+
+//    // Get the Java environment
+//    QJniEnvironment env;
+
+//    // Call the appropriate Java method to get the path
+//    QJniObject pathObject = QJniObject::callStaticObjectMethod(
+//        "android/net/Uri",
+//        "parse",
+//        "(Ljava/lang/String;)Landroid/net/Uri;",
+//        env->NewStringUTF(uriString.toStdString().c_str())
+//        );
+
+//    // Check if pathObject is null
+//    if (!pathObject.isValid()) {
+//        qDebug() << "Error: Unable to parse URI";
+//        return QString();  // Return an empty string on error
+//    }
+
+//    QJniObject pathString = pathObject.callObjectMethod(
+//        "getPath",
+//        "()Ljava/lang/String;"
+//        );
+
+//    // Check if pathString is null
+//    if (!pathString.isValid()) {
+//        qDebug() << "Error: Unable to get path from URI";
+//        return QString();  // Return an empty string on error
+//    }
+
+//    // Convert the Java string to a Qt string and return it
+//    return QDir::fromNativeSeparators(pathString.toString());
 }
 QVariant AES::encrypt(const QString& filePath, QByteArray key)
 {
@@ -137,6 +207,7 @@ QFuture<bool> AES::encryptVideo(const QString &inputFilePath, const QString &out
 
 QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &outputFilePath, const QByteArray &encryptionKey)
 {
+
     return QtConcurrent::run([this, inputFilePath, outputFilePath, encryptionKey]() {
         createTempDir(m_customPath);
         setoutputFullFilename(tempDir->path());
@@ -145,11 +216,16 @@ QFuture<bool> AES::decryptVideo(const QString &inputFilePath, const QString &out
             return false;
         }
         QUrl url(inputFilePath);
+
         QString local_inputFilePath = url.isLocalFile() ? url.toLocalFile() : inputFilePath;
         qDebug() << "FILES: " << local_inputFilePath;
 
 
         QString _fullname = getoutputFullFilename();
+        QString file=inputFilePath+_fullname;
+         QUrl url2(file);
+        QString local_inputFilePath2 = url2.toLocalFile();
+            qDebug() << "FILES local_inputFilePath2 : " << local_inputFilePath2;
         QString fullname = _fullname + "/" + outputFilePath;
         QFile inputFile(local_inputFilePath);
         QFile outputFile(fullname);

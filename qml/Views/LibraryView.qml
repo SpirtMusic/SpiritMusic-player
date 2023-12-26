@@ -253,23 +253,26 @@ Item {
             console.log(libraryfileDialog.files)
             var projectFile= filterSngvFiles(libraryfileDialog.files)
             console.log(projectFile)
-            //            console.log("You chose: " + libraryfileDialog.currentFile)
-            //  console.log("You chose: " + libraryfileDialog.currentFile)
+
             JsonFile.name = projectFile
             var name =jsonOperator.getInfopack(JsonFile)
             var videon=jsonOperator.getvideoNumbers(JsonFile)
 
             selectedFilePath =projectFile
             console.log("selectedFilePath"+selectedFilePath)
-            //            //  win.testplayVideo("content://com.android.externalstorage.documents/document/primary%3ADCIM%2Ftest3.mp4")
-            //            console.log("selectedFilePath"+selectedFilePath)
+
             DB.dbInit()
             DB.dbInsert(name, selectedFilePath,videon)
             DB.dbReadAll()
-            //            //   win.testplayVideo(selectedFilePath)
+
             libraryListModel.libraryListModelUpdate()
 
-            //            console.log("vidoesInfo"+jsonOperator.getvidoesInfo(JsonFile))
+
+//            var path = libraryfileDialog.currentFile
+//            console.log("path "+path)
+//            var real_path=fileCrypto.convertUriToPath(path)
+//            console.log("real_path "+real_path)
+
             return
         }
         onRejected: {

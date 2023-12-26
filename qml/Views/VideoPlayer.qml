@@ -140,19 +140,19 @@ Rectangle {
             switch (player.fillMode) {
             case VideoOutput.Stretch:
                 player.fillMode = VideoOutput.PreserveAspectCrop
-                infoTollTip.show("PreserveAspectCrop")
+                infoTollTip.show("2:1")
                 break
             case VideoOutput.PreserveAspectCrop:
                 player.fillMode = VideoOutput.PreserveAspectFit
-                infoTollTip.show("PreserveAspectFit")
+                infoTollTip.show("4:3")
                 break
             case VideoOutput.PreserveAspectFit:
                 player.fillMode = VideoOutput.Stretch
-                infoTollTip.show("Stretch")
+                infoTollTip.show("16:9")
                 break
             default:
                 player.fillMode = VideoOutput.Stretch
-                infoTollTip.show("Stretch")
+                infoTollTip.show("16:9")
             }
             console.log(player.fillMode)
         }

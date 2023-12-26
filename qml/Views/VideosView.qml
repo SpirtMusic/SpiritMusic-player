@@ -67,6 +67,7 @@ Item {
                         win.currentVideoname=vbaseName
                         win.currentVideoDesc=desc
                         win.playVideo(win.currentPathPack+vbaseName)
+                        console.log("file name :"+win.currentPathPack+vbaseName)
 
                     }
                 }
