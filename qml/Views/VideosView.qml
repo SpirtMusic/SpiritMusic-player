@@ -66,9 +66,7 @@ Item {
                         console.log("Clicked on:")
                         win.currentVideoname=vbaseName
                         win.currentVideoDesc=desc
-                        win.playVideo(win.currentPathPack+vbaseName)
-                        console.log("file name :"+win.currentPathPack+vbaseName)
-
+                        win.playVideo(win.currentPathPack+"/"+vbaseName)
                     }
                 }
                 onPressAndHold: {

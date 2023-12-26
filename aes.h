@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QtConcurrent>
-#include <QFileInfo>
+
 class AES : public QObject
 {
     Q_OBJECT

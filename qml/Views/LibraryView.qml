@@ -128,8 +128,8 @@ Item {
                         console.log("onReleased on:", name.replace(/^"(.*)"$/, "$1"))
                         JsonFile.name=path
                         console.log(path)
-                        var newUrl = jsonOperator.removeProjectName(path);
-                        win.currentPathPack = newUrl
+                 //       var newUrl = jsonOperator.removeProjectName(path);
+                        win.currentPathPack =androidUtils.convertUriToPath(path)
                         win.videoList=jsonOperator.getvidoesInfo(JsonFile)
                         jsonOperator.getVideosInfoFinished()
                     }
@@ -248,7 +248,7 @@ Item {
         //  nameFilters: [ "Video files (*.mp4 *.flv *.ts *.mpg *.3gp *.ogv *.m4v *.mov)", "All files (*)" ]
         title: "Please choose a video file"
         modality: Qt.WindowModal
-        fileMode: FileDialog.OpenFiles
+        //fileMode: FileDialog.OpenFiles
         onAccepted: {
 //            console.log(libraryfileDialog.files)
 //            var projectFile= filterSngvFiles(libraryfileDialog.files)
@@ -268,10 +268,23 @@ Item {
 //            libraryListModel.libraryListModelUpdate()
 
 
-            var path = libraryfileDialog.currentFile
-            console.log("path "+path)
-            var real_path=fileCrypto.convertUriToPath(path)
-            console.log("real_path "+real_path)
+
+            var projectFile= libraryfileDialog.currentFile
+            JsonFile.name = projectFile
+            var name =jsonOperator.getInfopack(JsonFile)
+            var videon=jsonOperator.getvideoNumbers(JsonFile)
+
+            selectedFilePath =projectFile
+            DB.dbInit()
+            DB.dbInsert(name, projectFile,videon)
+            DB.dbReadAll()
+
+            libraryListModel.libraryListModelUpdate()
+
+//            var path = libraryfileDialog.currentFile
+//            console.log("path "+path)
+//            var real_path=androidUtils.convertUriToPath(path)
+//            console.log("real_path "+real_path)
 
             return
         }

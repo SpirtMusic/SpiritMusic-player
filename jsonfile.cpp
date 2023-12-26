@@ -84,6 +84,7 @@ QVariant JsonFile::read()
         return QVariant();
     }
     if (!m_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug()<<"cannot open file json";
         m_error = tr("cannot open file '%1' for reading: %2")
                       .arg(m_file.fileName()).arg((m_file.errorString()));
         return QVariant();

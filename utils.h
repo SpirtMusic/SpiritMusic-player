@@ -15,6 +15,8 @@
 #include <QCryptographicHash>
 #include <QJniObject>
 #include <QJniEnvironment>
+#include <QFileInfo>
+#include <QDir>
 class utils : public QObject
 {
     Q_OBJECT

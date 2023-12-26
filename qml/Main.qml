@@ -159,12 +159,22 @@ ApplicationWindow  {
             win.videoPlayerWindow.player.play()
         }
     }
+    function playNowVideo(fullname) {
+        popupInfo.close()
+        internal.createVideoPlayerWindow()
+        win.videoPlayerWindow.player.source=fullname
+        internal.playMode()
+        win.videoPlayerWindow.visible=true
+        win.videoPlayerWindow.player.play()
+    }
     // TODO: fix owned by unique_fd
     function playVideo(videoPath){
         if(checkActivation()){
-            console.log("videoPath"+videoPath)
+
             //  fileCrypto.encryptVideo("pack1/project2.sngvtest3.mp4","video3.dat0","1234")
-            fileCrypto.decryptVideo(videoPath,win.currentVideoname,"1234")
+          //  fileCrypto.decryptVideo(videoPath,win.currentVideoname,"1234")
+            console.log(videoPath)
+             playNowVideo(videoPath)
         }
         else
             activiationMsg.open()
