@@ -10,14 +10,18 @@
 #include <QFile>
 #include <QSettings>
 #include <QUuid>
- #include <QStandardPaths>
+#include <QStandardPaths>
 #include <QTextStream>
 #include <QCryptographicHash>
+#include <QJniObject>
+#include <QJniEnvironment>
 class utils : public QObject
 {
     Q_OBJECT
 public:
     explicit utils(QObject *parent = nullptr);
+    Q_INVOKABLE QString convertUriToPathFile(const QString &uriString);
+    Q_INVOKABLE QString convertUriToPath(const QString &uriString);
     Q_INVOKABLE QString getAndroidID()
     {
         //        if (!checkPermission()) {
@@ -32,14 +36,14 @@ public:
             if (contentResolver.isValid())
             {
                 QJniObject androidId = QJniObject::callStaticObjectMethod("android/provider/Settings$Secure",
-                                                                                        "getString",
-                                                                                        "(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;",
-                                                                                        contentResolver.object<jobject>(),
-                                                                                        QJniObject::fromString("android_id").object<jstring>());
+                                                                          "getString",
+                                                                          "(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;",
+                                                                          contentResolver.object<jobject>(),
+                                                                          QJniObject::fromString("android_id").object<jstring>());
                 if (androidId.isValid())
                 {
-                     QString finalID=hashAndFormat(androidId.toString());
-                          return finalID;
+                    QString finalID=hashAndFormat(androidId.toString());
+                    return finalID;
                 }
             }
         }
@@ -78,7 +82,7 @@ public:
         }
         return true;
     }
-   Q_INVOKABLE bool checkStoragePermission()
+    Q_INVOKABLE bool checkStoragePermission()
     {
         qDebug()<<"checkStoragePermission()";
         auto r = QtAndroidPrivate::checkPermission(QString("android.permission.WRITE_EXTERNAL_STORAGE")).result();

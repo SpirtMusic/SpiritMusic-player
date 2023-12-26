@@ -5,6 +5,46 @@ utils::utils(QObject *parent)
 {
 
 }
+QString utils::convertUriToPath(const QString &uriString) {
+    QString fullFilePath = convertUriToPathFile(uriString);
+    // Use QFileInfo to extract the directory path
+    QFileInfo fileInfo(fullFilePath);
+    QString directoryPath = fileInfo.path();
+
+    return directoryPath;
+}
+QString utils::convertUriToPathFile(const QString &uriString){
+    qDebug()<<"uriString : "<<uriString;
+    // Create a QJniObject from the URI string
+    QJniObject uriObject = QJniObject::fromString(uriString);
+    QJniObject uri = QJniObject::callStaticObjectMethod(
+        "android/net/Uri",
+        "parse",
+        "(Ljava/lang/String;)Landroid/net/Uri;",
+        uriObject.object<jstring>()
+        );
+
+    // Get the context from the main application instance
+    QJniObject activity = QNativeInterface::QAndroidApplication::context();
+    QJniObject context = activity.callObjectMethod("getApplicationContext", "()Landroid/content/Context;");
+    // Call the Java method to get the file path
+    QJniObject filePath= QJniObject::callStaticObjectMethod(
+        "org/sonegx/sonegxplayer/MyUtils",
+        "getPath",
+        "(Landroid/content/Context;Landroid/net/Uri;)Ljava/lang/String;",
+        context.object<jobject>(),
+        uri.object<jobject>()
+        );
+
+    // Check if filePath is null
+    if (!filePath.isValid()) {
+        qDebug() << "Error: Unable to get file path from URI";
+        return QString();  // Return an empty string on error
+    }
+
+    // Convert the Java string to a Qt string and return it
+    return QDir::fromNativeSeparators(filePath.toString());
+}
 bool utils::rotateToLandscape(){
 
     QJniObject activity = QNativeInterface::QAndroidApplication::context();
@@ -43,3 +83,5 @@ void utils::setSecureFlag(){
                                       }
                                   });
 }
+
+

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QtConcurrent>
-
+#include <QFileInfo>
 class AES : public QObject
 {
     Q_OBJECT
@@ -12,7 +12,6 @@ public:
     explicit AES(QObject *parent = nullptr);
     Q_INVOKABLE QVariant encrypt(const QString& filePath, QByteArray key);
     Q_INVOKABLE QVariant decrypt(const QString& filePath, QByteArray key);
-    Q_INVOKABLE QString convertUriToPath(const QString &uriString);
     Q_INVOKABLE QFuture<bool> encryptVideo(const QString& inputFilePath, const QString& outputFilePath,const QByteArray& encryptionKey);
     Q_INVOKABLE QFuture<bool> decryptVideo(const QString& inputFilePath, const QString& outputFilePath,const QByteArray& encryptionKey);
     QString createCustomPath();

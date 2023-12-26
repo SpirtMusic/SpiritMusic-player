@@ -250,28 +250,28 @@ Item {
         modality: Qt.WindowModal
         fileMode: FileDialog.OpenFiles
         onAccepted: {
-            console.log(libraryfileDialog.files)
-            var projectFile= filterSngvFiles(libraryfileDialog.files)
-            console.log(projectFile)
+//            console.log(libraryfileDialog.files)
+//            var projectFile= filterSngvFiles(libraryfileDialog.files)
+//            console.log(projectFile)
 
-            JsonFile.name = projectFile
-            var name =jsonOperator.getInfopack(JsonFile)
-            var videon=jsonOperator.getvideoNumbers(JsonFile)
+//            JsonFile.name = projectFile
+//            var name =jsonOperator.getInfopack(JsonFile)
+//            var videon=jsonOperator.getvideoNumbers(JsonFile)
 
-            selectedFilePath =projectFile
-            console.log("selectedFilePath"+selectedFilePath)
+//            selectedFilePath =projectFile
+//            console.log("selectedFilePath"+selectedFilePath)
 
-            DB.dbInit()
-            DB.dbInsert(name, selectedFilePath,videon)
-            DB.dbReadAll()
+//            DB.dbInit()
+//            DB.dbInsert(name, selectedFilePath,videon)
+//            DB.dbReadAll()
 
-            libraryListModel.libraryListModelUpdate()
+//            libraryListModel.libraryListModelUpdate()
 
 
-//            var path = libraryfileDialog.currentFile
-//            console.log("path "+path)
-//            var real_path=fileCrypto.convertUriToPath(path)
-//            console.log("real_path "+real_path)
+            var path = libraryfileDialog.currentFile
+            console.log("path "+path)
+            var real_path=fileCrypto.convertUriToPath(path)
+            console.log("real_path "+real_path)
 
             return
         }
