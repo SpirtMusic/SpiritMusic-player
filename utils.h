@@ -17,6 +17,7 @@
 #include <QJniEnvironment>
 #include <QFileInfo>
 #include <QDir>
+ #include <QDesktopServices>
 class utils : public QObject
 {
     Q_OBJECT
@@ -24,6 +25,7 @@ public:
     explicit utils(QObject *parent = nullptr);
     Q_INVOKABLE QString convertUriToPathFile(const QString &uriString);
     Q_INVOKABLE QString convertUriToPath(const QString &uriString);
+     Q_INVOKABLE void share(const QString &urlfile);
     Q_INVOKABLE QString getAndroidID()
     {
         //        if (!checkPermission()) {

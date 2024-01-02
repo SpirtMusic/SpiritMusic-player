@@ -17,6 +17,7 @@ repositories {
 apply plugin: 'com.android.application'
 
 dependencies {
+    implementation 'androidx.core:core:1.8.0' // Or a newer version
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
 

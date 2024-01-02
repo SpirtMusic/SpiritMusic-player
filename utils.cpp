@@ -1,8 +1,14 @@
 #include "utils.h"
-
+#include <QUrl>
 utils::utils(QObject *parent)
     : QObject{parent}
 {
+
+}
+void utils::share(const QString &urlfile) {
+
+QDesktopServices::openUrl(QUrl(urlfile, QUrl::TolerantMode));
+
 
 }
 QString utils::convertUriToPath(const QString &uriString) {

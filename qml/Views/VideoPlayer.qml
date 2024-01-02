@@ -166,9 +166,9 @@ Rectangle {
             }
             infoTollTip.show("Speed: "+ playbackRate.toFixed(1)+"x")
         }
-//        onErrorChanged: {
-//            console.log("Video Error:", player.errorString)
-//        }
+        //        onErrorChanged: {
+        //            console.log("Video Error:", player.errorString)
+        //        }
 
 
     }
@@ -374,6 +374,7 @@ Rectangle {
                     Layout.rightMargin: 20
                     icon.source:"qrc:/qml/icons/cil-options.svg"
                     onClicked: popUpAboutVideo.open()
+                    // onClicked: androidUtils.share(player.source)
                 }
             }
         }
