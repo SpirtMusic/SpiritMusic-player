@@ -26,5 +26,6 @@
         <file>qml/icons/cil-chevron-double-left.svg</file>
         <file>qml/icons/cil-chevron-double-right.svg</file>
         <file>qml/icons/cil-info.svg</file>
+        <file>qml/icons/cil-arrow-circle-left.svg</file>
     </qresource>
 </RCC>

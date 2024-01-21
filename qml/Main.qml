@@ -15,6 +15,7 @@ ApplicationWindow  {
     property var videoList: []
     property var currentPathPack
     property var currentVideoname
+    property string currentHVideoname
     property string currentVideoDesc: ""
     property VideoPlayer videoPlayerWindow
     property LibraryView libraryV:libraryV
@@ -24,7 +25,9 @@ ApplicationWindow  {
     visible: true
     visibility: Window.Windowed
 
-    title: qsTr("hello world1")
+    width: 800 // Set the desired width
+    height: 600 // Set the desired height
+    title: qsTr("SoneGX player")
     MessageDialog {
         id:activiationMsg
         buttons: MessageDialog.Ok
@@ -121,12 +124,15 @@ ApplicationWindow  {
 
     }
     function checkActivation(){
-        var deviceID=androidUtils.getAndroidID()
-        var serianN=ActivateSys.getEncryptedId()
-        if(ActivateSys.checkDecryption(serianN,deviceID))
-            return true;
-        else
-            return false;
+        if(Qt.platform.os === "android"){
+            var deviceID=androidUtils.getAndroidID()
+            var serianN=ActivateSys.getEncryptedId()
+            if(ActivateSys.checkDecryption(serianN,deviceID))
+                return true;
+            else
+                return false;
+        }
+        return true;
     }
     function switchToVideosView(){
         console.log("switchToVideosView()")
@@ -172,9 +178,9 @@ ApplicationWindow  {
         if(checkActivation()){
 
             //  fileCrypto.encryptVideo("pack1/project2.sngvtest3.mp4","video3.dat0","1234")
-          //  fileCrypto.decryptVideo(videoPath,win.currentVideoname,"1234")
+            //  fileCrypto.decryptVideo(videoPath,win.currentVideoname,"1234")
             console.log(videoPath)
-             playNowVideo(videoPath)
+            playNowVideo(videoPath)
         }
         else
             activiationMsg.open()
@@ -211,7 +217,7 @@ ApplicationWindow  {
             win.footer.visible=false
             // win.menuBar.visible=false
             swipeView.visible=false
-            win.visibility= Window.FullScreen
+        //    win.visibility= Window.FullScreen
         }
         function basicMode(){
             win.header.visible=true
@@ -287,10 +293,14 @@ ApplicationWindow  {
                 Layout.rightMargin: 20  // Add right padding of 20 units
                 icon.source: "qrc:/qml/icons/cil-plus.svg"
                 onClicked:{
-                    if (androidUtils.checkStoragePermission())
-                        libraryV.libraryfileDialog.visible = true
+                    if(Qt.platform.os === "android"){
+                        if (androidUtils.checkStoragePermission())
+                            libraryV.libraryfileDialog.visible = true
+                        else
+                            return
+                    }
                     else
-                        return
+                        libraryV.libraryfileDialog.visible = true
                 }
             }
             ToolButton {
@@ -448,13 +458,14 @@ ApplicationWindow  {
         }
     }
     Component.onCompleted: {
-
-        androidUtils.setSecureFlag()
+        if(Qt.platform.os === "android")
+            androidUtils.setSecureFlag()
         internal.createVideoPlayerWindow()
         if(!checkActivation())
         {
             activiationMsg.open()
         }
+
     }
 
 }

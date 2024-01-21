@@ -58,6 +58,18 @@ Item {
             }
             return url;
         }
+        function removeFileNameFromPath(filePath) {
+            // Find the last index of the forward slash
+            var lastIndex = filePath.lastIndexOf('/');
+
+            // If the forward slash is found, extract the substring up to that index
+            if (lastIndex !== -1) {
+                return filePath.substring(0, lastIndex + 1);
+            }
+
+            // If no forward slash is found, return the original path
+            return filePath;
+        }
     }
     Connections {
         target: jsonOperator
@@ -119,6 +131,7 @@ Item {
                     listView.currentIndex = index
                     console.log("onPressed on:", name.replace(/^"(.*)"$/, "$1"))
                     deleteRec.hideButton();
+                    holdPressed=false
                 }
 
                 // Handle released event
@@ -128,8 +141,12 @@ Item {
                         console.log("onReleased on:", name.replace(/^"(.*)"$/, "$1"))
                         JsonFile.name=path
                         console.log(path)
-                 //       var newUrl = jsonOperator.removeProjectName(path);
-                        win.currentPathPack =androidUtils.convertUriToPath(path)
+                        //       var newUrl = jsonOperator.removeFileNameFromPath(path);
+                        if(Qt.platform.os === "android"){
+                            win.currentPathPack =androidUtils.convertUriToPath(path)
+                        }
+                        else
+                            win.currentPathPack =jsonOperator.removeFileNameFromPath(path);
                         win.videoList=jsonOperator.getvidoesInfo(JsonFile)
                         jsonOperator.getVideosInfoFinished()
                     }
@@ -250,22 +267,22 @@ Item {
         modality: Qt.WindowModal
         //fileMode: FileDialog.OpenFiles
         onAccepted: {
-//            console.log(libraryfileDialog.files)
-//            var projectFile= filterSngvFiles(libraryfileDialog.files)
-//            console.log(projectFile)
+            //            console.log(libraryfileDialog.files)
+            //            var projectFile= filterSngvFiles(libraryfileDialog.files)
+            //            console.log(projectFile)
 
-//            JsonFile.name = projectFile
-//            var name =jsonOperator.getInfopack(JsonFile)
-//            var videon=jsonOperator.getvideoNumbers(JsonFile)
+            //            JsonFile.name = projectFile
+            //            var name =jsonOperator.getInfopack(JsonFile)
+            //            var videon=jsonOperator.getvideoNumbers(JsonFile)
 
-//            selectedFilePath =projectFile
-//            console.log("selectedFilePath"+selectedFilePath)
+            //            selectedFilePath =projectFile
+            //            console.log("selectedFilePath"+selectedFilePath)
 
-//            DB.dbInit()
-//            DB.dbInsert(name, selectedFilePath,videon)
-//            DB.dbReadAll()
+            //            DB.dbInit()
+            //            DB.dbInsert(name, selectedFilePath,videon)
+            //            DB.dbReadAll()
 
-//            libraryListModel.libraryListModelUpdate()
+            //            libraryListModel.libraryListModelUpdate()
 
 
 
@@ -281,10 +298,10 @@ Item {
 
             libraryListModel.libraryListModelUpdate()
 
-//            var path = libraryfileDialog.currentFile
-//            console.log("path "+path)
-//            var real_path=androidUtils.convertUriToPath(path)
-//            console.log("real_path "+real_path)
+            //            var path = libraryfileDialog.currentFile
+            //            console.log("path "+path)
+            //            var real_path=androidUtils.convertUriToPath(path)
+            //            console.log("real_path "+real_path)
 
             return
         }

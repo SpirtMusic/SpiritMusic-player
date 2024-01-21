@@ -65,6 +65,7 @@ Item {
                     if (videoListView.currentIndex === index) {
                         console.log("Clicked on:")
                         win.currentVideoname=vbaseName
+                        win.currentHVideoname = vName
                         win.currentVideoDesc=desc
                         win.playVideo(win.currentPathPack+"/"+vbaseName)
                     }
@@ -115,13 +116,13 @@ Item {
 
                     }
 
-//                    Label {
-//                        text: "Videos: " +desc
-//                        font.pixelSize: 16
-//                        wrapMode: Text.WordWrap
-//                        Layout.alignment: Qt.AlignLeft
+                    //                    Label {
+                    //                        text: "Videos: " +desc
+                    //                        font.pixelSize: 16
+                    //                        wrapMode: Text.WordWrap
+                    //                        Layout.alignment: Qt.AlignLeft
 
-//                    }
+                    //                    }
                 }
             }
         }

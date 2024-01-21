@@ -7,13 +7,9 @@
 #include <clipboardextension.h>
 #include <jsonfile.h>
 #include <serialgenerator.h>
-#include <aes.h>
+//#include <aes.h>
 #include <QMpv/qmpv.h>
-//#ifdef Q_OS_ANDROID
-//const QVector<QString> permissions({"MANAGE_EXTERNAL_STORAGE",
-//                                    "android.permission.WRITE_EXTERNAL_STORAGE",
-//                                    "android.permission.READ_EXTERNAL_STORAGE"});
-//#endif
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -38,9 +34,9 @@ int main(int argc, char *argv[])
 
     JsonFile jsonFile;
     SerialGenerator serialn;
-    AES fileCrypto;
+   // AES fileCrypto;
     qmlRegisterType<QMpv>("QMpv", 1, 0, "MPV");
-    engine.rootContext()->setContextProperty("fileCrypto", &fileCrypto);
+    //engine.rootContext()->setContextProperty("fileCrypto", &fileCrypto);
     engine.rootContext()->setContextProperty("ActivateSys", &serialn);
     engine.rootContext()->setContextProperty("JsonFile", &jsonFile);
     ClipboardExtension ClipboardExt;
