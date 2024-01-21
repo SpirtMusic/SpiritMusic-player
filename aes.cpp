@@ -4,10 +4,12 @@
 #include <QFileInfo>
 #include <QCryptographicHash>
 #include <QDebug>
-#include <QJniObject>
-#include <QJniEnvironment>
 #include <QUrl>
 #include <QDir>
+
+#include <QJniObject>
+#include <QJniEnvironment>
+
 #include <QtCore/private/qandroidextras_p.h>
 AES::AES(QObject *parent)
     : QObject{parent},tempDir(nullptr)
