@@ -11,7 +11,8 @@ Rectangle {
     anchors.fill: parent
     property MPV player: player
     property real recWidth: columnLayout.implicitHeight
-
+    property real recWidth2: columnLayout2.implicitHeight
+    property string currentHVideoname: win.currentHVideoname
     readonly property int android_SCREEN_ORIENTATION_LANDSCAPE: 0
     readonly property int android_SCREEN_ORIENTATION_PORTRAIT: 1
 
@@ -96,10 +97,13 @@ Rectangle {
             if (player.playbackState == MediaPlayer.PlayingState
                     && videoControl.height == 0) {
                 animationOpenMenu.start()
+                animationOpenMenu2.start()
                 timeranimationMenu.restart()
             } else if (player.playbackState
-                       == MediaPlayer.PlayingState)
+                       == MediaPlayer.PlayingState){
                 animationCloseMenu.start()
+                animationCloseMenu2.start()
+            }
         }
     }
     Timer {
@@ -108,8 +112,10 @@ Rectangle {
         running: false
         repeat: false
         onTriggered: {
-            if (player.playbackState == MediaPlayer.PlayingState)
+            if (player.playbackState == MediaPlayer.PlayingState){
                 animationCloseMenu.start()
+                animationCloseMenu2.start()
+            }
         }
     }
     Item {
@@ -386,7 +392,7 @@ Rectangle {
             property: "height"
             running: false
             to: recWidth + rotateBtn.implicitHeight
-            duration: 200
+            duration: 100
             easing.type: Easing.Linear
         }
         PropertyAnimation {
@@ -395,10 +401,74 @@ Rectangle {
             property: "height"
             running: false
             to: 0
-            duration: 200
+            duration: 150
             easing.type: Easing.Linear
         }
     }
+    Rectangle {
+        id: videoControl2
+        color: "#ffffff"
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.rightMargin: 0
+        anchors.leftMargin: 0
+        anchors.topMargin: 0
+
+        gradient: Gradient {
+            GradientStop { position: 0; color: "black"}
+            GradientStop { position: 1; color: "transparent"}
+        }
+        RowLayout {
+            id: columnLayout2
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            spacing: 1
+
+            anchors.leftMargin: 0
+            anchors.bottomMargin: 0
+            anchors.rightMargin: 0
+
+            ToolButton {
+                id:exitPlayer
+                icon.source: "qrc:/qml/icons/cil-arrow-circle-left.svg"
+                onClicked:{
+                    close();
+                }
+                Layout.leftMargin: 30
+
+            }
+            Label {
+                text: currentHVideoname
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            }
+        }
+
+        height: recWidth2
+        PropertyAnimation {
+            id: animationOpenMenu2
+            target: videoControl2
+            property: "height"
+            running: false
+            to: recWidth2
+            duration: 100
+            easing.type: Easing.Linear
+        }
+        PropertyAnimation {
+            id: animationCloseMenu2
+            target: videoControl2
+            property: "height"
+            running: false
+            to: 0
+            duration: 150
+            easing.type: Easing.Linear
+        }
+
+    }
+
 
     Component.onCompleted: {
         if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
