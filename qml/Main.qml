@@ -24,9 +24,6 @@ ApplicationWindow  {
     id:win
     visible: true
     visibility: Window.Windowed
-
-//    width: 800 // Set the desired width
-//    height: 600 // Set the desired height
     title: qsTr("SoneGX player")
     MessageDialog {
         id:activiationMsg
@@ -150,14 +147,11 @@ ApplicationWindow  {
     // TODO: fix owned by unique_fd
     function playVideo(videoPath){
         if(checkActivation()){
-
             console.log(videoPath)
             playNowVideo(videoPath)
         }
         else
             activiationMsg.open()
-
-
     }
     function testplayVideo(videoPath){
         videoPlayerWindow.player.source=videoPath
@@ -409,12 +403,21 @@ ApplicationWindow  {
         }
     }
     Component.onCompleted: {
-        if(Qt.platform.os === "android")
-            androidUtils.setSecureFlag()
-        internal.createVideoPlayerWindow()
-        if(!checkActivation())
-        {
-            activiationMsg.open()
+        // Set window size for non-Android platforms
+        if (Qt.platform.os !== "android") {
+            width = 800; // Set the desired width
+            height = 600; // Set the desired height
+        } else {
+            // Handle Android-specific setup
+            androidUtils.setSecureFlag();
+        }
+
+        // Create video player window
+        internal.createVideoPlayerWindow();
+
+        // Check activation status and show message if not activated
+        if (!checkActivation()) {
+            activiationMsg.open();
         }
 
     }
