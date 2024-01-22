@@ -11,13 +11,14 @@ Rectangle {
     anchors.fill: parent
     property MPV player: player
     property real recWidth: columnLayout.implicitHeight
-    property real recWidth2: columnLayout2.implicitHeight
+    property real recWidth2
     property string currentHVideoname: win.currentHVideoname
     readonly property int android_SCREEN_ORIENTATION_LANDSCAPE: 0
     readonly property int android_SCREEN_ORIENTATION_PORTRAIT: 1
 
     property int currentOrientation: android_SCREEN_ORIENTATION_PORTRAIT
-
+    property PropertyAnimation animationOpenMenu2Global : null
+    property PropertyAnimation animationCloseMenu2Global : null
     QtObject {
         id: videoInternal
         function msToTimeString(duration) {
@@ -97,12 +98,15 @@ Rectangle {
             if (player.playbackState == MediaPlayer.PlayingState
                     && videoControl.height == 0) {
                 animationOpenMenu.start()
-                animationOpenMenu2.start()
+                if (animationOpenMenu2Global !== null)
+                    animationOpenMenu2Global.start()
                 timeranimationMenu.restart()
             } else if (player.playbackState
                        == MediaPlayer.PlayingState){
                 animationCloseMenu.start()
-                animationCloseMenu2.start()
+                if (animationCloseMenu2Global !== null)
+                    animationCloseMenu2Global.start()
+
             }
         }
     }
@@ -114,7 +118,8 @@ Rectangle {
         onTriggered: {
             if (player.playbackState == MediaPlayer.PlayingState){
                 animationCloseMenu.start()
-                animationCloseMenu2.start()
+                if (animationCloseMenu2Global !== null)
+                    animationCloseMenu2Global.start()
             }
         }
     }
@@ -404,73 +409,88 @@ Rectangle {
             duration: 150
             easing.type: Easing.Linear
         }
+
     }
-    Rectangle {
-        id: videoControl2
-        color: "#ffffff"
+    Loader {
+        id: videoControl2Loader
+        active: Qt.platform.os !== "android"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.rightMargin: 0
         anchors.leftMargin: 0
         anchors.topMargin: 0
-
-        gradient: Gradient {
-            GradientStop { position: 0; color: "black"}
-            GradientStop { position: 1; color: "transparent"}
-        }
-        RowLayout {
-            id: columnLayout2
+        sourceComponent: videoControl2Component
+    }
+    Component {
+        id: videoControl2Component
+        Rectangle {
+            id: videoControl2
+            color: "#ffffff"
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            spacing: 1
-
-            anchors.leftMargin: 0
-            anchors.bottomMargin: 0
+            anchors.top: parent.top
             anchors.rightMargin: 0
+            anchors.leftMargin: 0
+            anchors.topMargin: 0
 
-            ToolButton {
-                id:exitPlayer
-                icon.source: "qrc:/qml/icons/cil-arrow-circle-left.svg"
-                onClicked:{
-                    close();
+            gradient: Gradient {
+                GradientStop { position: 0; color: "black"}
+                GradientStop { position: 1; color: "transparent"}
+            }
+            RowLayout {
+                id: columnLayout2
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                spacing: 1
+                anchors.leftMargin: 0
+                anchors.bottomMargin: 0
+                anchors.rightMargin: 0
+
+                ToolButton {
+                    id:exitPlayer
+                    icon.source: "qrc:/qml/icons/cil-arrow-circle-left.svg"
+                    onClicked:{
+                        close();
+                    }
+                    Layout.leftMargin: 30
                 }
-                Layout.leftMargin: 30
-
+                Label {
+                    text: currentHVideoname
+                    horizontalAlignment: Text.AlignHCenter
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                }
             }
-            Label {
-                text: currentHVideoname
-                horizontalAlignment: Text.AlignHCenter
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+            height: recWidth2
+            property PropertyAnimation animationOpenMenu2: PropertyAnimation {
+                id: animationOpenMenu2
+                target: videoControl2
+                property: "height"
+                running: false
+                to: recWidth2
+                duration: 100
+                easing.type: Easing.Linear
+            }
+            property PropertyAnimation animationCloseMenu2: PropertyAnimation {
+                id: animationCloseMenu2
+                target: videoControl2
+                property: "height"
+                running: false
+                to: 0
+                duration: 150
+                easing.type: Easing.Linear
+            }
+            Component.onCompleted: {
+                animationOpenMenu2Global = animationOpenMenu2;
+                animationCloseMenu2Global = animationCloseMenu2;
+                recWidth2= columnLayout2.implicitHeight;
             }
         }
-
-        height: recWidth2
-        PropertyAnimation {
-            id: animationOpenMenu2
-            target: videoControl2
-            property: "height"
-            running: false
-            to: recWidth2
-            duration: 100
-            easing.type: Easing.Linear
-        }
-        PropertyAnimation {
-            id: animationCloseMenu2
-            target: videoControl2
-            property: "height"
-            running: false
-            to: 0
-            duration: 150
-            easing.type: Easing.Linear
-        }
-
     }
-
-
     Component.onCompleted: {
+
         if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
             rotateBtn.icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
         } else {
