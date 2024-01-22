@@ -25,8 +25,8 @@ ApplicationWindow  {
     visible: true
     visibility: Window.Windowed
 
-    width: 800 // Set the desired width
-    height: 600 // Set the desired height
+//    width: 800 // Set the desired width
+//    height: 600 // Set the desired height
     title: qsTr("SoneGX player")
     MessageDialog {
         id:activiationMsg
@@ -138,33 +138,7 @@ ApplicationWindow  {
         console.log("switchToVideosView()")
         swipeView.currentIndex = 1
     }
-    Connections {
-        target: fileCrypto
-        function onPreparingVideoProgressChanged(){
-            if(popupInfo.visible!=true)
-                popupInfo.open()
-            popupInfoText.text="Preparing video "
-            popupInfoBusyIndicator.visible=true
-        }
 
-        function onEncryptionVideoProgressChanged(progress) {
-            // Handle the signal here
-            console.log("Encryption video progress changed:", progress)
-            if(popupInfo.visible!=true)
-                popupInfo.open()
-            popupInfoBusyIndicator.visible=false
-            popupInfoText.text="Loading video : "+progress+" %"
-        }
-        function onDecryptionVideoFinished(fullname) {
-            popupInfo.close()
-            internal.createVideoPlayerWindow()
-            win.videoPlayerWindow.player.source="file://"+fullname
-            console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
-            internal.playMode()
-            win.videoPlayerWindow.visible=true
-            win.videoPlayerWindow.player.play()
-        }
-    }
     function playNowVideo(fullname) {
         popupInfo.close()
         internal.createVideoPlayerWindow()
@@ -217,7 +191,7 @@ ApplicationWindow  {
             win.footer.visible=false
             // win.menuBar.visible=false
             swipeView.visible=false
-        //    win.visibility= Window.FullScreen
+            win.visibility= Window.FullScreen
         }
         function basicMode(){
             win.header.visible=true
