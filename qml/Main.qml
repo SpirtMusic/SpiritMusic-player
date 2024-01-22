@@ -151,30 +151,12 @@ ApplicationWindow  {
     function playVideo(videoPath){
         if(checkActivation()){
 
-            //  fileCrypto.encryptVideo("pack1/project2.sngvtest3.mp4","video3.dat0","1234")
-            //  fileCrypto.decryptVideo(videoPath,win.currentVideoname,"1234")
             console.log(videoPath)
             playNowVideo(videoPath)
         }
         else
             activiationMsg.open()
 
-        //        if(checkActivation())
-        //        {
-        //            console.log("videoPath"+videoPath)
-        //            fileCrypto.decryptVideo(videoPath,win.currentVideoname,"1234")
-
-        //            internal.createVideoPlayerWindow()
-        //            win.videoPlayerWindow.player.source=videoPath
-        //            //win.videoPlayerWindow.player.source="content://com.android.externalstorage.documents/document/primary%3ADCIM%2Fpack%2Ftest2.mp4"
-        //            console.log("    win.currentPathPack"+win.currentPathPack)
-        //            console.log("videopppppppppp"+win.videoPlayerWindow.player.source)
-        //            internal.playMode()
-        //            win.videoPlayerWindow.visible=true
-        //            win.videoPlayerWindow.player.play()
-        //        }
-        //        else
-        //            activiationMsg.open()
 
     }
     function testplayVideo(videoPath){
@@ -365,12 +347,7 @@ ApplicationWindow  {
             }
         }
     }
-    //    VideoPlayer {
-    //        id: videoPlayerWindow
-    //        //      visible: false
 
-    //        // Other properties and settings for the video player window
-    //    }
     SwipeView {
         id: swipeView
         interactive:false
