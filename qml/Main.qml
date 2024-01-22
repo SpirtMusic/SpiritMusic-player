@@ -167,6 +167,7 @@ ApplicationWindow  {
             win.footer.visible=false
             // win.menuBar.visible=false
             swipeView.visible=false
+             if (Qt.platform.os === "android")
             win.visibility= Window.FullScreen
         }
         function basicMode(){
