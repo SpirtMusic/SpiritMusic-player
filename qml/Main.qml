@@ -167,8 +167,8 @@ ApplicationWindow  {
             win.footer.visible=false
             // win.menuBar.visible=false
             swipeView.visible=false
-             if (Qt.platform.os === "android")
-            win.visibility= Window.FullScreen
+            if (Qt.platform.os === "android")
+                win.visibility= Window.FullScreen
         }
         function basicMode(){
             win.header.visible=true
@@ -278,12 +278,16 @@ ApplicationWindow  {
     footer: ToolBar {
         Material.background: "#2e2f30"
         RowLayout {
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.fill: parent
+            Layout.fillWidth: true
+            Layout.alignment :Qt.AlignHCenter | Qt.AlignVCenter
             spacing: 20
             FooterBtn {
                 id:libraryBtn
                 icon.source: "qrc:/qml/icons/cil-album.svg"
                 text: " Library "
+                   Layout.alignment :Qt.AlignRight | Qt.AlignVCenter
+
                 onClicked: {
                     swipeView.currentIndex = 0
                 }
@@ -302,7 +306,9 @@ ApplicationWindow  {
             FooterBtn {
                 id:videosBtn
                 text: "   Videos  "
+                   Layout.alignment :Qt.AlignHCenter | Qt.AlignVCenter
                 icon.source: "qrc:/qml/icons/cil-movie.svg"
+
                 onClicked:{
                     swipeView.currentIndex = 1
                 }
@@ -323,7 +329,9 @@ ApplicationWindow  {
             FooterBtn {
                 id:settingsBtn
                 text: "Settings"
+                   Layout.alignment :Qt.AlignLeft | Qt.AlignVCenter
                 icon.source: "qrc:/qml/icons/cil-settings.svg"
+
                 onClicked:{
                     swipeView.currentIndex = 2
                 }
