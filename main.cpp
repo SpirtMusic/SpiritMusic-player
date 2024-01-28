@@ -3,6 +3,9 @@
 #ifdef Q_OS_ANDROID
 #include <utils.h>
 #endif
+#ifdef Q_OS_LINUX
+#include <utilsunix.h>
+#endif
 #include <QQmlContext>
 #include <clipboardextension.h>
 #include <jsonfile.h>
@@ -30,6 +33,10 @@ int main(int argc, char *argv[])
     //    }
     utils android;
     engine.rootContext()->setContextProperty("androidUtils", &android);
+#endif
+#ifdef Q_OS_LINUX
+    UtilsUnix linuxUtils;
+    engine.rootContext()->setContextProperty("linuxUtils", &linuxUtils);
 #endif
 
     JsonFile jsonFile;

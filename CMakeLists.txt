@@ -27,9 +27,11 @@ qt_add_executable(appsonegx-player-android
     clipboardextension.h clipboardextension.cpp
     jsonfile.h jsonfile.cpp
     serialgenerator.h serialgenerator.cpp
-   # qaesencryption.cpp qaesencryption.h
+    utilsunix.h utilsunix.cpp
+    # qaesencryption.cpp qaesencryption.h
     QMpv/qmpv.cpp
     QMpv/qmpv.h
+
     ${QMLRC}
     ${ICONSRC}
 )
@@ -63,19 +65,19 @@ qt_add_qml_module(appsonegx-player-android
 )
 
 set(APPLICATION_LIBS_BIN
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libmpv.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libMpvQt.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libswscale.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libswresample.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavutil.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavformat.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavfilter.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavdevice.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavcodec.so
-      ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libpostproc.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libmpv.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libMpvQt.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libswscale.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libswresample.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavutil.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavformat.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavfilter.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavdevice.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libavcodec.so
+    ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libpostproc.so
 )
 set(QT_ANDROID_PACKAGE_SOURCE
-${CMAKE_CURRENT_SOURCE_DIR}/android/
+    ${CMAKE_CURRENT_SOURCE_DIR}/android/
 )
 set_target_properties(appsonegx-player-android PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -99,9 +101,9 @@ else()
         WIN32_EXECUTABLE TRUE
     )
 
-    target_link_libraries(appsonegx-player-android
-        PRIVATE Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets MpvQt::MpvQt
-    )
+target_link_libraries(appsonegx-player-android
+    PRIVATE Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets MpvQt::MpvQt
+)
 endif()
 
 

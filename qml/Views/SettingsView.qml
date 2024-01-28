@@ -34,7 +34,12 @@ Item {
                     id: statusValue
                     // text: qsTr("Activted")
                     function checkStatus(){
-                        var deviceID=androidUtils.getAndroidID()
+                          var deviceID
+                        if (Qt.platform.os !== "android") {
+                                                deviceID= linuxUtils.linuxMachineUniqueId()
+                                            } else {
+                                                deviceID= androidUtils.getAndroidID()
+                                            }
                         var serianN=keytext.text
                         if(ActivateSys.checkDecryption(serianN,deviceID))
                         {
@@ -67,7 +72,12 @@ Item {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     //text:"chaimakram abdeslem"
                     Component.onCompleted: {
-                        text= androidUtils.getAndroidID()
+                        if (Qt.platform.os !== "android") {
+                            text= linuxUtils.linuxMachineUniqueId()
+                        } else {
+                            text= androidUtils.getAndroidID()
+                        }
+
                     }
                 }
 
@@ -108,7 +118,12 @@ Item {
                 text:"Active"
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 onClicked: {
-                    var deviceID=androidUtils.getAndroidID()
+                      var deviceID
+                    if (Qt.platform.os !== "android") {
+                        deviceID= linuxUtils.linuxMachineUniqueId()
+                    } else {
+                        deviceID= androidUtils.getAndroidID()
+                    }
                     var serianN=keytext.text
                     if(ActivateSys.activate(serianN,deviceID)){
                         copiedTollTip.show("Activated !")
