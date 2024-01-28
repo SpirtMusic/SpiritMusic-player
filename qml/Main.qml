@@ -121,15 +121,19 @@ ApplicationWindow  {
 
     }
     function checkActivation(){
-        if(Qt.platform.os === "android"){
-            var deviceID=androidUtils.getAndroidID()
-            var serianN=ActivateSys.getEncryptedId()
-            if(ActivateSys.checkDecryption(serianN,deviceID))
-                return true;
-            else
-                return false;
+        var deviceID
+        if (Qt.platform.os !== "android") {
+            deviceID= linuxUtils.linuxMachineUniqueId()
+        } else {
+            deviceID= androidUtils.getAndroidID()
         }
-        return true;
+
+        var serianN=ActivateSys.getEncryptedId()
+        if(ActivateSys.checkDecryption(serianN,deviceID))
+            return true;
+        else
+            return false;
+
     }
     function switchToVideosView(){
         console.log("switchToVideosView()")
@@ -286,7 +290,7 @@ ApplicationWindow  {
                 id:libraryBtn
                 icon.source: "qrc:/qml/icons/cil-album.svg"
                 text: " Library "
-                   Layout.alignment :Qt.AlignRight | Qt.AlignVCenter
+                Layout.alignment :Qt.AlignRight | Qt.AlignVCenter
 
                 onClicked: {
                     swipeView.currentIndex = 0
@@ -306,7 +310,7 @@ ApplicationWindow  {
             FooterBtn {
                 id:videosBtn
                 text: "   Videos  "
-                   Layout.alignment :Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.alignment :Qt.AlignHCenter | Qt.AlignVCenter
                 icon.source: "qrc:/qml/icons/cil-movie.svg"
 
                 onClicked:{
@@ -329,7 +333,7 @@ ApplicationWindow  {
             FooterBtn {
                 id:settingsBtn
                 text: "Settings"
-                   Layout.alignment :Qt.AlignLeft | Qt.AlignVCenter
+                Layout.alignment :Qt.AlignLeft | Qt.AlignVCenter
                 icon.source: "qrc:/qml/icons/cil-settings.svg"
 
                 onClicked:{
