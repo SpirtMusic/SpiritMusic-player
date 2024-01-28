@@ -15,7 +15,7 @@ Rectangle {
     property string currentHVideoname: win.currentHVideoname
     readonly property int android_SCREEN_ORIENTATION_LANDSCAPE: 0
     readonly property int android_SCREEN_ORIENTATION_PORTRAIT: 1
-
+    property bool isFullscreen: false
     property int currentOrientation: android_SCREEN_ORIENTATION_PORTRAIT
     property PropertyAnimation animationOpenMenu2Global : null
     property PropertyAnimation animationCloseMenu2Global : null
@@ -39,6 +39,18 @@ Rectangle {
                 androidUtils.rotateToPortrait();
                 rotateBtn.icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
                 currentOrientation = android_SCREEN_ORIENTATION_PORTRAIT;
+            }
+        }
+        function toggleFullscreen() {
+            if (isFullscreen) {
+                fullscreenBtn.icon.source="qrc:/qml/icons/cil-fullscreen.svg"
+                win.visibility= Window.Windowed
+                isFullscreen = false;
+            } else {
+                fullscreenBtn.icon.source="qrc:/qml/icons/cil-fullscreen-exit.svg"
+                win.visibility= Window.FullScreen
+
+                isFullscreen = true;
             }
         }
         function secondsToTimeString(durationInSeconds) {
@@ -289,8 +301,20 @@ Rectangle {
                     id: rotateBtn
                     Layout.alignment: Qt.AlignLeft
                     Layout.leftMargin: 30
+                    visible: Qt.platform.os === "android"
                     onClicked: {
                         videoInternal.toggleOrientation()
+                        timeranimationMenu.restart()
+                    }
+
+                }
+                ToolButton {
+                    id: fullscreenBtn
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.leftMargin: 30
+                    visible: Qt.platform.os !== "android"
+                    onClicked: {
+                        videoInternal.toggleFullscreen()
                         timeranimationMenu.restart()
                     }
 
@@ -490,11 +514,24 @@ Rectangle {
         }
     }
     Component.onCompleted: {
+        if (Qt.platform.os !== "android") {
+            if (isFullscreen) {
+                fullscreenBtn.icon.source="qrc:/qml/icons/cil-fullscreen-exit.svg"
 
-        if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
-            rotateBtn.icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
+            } else {
+                fullscreenBtn.icon.source="qrc:/qml/icons/cil-fullscreen.svg"
+
+            }
         } else {
-            rotateBtn.icon.source="qrc:/qml/icons/cil-mobile.svg"
+            if (currentOrientation === android_SCREEN_ORIENTATION_PORTRAIT) {
+                rotateBtn.icon.source="qrc:/qml/icons/cil-mobile-landscape.svg"
+            } else {
+                rotateBtn.icon.source="qrc:/qml/icons/cil-mobile.svg"
+            }
+
+
         }
+
+
     }
 }
