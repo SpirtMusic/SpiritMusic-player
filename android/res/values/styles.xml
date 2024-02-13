@@ -1,0 +1,8 @@
+<resources>
+        <color name="background">#1c1b1f</color>
+<style name="AppTheme" parent="@android:style/Theme.Material">
+    <item name="android:colorPrimaryDark">#1c1b1f</item>
+    <item name="android:statusBarColor">#1c1b1f</item>
+    #1c1b1f
+</style>
+</resources>

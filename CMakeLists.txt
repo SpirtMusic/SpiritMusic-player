@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(sonegx-player-android VERSION 0.1 LANGUAGES CXX)
+project(sonegx-player-android VERSION 1.3 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -13,8 +13,6 @@ else()
     link_directories("/usr/local/lib")
     find_package(MpvQt REQUIRED)
 endif()
-
-
 
 qt_standard_project_setup()
 qt_add_resources(QMLRC qml.qrc)
@@ -61,7 +59,7 @@ else()
 endif()
 qt_add_qml_module(appsonegx-player-android
     URI sonegx-player-android
-    VERSION 1.0
+    VERSION 1.3
 )
 
 set(APPLICATION_LIBS_BIN
@@ -106,7 +104,16 @@ target_link_libraries(appsonegx-player-android
 )
 endif()
 
+if (ANDROID)
+    # Set the version code (integer)
+    set(QT_ANDROID_VERSION_CODE 1.3)
 
+    # Set the version name (string)
+    set(QT_ANDROID_VERSION_NAME "1.3")
+
+    # Generate deployment settings
+    qt_android_generate_deployment_settings(appsonegx-player-android)
+endif()
 install(TARGETS appsonegx-player-android
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
