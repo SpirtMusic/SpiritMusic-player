@@ -88,16 +88,33 @@ public:
     }
     Q_INVOKABLE bool checkStoragePermission()
     {
-        qDebug()<<"checkStoragePermission()";
-        auto r = QtAndroidPrivate::checkPermission(QString("android.permission.WRITE_EXTERNAL_STORAGE")).result();
-        if (r == QtAndroidPrivate::Denied)
+        qDebug() << "checkStoragePermission()";
+
+        // Check WRITE_EXTERNAL_STORAGE permission
+        auto writePermissionResult = QtAndroidPrivate::checkPermission("android.permission.WRITE_EXTERNAL_STORAGE").result();
+        if (writePermissionResult == QtAndroidPrivate::Denied)
         {
-            r = QtAndroidPrivate::requestPermission(QString("android.permission.WRITE_EXTERNAL_STORAGE")).result();
-            if (r == QtAndroidPrivate::Denied)
+            // Request WRITE_EXTERNAL_STORAGE permission
+            writePermissionResult = QtAndroidPrivate::requestPermission("android.permission.WRITE_EXTERNAL_STORAGE").result();
+            if (writePermissionResult == QtAndroidPrivate::Denied)
                 return false;
         }
+
+        // Check READ_EXTERNAL_STORAGE permission
+        auto readPermissionResult = QtAndroidPrivate::checkPermission("android.permission.READ_EXTERNAL_STORAGE").result();
+        if (readPermissionResult == QtAndroidPrivate::Denied)
+        {
+            // Request READ_EXTERNAL_STORAGE permission
+            readPermissionResult = QtAndroidPrivate::requestPermission("android.permission.READ_EXTERNAL_STORAGE").result();
+            if (readPermissionResult == QtAndroidPrivate::Denied)
+                return false;
+        }
+
+
+
         return true;
     }
+
     Q_INVOKABLE void setSecureFlag();
     Q_INVOKABLE bool rotateToLandscape();
     Q_INVOKABLE bool rotateToPortrait();
