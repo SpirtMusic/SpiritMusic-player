@@ -70,7 +70,7 @@ ApplicationWindow  {
                 }
                 Label {
                     id: aboutVersion23
-                    text: qsTr("Vesion 1.3")
+                    text: qsTr("Vesion 1.5")
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     Layout.bottomMargin: 15
                 }

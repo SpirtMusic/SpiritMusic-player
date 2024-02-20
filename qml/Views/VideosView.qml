@@ -67,7 +67,7 @@ Item {
                         win.currentVideoname=vbaseName
                         win.currentHVideoname = vName
                         win.currentVideoDesc=desc
-                        win.playVideo(win.currentPathPack+vbaseName)
+                        win.playVideo(win.currentPathPack+"/"+vbaseName)
                     }
                 }
                 onPressAndHold: {

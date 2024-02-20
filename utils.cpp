@@ -41,7 +41,14 @@ QString utils::convertUriToPathFile(const QString &uriString){
         context.object<jobject>(),
         uri.object<jobject>()
         );
+    QJniObject getUSB = QJniObject::callStaticObjectMethod(
+        "org/sonegx/sonegxplayer/MyUtils",
+        "getUSB",
+        "(Landroid/content/Context;)Ljava/lang/String;",  // <-- Update to match the return type of getUSB()
+          context.object<jobject>()
+        );
 
+    qDebug() << "getUSB"<<getUSB.toString();
     // Check if filePath is null
     if (!filePath.isValid()) {
         qDebug() << "Error: Unable to get file path from URI";
@@ -49,6 +56,7 @@ QString utils::convertUriToPathFile(const QString &uriString){
     }
 
     // Convert the Java string to a Qt string and return it
+    qDebug() << "filePath.toString()  "<< filePath.toString();
     return QDir::fromNativeSeparators(filePath.toString());
 }
 bool utils::rotateToLandscape(){
