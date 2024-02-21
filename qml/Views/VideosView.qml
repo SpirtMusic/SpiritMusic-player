@@ -67,7 +67,12 @@ Item {
                         win.currentVideoname=vbaseName
                         win.currentHVideoname = vName
                         win.currentVideoDesc=desc
-                        win.playVideo(win.currentPathPack+vbaseName)
+                        if (Qt.platform.os !== "android") {
+                            win.playVideo(win.currentPathPack+vbaseName)
+                        } else {
+                            // Handle Android-specific path
+                            win.playVideo(win.currentPathPack+"/"+vbaseName)
+                        }
                     }
                 }
                 onPressAndHold: {
