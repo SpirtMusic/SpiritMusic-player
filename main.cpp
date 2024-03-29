@@ -6,6 +6,9 @@
 #ifdef Q_OS_LINUX
 #include <utilsunix.h>
 #endif
+#ifdef Q_OS_WIN
+#include <utilswin.h>.h>
+#endif
 #include <QQmlContext>
 #include <clipboardextension.h>
 #include <jsonfile.h>
@@ -37,6 +40,10 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_LINUX
     UtilsUnix linuxUtils;
     engine.rootContext()->setContextProperty("linuxUtils", &linuxUtils);
+#endif
+#ifdef Q_OS_WIN
+    UtilsWin winUtils;
+    engine.rootContext()->setContextProperty("winUtils", &winUtils);
 #endif
 
     JsonFile jsonFile;

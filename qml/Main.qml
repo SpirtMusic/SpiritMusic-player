@@ -121,20 +121,28 @@ ApplicationWindow  {
 
     }
     function checkActivation(){
-        var deviceID
-        if (Qt.platform.os !== "android") {
-            deviceID= linuxUtils.linuxMachineUniqueId()
+        var deviceID;
+        var serianN;
+
+        if (Qt.platform.os === "android") {
+            deviceID = androidUtils.getAndroidID();
+        } else if (Qt.platform.os === "windows") {
+            deviceID = winUtils.winMachineUniqueId();
+        } else if (Qt.platform.os === "linux") {
+            deviceID = linuxUtils.linuxMachineUniqueId();
         } else {
-            deviceID= androidUtils.getAndroidID()
+            // Handle unsupported OS
+            return false;
         }
 
-        var serianN=ActivateSys.getEncryptedId()
-        if(ActivateSys.checkDecryption(serianN,deviceID))
+        serianN = ActivateSys.getEncryptedId();
+
+        if(ActivateSys.checkDecryption(serianN, deviceID))
             return true;
         else
             return false;
-
     }
+
     function switchToVideosView(){
         console.log("switchToVideosView()")
         swipeView.currentIndex = 1

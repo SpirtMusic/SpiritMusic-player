@@ -28,6 +28,7 @@ qt_add_executable(appsonegx-player-android
     jsonfile.h jsonfile.cpp
     serialgenerator.h serialgenerator.cpp
     utilsunix.h utilsunix.cpp
+    utilswin.h utilswin.cpp
     # qaesencryption.cpp qaesencryption.h
     QMpv/qmpv.cpp
     QMpv/qmpv.h
@@ -62,6 +63,7 @@ endif()
 qt_add_qml_module(appsonegx-player-android
     URI sonegx-player-android
     VERSION 1.0
+
 )
 
 set(APPLICATION_LIBS_BIN
