@@ -397,31 +397,39 @@ ApplicationWindow  {
         }
     }
     onClosing: function(close) {
-        close.accepted = false
-        if(popupInfo.visible==true|| popUpAbout.visible==true){
-            popupInfo.close()
-            popUpAbout.close()
-        }
-        else if(win.videoPlayerWindow!=null)
-        {
-            if(win.videoPlayerWindow.currentOrientation==0)
-                androidUtils.rotateToPortrait()
-            //win.videoPlayerWindow.player.stop(); // Stop the video playback if needed
-            win.videoPlayerWindow.visible=false
-            win.videoPlayerWindow.destroy()
-            win.videoPlayerWindow = null
-            console.log("Child window is closing …")
-            internal.basicMode()
+        if(Qt.platform.os === "android"){
+            close.accepted = false
+            if(popupInfo.visible==true|| popUpAbout.visible==true){
+                popupInfo.close()
+                popUpAbout.close()
+            }
+            else if(win.videoPlayerWindow!=null)
+            {
+                if(win.videoPlayerWindow.currentOrientation==0)
+                    androidUtils.rotateToPortrait()
+                //win.videoPlayerWindow.player.stop(); // Stop the video playback if needed
+                win.videoPlayerWindow.visible=false
+                win.videoPlayerWindow.destroy()
+                win.videoPlayerWindow = null
+                console.log("Child window is closing …")
+                internal.basicMode()
 
-        }
-        else if (swipeView.currentIndex!=0){
+            }
+            else if (swipeView.currentIndex!=0){
 
-            swipeView.currentIndex = 0
+                swipeView.currentIndex = 0
+            }
+            else{
+                close.accepted = true
+                Qt.quit()
+            }
         }
         else{
+
             close.accepted = true
             Qt.quit()
         }
+
     }
     Component.onCompleted: {
         // Set window size for non-Android platforms

@@ -476,7 +476,11 @@ Rectangle {
                     id:exitPlayer
                     icon.source: "qrc:/qml/icons/cil-arrow-circle-left.svg"
                     onClicked:{
-                        close();
+                        win.videoPlayerWindow.visible=false
+                        win.videoPlayerWindow.destroy()
+                        win.videoPlayerWindow = null
+                        console.log("Child window is closing …")
+                        internal.basicMode()
                     }
                     Layout.leftMargin: 30
                 }
