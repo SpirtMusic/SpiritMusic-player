@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(sonegx-player-android VERSION 0.1 LANGUAGES CXX)
+project(sonegx-player VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -21,7 +21,7 @@ qt_add_resources(QMLRC qml.qrc)
 qt_add_resources(ICONSRC icons.qrc)
 
 
-qt_add_executable(appsonegx-player-android
+qt_add_executable(sonegx-player
     main.cpp
     #aes.h aes.cpp
     clipboardextension.h clipboardextension.cpp
@@ -38,7 +38,7 @@ qt_add_executable(appsonegx-player-android
 )
 
 if(ANDROID)
-    target_sources(appsonegx-player-android PRIVATE
+    target_sources(sonegx-player PRIVATE
         utils.cpp utils.h
         android/src/org/sonegx/sonegxplayer/MyUtils.java
         android/res/xml/qtprovider_paths.xml
@@ -60,7 +60,7 @@ if(DEFINED ANDROID_ABI)
 else()
     message(FATAL_ERROR "ANDROID_ABI not defined. Make sure you are using the Qt CMake toolchain for Android.")
 endif()
-qt_add_qml_module(appsonegx-player-android
+qt_add_qml_module(sonegx-player
     URI sonegx-player-android
     VERSION 1.0
 
@@ -81,7 +81,7 @@ set(APPLICATION_LIBS_BIN
 set(QT_ANDROID_PACKAGE_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/android/
 )
-set_target_properties(appsonegx-player-android PROPERTIES
+set_target_properties(sonegx-player PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -91,11 +91,11 @@ set_target_properties(appsonegx-player-android PROPERTIES
     QT_ANDROID_EXTRA_LIBS "${APPLICATION_LIBS_BIN}"
 )
 
-target_link_libraries(appsonegx-player-android
+target_link_libraries(sonegx-player
     PRIVATE  Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets   ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libMpvQt.so
 )
 else()
-    set_target_properties(appsonegx-player-android PROPERTIES
+    set_target_properties(sonegx-player PROPERTIES
         MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
         MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
         MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -103,13 +103,13 @@ else()
         WIN32_EXECUTABLE TRUE
     )
 
-target_link_libraries(appsonegx-player-android
+target_link_libraries(sonegx-player
     PRIVATE Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets MpvQt::MpvQt
 )
 endif()
 
 
-install(TARGETS appsonegx-player-android
+install(TARGETS sonegx-player
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
