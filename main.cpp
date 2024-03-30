@@ -14,10 +14,21 @@
 #include <jsonfile.h>
 #include <serialgenerator.h>
 //#include <aes.h>
+#include <QQuickWindow>
 #include <QMpv/qmpv.h>
 
 int main(int argc, char *argv[])
 {
+    /***
+     * Forcing Qt Quick to rendering via OpenGL API
+     * Because we use qquickframebufferobject to rendering MPV Item
+     * and we know qquickframebufferobject works only with OpenGL api
+     * https://doc.qt.io/qt-6/qquickframebufferobject.html#details
+     ***/
+#if defined(Q_OS_LINUX) || defined(Q_OS_WIN)
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+#endif
+
     QApplication app(argc, argv);
         // qputenv("QT_MEDIA_BACKEND", "android");
     // qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
@@ -48,7 +59,7 @@ int main(int argc, char *argv[])
 
     JsonFile jsonFile;
     SerialGenerator serialn;
-   // AES fileCrypto;
+    // AES fileCrypto;
     qmlRegisterType<QMpv>("QMpv", 1, 0, "MPV");
     //engine.rootContext()->setContextProperty("fileCrypto", &fileCrypto);
     engine.rootContext()->setContextProperty("ActivateSys", &serialn);
