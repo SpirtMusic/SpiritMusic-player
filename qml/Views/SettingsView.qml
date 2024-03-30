@@ -34,12 +34,12 @@ Item {
                     id: statusValue
                     // text: qsTr("Activted")
                     function checkStatus(){
-                          var deviceID
+                        var deviceID
                         if (Qt.platform.os !== "android") {
-                                                deviceID= linuxUtils.linuxMachineUniqueId()
-                                            } else {
-                                                deviceID= androidUtils.getAndroidID()
-                                            }
+                            deviceID= linuxUtils.linuxMachineUniqueId()
+                        } else {
+                            deviceID= androidUtils.getAndroidID()
+                        }
                         var serianN=keytext.text
                         if(ActivateSys.checkDecryption(serianN,deviceID))
                         {
@@ -97,8 +97,41 @@ Item {
                 maximumLength: 24
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 selectByMouse: true
+                persistentSelection: true
                 Component.onCompleted: {
                     text= ActivateSys.getEncryptedId()
+                }
+                MouseArea {
+                    acceptedButtons: Qt.RightButton
+                    anchors.fill: parent
+                    onClicked: (mouse)=>{
+                                   if (Qt.platform.os !== "android"){
+                                       contextMenu.x = mouse.x;
+                                       contextMenu.y = mouse.y;
+                                       contextMenu.open()
+                                   }
+                               }
+                }
+                Menu {
+                    id: contextMenu
+                    MenuItem {
+                        text: "Cut"
+                        onTriggered: {
+                            keytext.cut()
+                        }
+                    }
+                    MenuItem {
+                        text: "Copy"
+                        onTriggered: {
+                            keytext.copy()
+                        }
+                    }
+                    MenuItem {
+                        text: "Paste"
+                        onTriggered: {
+                            keytext.paste()
+                        }
+                    }
                 }
             }
             Component.onCompleted: {
@@ -118,7 +151,7 @@ Item {
                 text:"Active"
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 onClicked: {
-                      var deviceID
+                    var deviceID
                     if (Qt.platform.os !== "android") {
                         deviceID= linuxUtils.linuxMachineUniqueId()
                     } else {
