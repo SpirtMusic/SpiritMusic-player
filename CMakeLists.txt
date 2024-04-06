@@ -4,7 +4,7 @@ project(sonegx-player VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-find_package(Qt6 6.4 REQUIRED COMPONENTS Core Quick Concurrent Widgets)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Core Quick Concurrent Widgets Sql )
 if(ANDROID)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/QMpv/include)
     # Link against the MPV library
@@ -61,7 +61,7 @@ else()
     message(FATAL_ERROR "ANDROID_ABI not defined. Make sure you are using the Qt CMake toolchain for Android.")
 endif()
 qt_add_qml_module(sonegx-player
-    URI sonegx-player-android
+    URI sonegx-player
     VERSION 1.0
 
 )
@@ -92,7 +92,7 @@ set_target_properties(sonegx-player PROPERTIES
 )
 
 target_link_libraries(sonegx-player
-    PRIVATE  Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets   ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libMpvQt.so
+    PRIVATE  Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets  Qt6::Sql  ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libMpvQt.so
 )
 else()
     set_target_properties(sonegx-player PROPERTIES
@@ -104,7 +104,7 @@ else()
     )
 
 target_link_libraries(sonegx-player
-    PRIVATE Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets MpvQt::MpvQt
+    PRIVATE Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets Qt6::Sql  MpvQt::MpvQt
 )
 endif()
 
