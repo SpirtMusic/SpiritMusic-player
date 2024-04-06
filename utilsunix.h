@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QSysInfo>
 #include <QCryptographicHash>
+#include <QFileInfo>
+#include <QUrl>
 
 class UtilsUnix : public QObject
 {
@@ -11,6 +13,7 @@ class UtilsUnix : public QObject
 public:
     explicit UtilsUnix(QObject *parent = nullptr);
     Q_INVOKABLE  QString linuxMachineUniqueId();
+    Q_INVOKABLE  bool isFileExists(QString filePath);
 
 signals:
 

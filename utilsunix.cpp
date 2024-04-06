@@ -27,3 +27,8 @@ QString UtilsUnix::linuxMachineUniqueId(){
     return formattedId;
 
 }
+bool UtilsUnix::isFileExists(QString filePath){
+    QUrl url(filePath);
+    bool fileExists = QFileInfo::exists(url.toLocalFile()) && QFileInfo(url.toLocalFile()).isFile();
+    return fileExists;
+}
