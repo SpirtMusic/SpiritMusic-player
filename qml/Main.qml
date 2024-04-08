@@ -229,7 +229,7 @@ ApplicationWindow  {
     header: ToolBar {
         Material.background: win.color
         RowLayout {
-            spacing: 20
+            spacing: 10
             anchors.fill: parent
             Image {
                 id: logo
@@ -241,13 +241,24 @@ ApplicationWindow  {
             }
             Label {
                 id: menuTitle
-                font.bold: true
+                //font.bold: true
                 text: win.mentitle
-                //   elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignHCenter
+                Layout.leftMargin: parent.width/2 - logo.width - implicitWidth
                 verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true
                 font.family: "Segoe UI"
+            }
+
+
+            ToolButton {
+                id: refreshLibrary
+                Layout.leftMargin: 0
+                icon.source: "qrc:/qml/icons/cil-reload.svg"
+                visible:swipeView.currentIndex == 0 ? true: false
+                onClicked:{
+                    libraryV.libraryListModel.libraryListModelUpdate()
+                }
+
             }
             ToolButton {
                 id: addbtn

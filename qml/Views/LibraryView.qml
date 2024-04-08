@@ -82,6 +82,13 @@ Item {
             win.switchToVideosView()
         }
     }
+    BusyIndicator {
+        id:loadingLibrary
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        running: false
+        z:1
+    }
     Rectangle {
         id: optionToolBar
         color: "#2a292f"
@@ -185,6 +192,9 @@ Item {
         model: ListModel {
             id:libraryListModel
             function libraryListModelUpdate() {
+                optionToolBar.hideOptionToolBar()
+                loadingLibrary.running=true
+                listView.enabled=false
                 libraryListModel.clear()
                 for (var i = 0; i < loadedLibrary.length; i++) {
                     append({
@@ -194,6 +204,10 @@ Item {
                                itemSelect: false
                            })
                 }
+                listView.enabled=true
+
+                loadingLibrary.running=false
+
             }
         }
 
