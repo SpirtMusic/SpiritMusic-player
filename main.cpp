@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #ifdef Q_OS_ANDROID
-#include <utils.h>
+#include <utilsandroid.h>
 #endif
 #ifdef Q_OS_LINUX
 #include <utilsunix.h>
@@ -25,9 +25,9 @@ int main(int argc, char *argv[])
      * and we know qquickframebufferobject works only with OpenGL api
      * https://doc.qt.io/qt-6/qquickframebufferobject.html#details
      ***/
-#if defined(Q_OS_LINUX) || defined(Q_OS_WIN)
-    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
-#endif
+// #if defined(Q_OS_LINUX) || defined(Q_OS_WIN)
+//    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+// #endif
 
     QApplication app(argc, argv);
         // qputenv("QT_MEDIA_BACKEND", "android");
@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
     //                return 0;
     //        }
     //    }
-    utils android;
-    engine.rootContext()->setContextProperty("androidUtils", &android);
+    UtilsAndroid androidUtils;
+    engine.rootContext()->setContextProperty("androidUtils", &androidUtils);
 #endif
 #ifdef Q_OS_LINUX
     UtilsUnix linuxUtils;
