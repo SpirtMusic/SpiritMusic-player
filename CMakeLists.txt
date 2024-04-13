@@ -39,7 +39,7 @@ qt_add_executable(sonegx-player
 
 if(ANDROID)
     target_sources(sonegx-player PRIVATE
-        utils.cpp utils.h
+        utilsandroid.cpp utilsandroid.h
         android/src/org/sonegx/sonegxplayer/MyUtils.java
         android/res/xml/qtprovider_paths.xml
     )
@@ -89,6 +89,7 @@ set_target_properties(sonegx-player PROPERTIES
     WIN32_EXECUTABLE TRUE
     QT_ANDROID_PACKAGE_SOURCE_DIR "${QT_ANDROID_PACKAGE_SOURCE}"
     QT_ANDROID_EXTRA_LIBS "${APPLICATION_LIBS_BIN}"
+    QT_ANDROID_VERSION_NAME "1.6"
 )
 
 target_link_libraries(sonegx-player
