@@ -96,3 +96,57 @@ bool utils::isFileExists(QString filePath){
     return fileExists;
 }
 
+bool utils::checkStoragePermission(){
+    qDebug()<<"checkStoragePermission()";
+    auto r = QtAndroidPrivate::checkPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
+    if (r == QtAndroidPrivate::Denied)
+    {
+        qDebug()<<"checkStoragePermission() Denied";
+        r = QtAndroidPrivate::requestPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
+        if (r == QtAndroidPrivate::Denied)
+            return false;
+    }
+    return true;
+}
+
+QString utils::getAndroidID(){
+    QJniObject activity =   QNativeInterface::QAndroidApplication::context();
+    if (activity.isValid())
+    {
+        QJniObject contentResolver = activity.callObjectMethod("getContentResolver", "()Landroid/content/ContentResolver;");
+        if (contentResolver.isValid())
+        {
+            QJniObject androidId = QJniObject::callStaticObjectMethod("android/provider/Settings$Secure",
+                                                                      "getString",
+                                                                      "(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;",
+                                                                      contentResolver.object<jobject>(),
+                                                                      QJniObject::fromString("android_id").object<jstring>());
+            if (androidId.isValid())
+            {
+                QString finalID=hashAndFormat(androidId.toString());
+                return finalID;
+            }
+        }
+    }
+
+    return QString();
+}
+
+QString utils::hashAndFormat(const QString& androidId){
+    QByteArray androidIdBytes = androidId.toUtf8();
+    QByteArray hashBytes = QCryptographicHash::hash(androidIdBytes, QCryptographicHash::Sha256);
+    QString hashedId = QString(hashBytes.toHex());
+
+    QString truncatedId = hashedId.left(20);
+
+    QString formattedId;
+    for (int i = 0; i < truncatedId.length(); i++)
+    {
+        if (i != 0 && i % 4 == 0)
+            formattedId.append('-');
+
+        formattedId.append(truncatedId.at(i));
+    }
+    return formattedId;
+
+}
