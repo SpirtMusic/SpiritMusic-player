@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILSANDROID_H
+#define UTILSANDROID_H
 
 #include <QObject>
 #include <QNetworkInterface>
@@ -20,12 +20,13 @@
 #include <QDesktopServices>
 #include <QFileInfo>
 #include <QUrl>
+#include <QOperatingSystemVersion>
 
-class utils : public QObject
+class UtilsAndroid : public QObject
 {
     Q_OBJECT
 public:
-    explicit utils(QObject *parent = nullptr);
+    explicit UtilsAndroid(QObject *parent = nullptr);
     Q_INVOKABLE QString convertUriToPathFile(const QString &uriString);
     Q_INVOKABLE QString convertUriToPath(const QString &uriString);
     Q_INVOKABLE void share(const QString &urlfile);
@@ -40,4 +41,4 @@ signals:
 
 };
 
-#endif // UTILS_H
+#endif // UTILSANDROID_H

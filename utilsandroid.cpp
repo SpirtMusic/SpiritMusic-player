@@ -1,24 +1,25 @@
-#include "utils.h"
+#include "utilsandroid.h"
 #include <QUrl>
-utils::utils(QObject *parent)
+UtilsAndroid::UtilsAndroid(QObject *parent)
     : QObject{parent}
 {
+    QOperatingSystemVersion currentVersion = QOperatingSystemVersion::current();
 
 }
-void utils::share(const QString &urlfile) {
+void UtilsAndroid::share(const QString &urlfile) {
 
     QDesktopServices::openUrl(QUrl(urlfile, QUrl::TolerantMode));
 
 
 }
-QString utils::convertUriToPath(const QString &uriString) {
+QString UtilsAndroid::convertUriToPath(const QString &uriString) {
     QString fullFilePath = convertUriToPathFile(uriString);
     // Use QFileInfo to extract the directory path
     QFileInfo fileInfo(fullFilePath);
     QString directoryPath = fileInfo.path();
     return directoryPath;
 }
-QString utils::convertUriToPathFile(const QString &uriString){
+QString UtilsAndroid::convertUriToPathFile(const QString &uriString){
     qDebug()<<"uriString : "<<uriString;
     // Create a QJniObject from the URI string
     QJniObject uriObject = QJniObject::fromString(uriString);
@@ -50,7 +51,7 @@ QString utils::convertUriToPathFile(const QString &uriString){
     // Convert the Java string to a Qt string and return it
     return QDir::fromNativeSeparators(filePath.toString());
 }
-bool utils::rotateToLandscape(){
+bool UtilsAndroid::rotateToLandscape(){
 
     QJniObject activity = QNativeInterface::QAndroidApplication::context();
 
@@ -62,7 +63,7 @@ bool utils::rotateToLandscape(){
 
     return false;
 }
-bool utils::rotateToPortrait(){
+bool UtilsAndroid::rotateToPortrait(){
     QJniObject activity = QNativeInterface::QAndroidApplication::context();
 
     if(activity.isValid())
@@ -73,7 +74,7 @@ bool utils::rotateToPortrait(){
 
     return false;
 }
-void utils::setSecureFlag(){
+void UtilsAndroid::setSecureFlag(){
     QNativeInterface::QAndroidApplication::runOnAndroidMainThread([=]()
                                                                   {
                                                                       QJniObject activity = QNativeInterface::QAndroidApplication::context();
@@ -89,27 +90,46 @@ void utils::setSecureFlag(){
                                                                   });
 }
 
-bool utils::isFileExists(QString filePath){
+bool UtilsAndroid::isFileExists(QString filePath){
     QString file=convertUriToPathFile(filePath);
     qDebug()<<"utils::isFileExists : "<<file;
     bool fileExists = QFileInfo::exists(file) && QFileInfo(file).isFile();
     return fileExists;
 }
 
-bool utils::checkStoragePermission(){
+bool UtilsAndroid::checkStoragePermission(){
     qDebug()<<"checkStoragePermission()";
-    auto r = QtAndroidPrivate::checkPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
-    if (r == QtAndroidPrivate::Denied)
-    {
-        qDebug()<<"checkStoragePermission() Denied";
-        r = QtAndroidPrivate::requestPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
+    QOperatingSystemVersion currentVersion = QOperatingSystemVersion::current();
+
+    // Check if the current OS is Android and its version is >= 13
+    if (currentVersion.type() == QOperatingSystemVersion::Android && currentVersion.majorVersion() >= 13) {
+          qDebug() << "QOperatingSystemVersion: Android >= 13.";
+        auto r = QtAndroidPrivate::checkPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
         if (r == QtAndroidPrivate::Denied)
-            return false;
+        {
+            qDebug()<<"checkStoragePermission() Denied";
+            r = QtAndroidPrivate::requestPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
+            if (r == QtAndroidPrivate::Denied)
+                return false;
+        }
+        return true;
+    } else {
+        qDebug() << "QOperatingSystemVersion: Android < 13.";
+        auto r = QtAndroidPrivate::checkPermission(QString("android.permission.READ_EXTERNAL_STORAGE")).result();
+        if (r == QtAndroidPrivate::Denied)
+        {
+            qDebug()<<"checkStoragePermission() Denied";
+            r = QtAndroidPrivate::requestPermission(QString("android.permission.READ_EXTERNAL_STORAGE")).result();
+            if (r == QtAndroidPrivate::Denied)
+                return false;
+        }
+        return true;
     }
-    return true;
+
+
 }
 
-QString utils::getAndroidID(){
+QString UtilsAndroid::getAndroidID(){
     QJniObject activity =   QNativeInterface::QAndroidApplication::context();
     if (activity.isValid())
     {
@@ -132,7 +152,7 @@ QString utils::getAndroidID(){
     return QString();
 }
 
-QString utils::hashAndFormat(const QString& androidId){
+QString UtilsAndroid::hashAndFormat(const QString& androidId){
     QByteArray androidIdBytes = androidId.toUtf8();
     QByteArray hashBytes = QCryptographicHash::hash(androidIdBytes, QCryptographicHash::Sha256);
     QString hashedId = QString(hashBytes.toHex());
