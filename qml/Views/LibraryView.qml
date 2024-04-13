@@ -18,6 +18,7 @@ Item {
     property ListModel libraryListModel: libraryListModel
     property alias listView: listView
     property real optionToolBarHeight
+    property Rectangle optionToolBar: optionToolBar
     QtObject {
         id: jsonOperator
         property string packName
@@ -82,6 +83,7 @@ Item {
             win.switchToVideosView()
         }
     }
+
     BusyIndicator {
         id:loadingLibrary
         x: (parent.width - width) / 2
@@ -98,7 +100,7 @@ Item {
         anchors.rightMargin: 0
         anchors.leftMargin: 0
         anchors.topMargin: 0
-
+        property bool isOpened: false
         RowLayout {
             id: columnLayout2
             anchors.left: parent.left
@@ -169,9 +171,23 @@ Item {
         function showOptionToolBar() {
             animationOpenOptionToolBar.start()
             optionToolBar.forceActiveFocus()
+            isOpened=true
         }
         function hideOptionToolBar() {
             animationCloseOptionToolBar.start()
+            setItemSelectForAll(false);
+            isOpened=false
+        }
+        function setItemSelectForAll(value) {
+            for (var i = 0; i < listView.count; i++) {
+                var delegateItem = listView.itemAtIndex(i);
+                if (delegateItem) {
+                    console.log("delegateItem.itemSelect " + libraryListModel.get(i).itemSelect)
+                    console.log("delegateItem.selectStatus.visible " + delegateItem.selectStatus.visible)
+                    delegateItem.selectStatus.visible = value;
+                    libraryListModel.get(i).itemSelect = value;
+                }
+            }
         }
     }
 
@@ -223,6 +239,7 @@ Item {
             property bool forSelect: false
             property int index: index
             property bool isPathExists: false
+            property var selectStatus: selectStatus
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
@@ -350,14 +367,13 @@ Item {
                     spacing: 5
 
                     Label {
+                        id:textDisplay
                         text: name.replace(/^"(.*)"$/, "$1")
                         font.pixelSize: 16
-                        wrapMode: Text.WordWrap
+                        elide: Text.ElideRight
                         Layout.alignment: Qt.AlignLeft
                         Layout.fillWidth: true
-
                     }
-
                     Label {
                         text: "Videos: " + videosN.toString()
                         font.pixelSize: 16
@@ -386,14 +402,27 @@ Item {
                         source: packSourceIcon
                         property  color  colorValue:"gray"
                         Component.onCompleted: {
-                            if (linuxUtils.isFileExists(path)) {
-                                colorValue = "green"
-                                delegateLibrary.isPathExists=true
-                            } else {
-                                colorValue = "red"
-                                delegateLibrary.isPathExists=false
+                            if (Qt.platform.os === "linux") {
+                                if (linuxUtils.isFileExists(path)) {
+                                    colorValue = "green"
+                                    delegateLibrary.isPathExists=true
+                                } else {
+                                    colorValue = "red"
+                                    delegateLibrary.isPathExists=false
+                                }
                             }
+                            else if(Qt.platform.os === "android") {
+                                if (androidUtils.isFileExists(path)) {
+                                    colorValue = "green"
+                                    delegateLibrary.isPathExists=true
+                                } else {
+                                    colorValue = "red"
+                                    delegateLibrary.isPathExists=false
+                                }
+                            }
+
                         }
+
                         color:colorValue
                         antialiasing: true
                     }
