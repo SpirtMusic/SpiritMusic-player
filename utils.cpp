@@ -7,7 +7,7 @@ utils::utils(QObject *parent)
 }
 void utils::share(const QString &urlfile) {
 
-QDesktopServices::openUrl(QUrl(urlfile, QUrl::TolerantMode));
+    QDesktopServices::openUrl(QUrl(urlfile, QUrl::TolerantMode));
 
 
 }
@@ -16,7 +16,6 @@ QString utils::convertUriToPath(const QString &uriString) {
     // Use QFileInfo to extract the directory path
     QFileInfo fileInfo(fullFilePath);
     QString directoryPath = fileInfo.path();
-
     return directoryPath;
 }
 QString utils::convertUriToPathFile(const QString &uriString){
@@ -75,19 +74,25 @@ bool utils::rotateToPortrait(){
     return false;
 }
 void utils::setSecureFlag(){
-     QNativeInterface::QAndroidApplication::runOnAndroidMainThread([=]()
-                                  {
-                                      QJniObject activity = QNativeInterface::QAndroidApplication::context();
-                                      if (activity.isValid())
-                                      {
-                                          QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
-                                          if (window.isValid())
-                                          {
-                                              jint flagSecure = QJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams", "FLAG_SECURE");
-                                              window.callMethod<void>("setFlags", "(II)V", flagSecure, flagSecure);
-                                          }
-                                      }
-                                  });
+    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([=]()
+                                                                  {
+                                                                      QJniObject activity = QNativeInterface::QAndroidApplication::context();
+                                                                      if (activity.isValid())
+                                                                      {
+                                                                          QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+                                                                          if (window.isValid())
+                                                                          {
+                                                                              jint flagSecure = QJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams", "FLAG_SECURE");
+                                                                              window.callMethod<void>("setFlags", "(II)V", flagSecure, flagSecure);
+                                                                          }
+                                                                      }
+                                                                  });
 }
 
+bool utils::isFileExists(QString filePath){
+    QString file=convertUriToPathFile(filePath);
+    qDebug()<<"utils::isFileExists : "<<file;
+    bool fileExists = QFileInfo::exists(file) && QFileInfo(file).isFile();
+    return fileExists;
+}
 

@@ -17,7 +17,10 @@
 #include <QJniEnvironment>
 #include <QFileInfo>
 #include <QDir>
- #include <QDesktopServices>
+#include <QDesktopServices>
+#include <QFileInfo>
+#include <QUrl>
+
 class utils : public QObject
 {
     Q_OBJECT
@@ -25,7 +28,8 @@ public:
     explicit utils(QObject *parent = nullptr);
     Q_INVOKABLE QString convertUriToPathFile(const QString &uriString);
     Q_INVOKABLE QString convertUriToPath(const QString &uriString);
-     Q_INVOKABLE void share(const QString &urlfile);
+    Q_INVOKABLE void share(const QString &urlfile);
+    Q_INVOKABLE  bool isFileExists(QString filePath);
     Q_INVOKABLE QString getAndroidID()
     {
         //        if (!checkPermission()) {
@@ -89,10 +93,11 @@ public:
     Q_INVOKABLE bool checkStoragePermission()
     {
         qDebug()<<"checkStoragePermission()";
-        auto r = QtAndroidPrivate::checkPermission(QString("android.permission.WRITE_EXTERNAL_STORAGE")).result();
+        auto r = QtAndroidPrivate::checkPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
         if (r == QtAndroidPrivate::Denied)
         {
-            r = QtAndroidPrivate::requestPermission(QString("android.permission.WRITE_EXTERNAL_STORAGE")).result();
+            qDebug()<<"checkStoragePermission() Denied";
+            r = QtAndroidPrivate::requestPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
             if (r == QtAndroidPrivate::Denied)
                 return false;
         }
