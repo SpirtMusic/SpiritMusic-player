@@ -17,7 +17,11 @@
     <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/qtprovider_paths"/>
 </provider>
     </application>
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-<uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+
+<!-- Permissions for Android 8.0 (SDK 26) and above -->
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
+<!-- Permissions for Android 13 (SDK 33) and above -->
+<uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
 </manifest>
