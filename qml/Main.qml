@@ -414,6 +414,9 @@ ApplicationWindow  {
                 popupInfo.close()
                 popUpAbout.close()
             }
+            else if(libraryV.optionToolBar.isOpened){
+                libraryV.optionToolBar.hideOptionToolBar()
+            }
             else if(win.videoPlayerWindow!=null)
             {
                 if(win.videoPlayerWindow.currentOrientation==0)
