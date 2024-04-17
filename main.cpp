@@ -25,9 +25,9 @@ int main(int argc, char *argv[])
      * and we know qquickframebufferobject works only with OpenGL api
      * https://doc.qt.io/qt-6/qquickframebufferobject.html#details
      ***/
-// #if defined(Q_OS_LINUX) || defined(Q_OS_WIN)
-//    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
-// #endif
+#if defined(Q_OS_LINUX) || defined(Q_OS_WIN)
+   QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+#endif
 
     QApplication app(argc, argv);
         // qputenv("QT_MEDIA_BACKEND", "android");
@@ -35,16 +35,6 @@ int main(int argc, char *argv[])
     // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
     QQmlApplicationEngine engine;
 #ifdef Q_OS_ANDROID
-    //    //Request requiered permissions at runtime
-
-    //    for(const QString &permission : permissions){
-    //        auto result = QtAndroidPrivate::checkPermission(permission).result();
-    //        if(result == QtAndroidPrivate::Denied){
-    //            auto resultHash = QtAndroidPrivate::requestPermission(QStringList({permission})).result();
-    //            if(resultHash[permission] == QtAndroidPrivate::Denied)
-    //                return 0;
-    //        }
-    //    }
     UtilsAndroid androidUtils;
     engine.rootContext()->setContextProperty("androidUtils", &androidUtils);
 #endif
