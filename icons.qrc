@@ -32,5 +32,6 @@
         <file>qml/icons/cil-usb.svg</file>
         <file>qml/icons/cil-storage.svg</file>
         <file>qml/icons/cil-check-circle.svg</file>
+        <file>qml/icons/data-icon.svg</file>
     </qresource>
 </RCC>

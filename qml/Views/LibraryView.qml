@@ -336,8 +336,8 @@ Item {
             MessageDialog {
                 id:warringStorageMsg
                 buttons: MessageDialog.Ok
-                title: "Pack not found !"
-                text: "This pack not exists please make sure is in path."
+                title: "Info"
+                text: "Bitte den Onlinemusikschule USB C Stick mit dem entsprechendem Kurs anschließen. Der Kurs befindet sich auf einem externen Medium und kann sonst nicht gestartet werden"
             }
             RowLayout  {
                 id:drow
@@ -392,7 +392,7 @@ Item {
 
                     Image {
                         id: packSourceIcon
-                        source: "qrc:/qml/icons/cil-usb.svg"
+                        source: "qrc:/qml/icons/data-icon.svg"
                         sourceSize.width: 24
                         sourceSize.height: 24
                         fillMode: Image.PreserveAspectFit
