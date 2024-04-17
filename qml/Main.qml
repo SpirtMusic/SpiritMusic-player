@@ -156,7 +156,6 @@ ApplicationWindow  {
         win.videoPlayerWindow.visible=true
         win.videoPlayerWindow.player.play()
     }
-    // TODO: fix owned by unique_fd
     function playVideo(videoPath){
         if(checkActivation()){
             console.log(videoPath)
