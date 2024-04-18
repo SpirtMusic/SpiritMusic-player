@@ -150,6 +150,7 @@ Item {
                 id:activeBtn
                 text:"Active"
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Material.roundedScale : Material.ExtraSmallScale
                 onClicked: {
                     var deviceID
                     if (Qt.platform.os !== "android") {
@@ -172,6 +173,7 @@ Item {
                 Material.foreground: Material.Red
                 id:clearDbBtn
                 text:"Clean Library"
+                Material.roundedScale : Material.ExtraSmallScale
                 onClicked:  {
                     DB.dbRemove()
                     win.libraryV.libraryListModel.clear()
