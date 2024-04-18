@@ -3,13 +3,12 @@
 UtilsAndroid::UtilsAndroid(QObject *parent)
     : QObject{parent}
 {
-    QOperatingSystemVersion currentVersion = QOperatingSystemVersion::current();
+    keepScreenOn();
 
 }
 void UtilsAndroid::share(const QString &urlfile) {
 
     QDesktopServices::openUrl(QUrl(urlfile, QUrl::TolerantMode));
-
 
 }
 QString UtilsAndroid::convertUriToPath(const QString &uriString) {
@@ -103,7 +102,7 @@ bool UtilsAndroid::checkStoragePermission(){
 
     // Check if the current OS is Android and its version is >= 13
     if (currentVersion.type() == QOperatingSystemVersion::Android && currentVersion.majorVersion() >= 13) {
-          qDebug() << "QOperatingSystemVersion: Android >= 13.";
+        qDebug() << "QOperatingSystemVersion: Android >= 13.";
         auto r = QtAndroidPrivate::checkPermission(QString("android.permission.READ_MEDIA_VIDEO")).result();
         if (r == QtAndroidPrivate::Denied)
         {
@@ -169,4 +168,18 @@ QString UtilsAndroid::hashAndFormat(const QString& androidId){
     }
     return formattedId;
 
+}
+void UtilsAndroid::keepScreenOn() {
+    // Get the current activity
+    QJniObject activity = QNativeInterface::QAndroidApplication::context();
+
+    if (activity.isValid()) {
+        // Get the window object
+        QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+        if (window.isValid()) {
+            const int FLAG_KEEP_SCREEN_ON = 128;
+            // Add the FLAG_KEEP_SCREEN_ON flag to keep the screen on
+            window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+        }
+    }
 }

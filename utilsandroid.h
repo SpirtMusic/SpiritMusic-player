@@ -37,6 +37,7 @@ public:
     Q_INVOKABLE bool rotateToLandscape();
     Q_INVOKABLE bool rotateToPortrait();
     QString hashAndFormat(const QString& androidId);
+    static void keepScreenOn();
 signals:
 
 };
