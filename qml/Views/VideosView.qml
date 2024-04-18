@@ -115,7 +115,7 @@ Item {
                     Label {
                         text: vName
                         font.pixelSize: 16
-                        wrapMode: Text.WordWrap
+                        elide: Text.ElideRight
                         Layout.alignment: Qt.AlignLeft
                         Layout.fillWidth: true
 
