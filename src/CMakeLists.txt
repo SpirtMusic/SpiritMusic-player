@@ -18,14 +18,37 @@ qt_standard_project_setup()
 qt_add_resources(QMLRC qml.qrc)
 qt_add_resources(ICONSRC icons.qrc)
 
+set(core_sources
+    core/clipboardextension.h
+    core/clipboardextension.cpp
+    core/jsonfile.h
+    core/jsonfile.cpp
+    core/serialgenerator.h
+    core/serialgenerator.cpp
+)
+
+set(utils_unix_sources
+    utils/unix/utilsunix.h
+    utils/unix/utilsunix.cpp
+)
+
+set(utils_windows_sources
+    utils/windows/utilswin.h
+    utils/windows/utilswin.cpp
+)
+
+set(utils_android_sources
+    utils/android/utilsandroid.h
+    utils/android/utilsandroid.cpp
+    android/src/org/sonegx/sonegxplayer/MyUtils.java
+    android/res/xml/qtprovider_paths.xml
+)
 
 qt_add_executable(sonegx-player
     main.cpp
-    core/clipboardextension.h  core/clipboardextension.cpp
-    core/jsonfile.h  core/jsonfile.cpp
-    core/serialgenerator.h  core/serialgenerator.cpp
-    utils/unix/utilsunix.h utils/unix/utilsunix.cpp
-    utils/windows/utilswin.h utils/windows/utilswin.cpp
+    ${core_sources}
+    ${utils_unix_sources}
+    ${utils_windows_sources}
     QMpv/qmpv.cpp
     QMpv/qmpv.h
     ${QMLRC}
@@ -33,10 +56,7 @@ qt_add_executable(sonegx-player
 )
 
 if(ANDROID)
-    target_sources(sonegx-player PRIVATE
-        utils/android/utilsandroid.cpp utils/android/utilsandroid.h
-        android/src/org/sonegx/sonegxplayer/MyUtils.java
-        android/res/xml/qtprovider_paths.xml
+    target_sources(sonegx-player PRIVATE ${utils_android_sources}
     )
 
 
