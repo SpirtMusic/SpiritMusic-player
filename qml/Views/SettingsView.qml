@@ -1,7 +1,8 @@
 import QtQuick
-import QtQuick.Controls.Material 2.3
-import QtQuick.Controls 6.3
-import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Dialogs
 import "qrc:/qml/Database.js" as DB
 Item {
     ScrollView{
@@ -10,6 +11,7 @@ Item {
 
         contentWidth: availableWidth
         contentHeight: columnLayout.implicitHeight
+
         ColumnLayout {
             id:columnLayout
             anchors.fill: parent
@@ -175,10 +177,10 @@ Item {
                 text:"Clean Library"
                 Material.roundedScale : Material.ExtraSmallScale
                 onClicked:  {
-                    DB.dbRemove()
-                    win.libraryV.libraryListModel.clear()
+                    confirmDeleteMsg.open()
                 }
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
             }
             ToolTip {
                 id:copiedTollTip
@@ -187,7 +189,9 @@ Item {
 
 
         }
+
     }
+
 
 }
 

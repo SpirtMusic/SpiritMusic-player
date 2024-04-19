@@ -1,12 +1,13 @@
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls.Material 2.3
-import QtQuick.Controls 6.3
-import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material
+import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Dialogs
 import Qt.labs.platform
 import "Views"
 import "controls"
+import "qrc:/qml/Database.js" as DB
 ApplicationWindow  {
     property string mentitle: "title"
     property bool showAddbtn: true
@@ -29,9 +30,19 @@ ApplicationWindow  {
         id:activiationMsg
         buttons: MessageDialog.Ok
         title: "Info"
-        informativeText: "You need to activate SoneGX player in settings."
+        text: "You need to activate SoneGX player in settings."
         onOkClicked: {
             swipeView.currentIndex = 2
+        }
+    }
+    MessageDialog {
+        id: confirmDeleteMsg
+        title: "Warning"
+        buttons: MessageDialog.Yes | MessageDialog.No
+        text: "This will delete all the libraries you imported. Do you want to continue?"
+        onYesClicked: {
+                DB.dbRemove()
+                win.libraryV.libraryListModel.clear()
         }
     }
     Popup {
@@ -238,6 +249,7 @@ ApplicationWindow  {
                 antialiasing: true
                 Layout.leftMargin: 20
             }
+
             Label {
                 id: menuTitle
                 //font.bold: true
