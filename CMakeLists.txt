@@ -23,13 +23,11 @@ qt_add_resources(ICONSRC icons.qrc)
 
 qt_add_executable(sonegx-player
     main.cpp
-    #aes.h aes.cpp
     clipboardextension.h clipboardextension.cpp
     jsonfile.h jsonfile.cpp
     serialgenerator.h serialgenerator.cpp
     utilsunix.h utilsunix.cpp
     utilswin.h utilswin.cpp
-    # qaesencryption.cpp qaesencryption.h
     QMpv/qmpv.cpp
     QMpv/qmpv.h
 
