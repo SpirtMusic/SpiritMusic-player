@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/">
-    <file alias="/sonegx-player-android">/home/akram/Projects/sonegx-player-android</file>
-
-  </qresource>
-</RCC>

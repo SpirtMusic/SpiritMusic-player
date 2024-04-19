@@ -4,7 +4,7 @@ project(sonegx-player VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-find_package(Qt6 6.4 REQUIRED COMPONENTS Core Quick Concurrent Widgets Multimedia Sql )
+find_package(Qt6 6.4 REQUIRED COMPONENTS Core Quick Concurrent Widgets Multimedia Sql)
 if(ANDROID)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/QMpv/include)
     # Link against the MPV library
@@ -14,8 +14,6 @@ else()
     find_package(MpvQt REQUIRED)
 endif()
 
-
-
 qt_standard_project_setup()
 qt_add_resources(QMLRC qml.qrc)
 qt_add_resources(ICONSRC icons.qrc)
@@ -23,21 +21,20 @@ qt_add_resources(ICONSRC icons.qrc)
 
 qt_add_executable(sonegx-player
     main.cpp
-    clipboardextension.h clipboardextension.cpp
-    jsonfile.h jsonfile.cpp
-    serialgenerator.h serialgenerator.cpp
-    utilsunix.h utilsunix.cpp
-    utilswin.h utilswin.cpp
+    core/clipboardextension.h  core/clipboardextension.cpp
+    core/jsonfile.h  core/jsonfile.cpp
+    core/serialgenerator.h  core/serialgenerator.cpp
+    utils/unix/utilsunix.h utils/unix/utilsunix.cpp
+    utils/windows/utilswin.h utils/windows/utilswin.cpp
     QMpv/qmpv.cpp
     QMpv/qmpv.h
-
     ${QMLRC}
     ${ICONSRC}
 )
 
 if(ANDROID)
     target_sources(sonegx-player PRIVATE
-        utilsandroid.cpp utilsandroid.h
+        utils/android/utilsandroid.cpp utils/android/utilsandroid.h
         android/src/org/sonegx/sonegxplayer/MyUtils.java
         android/res/xml/qtprovider_paths.xml
     )
@@ -91,7 +88,7 @@ set_target_properties(sonegx-player PROPERTIES
 )
 
 target_link_libraries(sonegx-player
-    PRIVATE  Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets Qt6::Multimedia Qt6::Sql  ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libMpvQt.so
+    PRIVATE  Qt6::Quick Qt6::Core Qt6::Concurrent Qt6::Widgets Qt6::Multimedia Qt6::Sql ${CMAKE_CURRENT_SOURCE_DIR}/QMpv/lib/${ARCH}/libMpvQt.so
 )
 else()
     set_target_properties(sonegx-player PROPERTIES
@@ -103,7 +100,7 @@ else()
     )
 
 target_link_libraries(sonegx-player
-    PRIVATE Qt6::Quick Qt6::Core  Qt6::Concurrent Qt6::Widgets Qt6::Multimedia Qt6::Sql  MpvQt::MpvQt
+    PRIVATE Qt6::Quick Qt6::Core Qt6::Concurrent Qt6::Widgets Qt6::Multimedia Qt6::Sql MpvQt::MpvQt
 )
 endif()
 
