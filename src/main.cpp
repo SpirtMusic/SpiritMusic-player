@@ -1,19 +1,19 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #ifdef Q_OS_ANDROID
-#include <utilsandroid.h>
+#include <utils/android/utilsandroid.h>
 #endif
 #ifdef Q_OS_LINUX
-#include <utilsunix.h>
+#include <utils/unix/utilsunix.h>
 #endif
 #ifdef Q_OS_WIN
-#include <utilswin.h>.h>
+#include <utils/windows/utilswin.h>
 #endif
 #include <QQmlContext>
-#include <clipboardextension.h>
-#include <jsonfile.h>
-#include <serialgenerator.h>
-//#include <aes.h>
+#include <core/clipboardextension.h>
+#include <core/jsonfile.h>
+#include <core/serialgenerator.h>
+
 #include <QQuickWindow>
 #include <QMpv/qmpv.h>
 
@@ -30,9 +30,6 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication app(argc, argv);
-        // qputenv("QT_MEDIA_BACKEND", "android");
-    // qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
-    // qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
     QQmlApplicationEngine engine;
 #ifdef Q_OS_ANDROID
     UtilsAndroid androidUtils;
@@ -49,14 +46,11 @@ int main(int argc, char *argv[])
 
     JsonFile jsonFile;
     SerialGenerator serialn;
-    // AES fileCrypto;
     qmlRegisterType<QMpv>("QMpv", 1, 0, "MPV");
-    //engine.rootContext()->setContextProperty("fileCrypto", &fileCrypto);
     engine.rootContext()->setContextProperty("ActivateSys", &serialn);
     engine.rootContext()->setContextProperty("JsonFile", &jsonFile);
     ClipboardExtension ClipboardExt;
     engine.rootContext()->setContextProperty("clipboardExtension", &ClipboardExt);
-        //  qmlRegisterType<ClipboardExtension>("ClipboardExtension", 1, 0, "ClipboardExtension");
     const QUrl url(u"qrc:/qml/Main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
         &app, []() { QCoreApplication::exit(-1); },
