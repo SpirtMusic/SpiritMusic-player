@@ -33,11 +33,11 @@ public:
     Q_INVOKABLE  bool isFileExists(QString filePath);
     Q_INVOKABLE QString getAndroidID();
     Q_INVOKABLE bool checkStoragePermission();
-    Q_INVOKABLE void setSecureFlag();
+    Q_INVOKABLE void setSecureFlag(bool setSecure);
     Q_INVOKABLE bool rotateToLandscape();
     Q_INVOKABLE bool rotateToPortrait();
     QString hashAndFormat(const QString& androidId);
-    static void keepScreenOn();
+    Q_INVOKABLE static void keepScreenOn(bool keepOn);
 signals:
 
 };

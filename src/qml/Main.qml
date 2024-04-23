@@ -41,8 +41,8 @@ ApplicationWindow  {
         buttons: MessageDialog.Yes | MessageDialog.No
         text: "This will delete all the libraries you imported. Do you want to continue?"
         onYesClicked: {
-                DB.dbRemove()
-                win.libraryV.libraryListModel.clear()
+            DB.dbRemove()
+            win.libraryV.libraryListModel.clear()
         }
     }
     Popup {
@@ -189,8 +189,11 @@ ApplicationWindow  {
             win.footer.visible=false
             // win.menuBar.visible=false
             swipeView.visible=false
-            if (Qt.platform.os === "android")
+            if (Qt.platform.os === "android"){
                 win.visibility= Window.FullScreen
+                androidUtils.setSecureFlag(true);
+                androidUtils.keepScreenOn(true);
+            }
         }
         function basicMode(){
             win.header.visible=true
@@ -198,6 +201,10 @@ ApplicationWindow  {
             // win.menuBar.visible=true
             swipeView.visible=true
             win.visibility= Window.Windowed
+            if (Qt.platform.os === "android"){
+                androidUtils.setSecureFlag(false);
+                androidUtils.keepScreenOn(false);
+            }
         }
         function createVideoPlayerWindow() {
             var component = Qt.createComponent("qrc:/qml/Views/VideoPlayer.qml");
@@ -461,9 +468,6 @@ ApplicationWindow  {
         if (Qt.platform.os !== "android") {
             width = 800; // Set the desired width
             height = 600; // Set the desired height
-        } else {
-            // Handle Android-specific setup
-            androidUtils.setSecureFlag();
         }
 
         // Create video player window
