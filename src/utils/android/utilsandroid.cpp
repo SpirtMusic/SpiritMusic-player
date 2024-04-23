@@ -3,7 +3,6 @@
 UtilsAndroid::UtilsAndroid(QObject *parent)
     : QObject{parent}
 {
-    keepScreenOn();
 
 }
 void UtilsAndroid::share(const QString &urlfile) {
@@ -73,20 +72,24 @@ bool UtilsAndroid::rotateToPortrait(){
 
     return false;
 }
-void UtilsAndroid::setSecureFlag(){
-    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([=]()
-                                                                  {
-                                                                      QJniObject activity = QNativeInterface::QAndroidApplication::context();
-                                                                      if (activity.isValid())
-                                                                      {
-                                                                          QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
-                                                                          if (window.isValid())
-                                                                          {
-                                                                              jint flagSecure = QJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams", "FLAG_SECURE");
-                                                                              window.callMethod<void>("setFlags", "(II)V", flagSecure, flagSecure);
-                                                                          }
-                                                                      }
-                                                                  });
+void UtilsAndroid::setSecureFlag(bool setSecure) {
+    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([=]() {
+        QJniObject activity = QNativeInterface::QAndroidApplication::context();
+
+        if (activity.isValid()) {
+            QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+
+            if (window.isValid()) {
+                jint flagSecure = QJniObject::getStaticField<jint>("android/view/WindowManager$LayoutParams", "FLAG_SECURE");
+
+                if (setSecure) {
+                    window.callMethod<void>("setFlags", "(II)V", flagSecure, flagSecure);
+                } else {
+                    window.callMethod<void>("clearFlags", "(I)V", flagSecure);
+                }
+            }
+        }
+    });
 }
 
 bool UtilsAndroid::isFileExists(QString filePath){
@@ -169,17 +172,24 @@ QString UtilsAndroid::hashAndFormat(const QString& androidId){
     return formattedId;
 
 }
-void UtilsAndroid::keepScreenOn() {
+void UtilsAndroid::keepScreenOn(bool keepOn) {
     // Get the current activity
     QJniObject activity = QNativeInterface::QAndroidApplication::context();
 
     if (activity.isValid()) {
         // Get the window object
         QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+
         if (window.isValid()) {
             const int FLAG_KEEP_SCREEN_ON = 128;
-            // Add the FLAG_KEEP_SCREEN_ON flag to keep the screen on
-            window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+
+            if (keepOn) {
+                // Add the FLAG_KEEP_SCREEN_ON flag to keep the screen on
+                window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+            } else {
+                // Remove the FLAG_KEEP_SCREEN_ON flag to allow the screen to turn off
+                window.callMethod<void>("clearFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+            }
         }
     }
 }
