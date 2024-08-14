@@ -81,7 +81,7 @@ ApplicationWindow  {
                 }
                 Label {
                     id: aboutVersion23
-                    text: qsTr("Version 1.6")
+                    text: qsTr("Version 1.8")
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     Layout.bottomMargin: 15
                 }
