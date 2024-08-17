@@ -25,12 +25,12 @@ ApplicationWindow  {
     id:win
     visible: true
     visibility: Window.Windowed
-    title: qsTr("SoneGX player")
+    title: qsTr("SpiritMusic player")
     MessageDialog {
         id:activiationMsg
         buttons: MessageDialog.Ok
         title: "Info"
-        text: "You need to activate SoneGX player in settings."
+        text: "You need to activate SpiritMusic player in settings."
         onOkClicked: {
             swipeView.currentIndex = 2
         }
@@ -75,7 +75,9 @@ ApplicationWindow  {
                 }
                 Image {
                     id: logo23
-                    source: "qrc:/qml/icons/SonegX_Media_Player_LOGO-256px.png"
+                    source: "qrc:/qml/icons/SPRITMUSIC-Media-Player-LOGO.png"
+                    sourceSize.height: 256
+                    sourceSize.width: 256
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     antialiasing: true
                 }

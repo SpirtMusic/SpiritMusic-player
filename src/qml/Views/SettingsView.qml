@@ -37,10 +37,17 @@ Item {
                     // text: qsTr("Activted")
                     function checkStatus(){
                         var deviceID
-                        if (Qt.platform.os !== "android") {
+                        if (Qt.platform.os == "linux") {
                             deviceID= linuxUtils.linuxMachineUniqueId()
-                        } else {
+                        }
+                        else if (Qt.platform.os == "windows")  {
+                            deviceID= winUtils.winMachineUniqueId()
+                        }
+                        else if (Qt.platform.os == "android")  {
                             deviceID= androidUtils.getAndroidID()
+                        }
+                        else {
+                            console.log("Unsupported platform")
                         }
                         var serianN=keytext.text
                         if(ActivateSys.checkDecryption(serianN,deviceID))
@@ -74,12 +81,18 @@ Item {
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     //text:"chaimakram abdeslem"
                     Component.onCompleted: {
-                        if (Qt.platform.os !== "android") {
+                        if (Qt.platform.os == "linux") {
                             text= linuxUtils.linuxMachineUniqueId()
-                        } else {
+                        }
+                        else if (Qt.platform.os == "windows")  {
+                            text= winUtils.winMachineUniqueId()
+                        }
+                        else if (Qt.platform.os == "android")  {
                             text= androidUtils.getAndroidID()
                         }
-
+                        else {
+                            console.log("Unsupported platform")
+                        }
                     }
                 }
 
@@ -155,10 +168,17 @@ Item {
                 Material.roundedScale : Material.ExtraSmallScale
                 onClicked: {
                     var deviceID
-                    if (Qt.platform.os !== "android") {
+                    if (Qt.platform.os == "linux") {
                         deviceID= linuxUtils.linuxMachineUniqueId()
-                    } else {
+                    }
+                    else if (Qt.platform.os == "windows")  {
+                        deviceID= winUtils.winMachineUniqueId()
+                    }
+                    else if (Qt.platform.os == "android")  {
                         deviceID= androidUtils.getAndroidID()
+                    }
+                    else {
+                        console.log("Unsupported platform")
                     }
                     var serianN=keytext.text
                     if(ActivateSys.activate(serianN,deviceID)){
